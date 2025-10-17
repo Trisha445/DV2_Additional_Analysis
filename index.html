@@ -1,210 +1,416 @@
-<!DOCTYPE html><!DOCTYPE html><!DOCTYPE html>
+<!DOCTYPE html><!DOCTYPE html><!DOCTYPE html><!DOCTYPE html>
 
 <html lang="en">
 
-<head><html lang="en"><html lang="en">
+<head><html lang="en">
 
     <meta charset="UTF-8">
 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"><head><head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"><head><html lang="en"><html lang="en">
 
-    <title>Australian Labour Market Analysis Dashboard</title>
+    <title>Australian Labour Market Analysis</title>
 
-        <meta charset="UTF-8">    <meta charset="UTF-8">
+        <meta charset="UTF-8">
 
     <!-- Core Dependencies -->
 
-    <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>    <meta name="viewport" content="width=device-width, initial-scale=1.0">    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>    <meta name="viewport" content="width=device-width, initial-scale=1.0"><head><head>
 
     <script src="https://cdn.jsdelivr.net/npm/vega@5.22.1"></script>
 
-    <script src="https://cdn.jsdelivr.net/npm/vega-lite@5.6.0"></script>    <title>Australian Labour Market Analysis Dashboard</title>    <title>Australian Labour Market Analysis Dashboard</title>
+    <script src="https://cdn.jsdelivr.net/npm/vega-lite@5.6.0"></script>    <title>Australian Labour Market Analysis Dashboard</title>
 
     <script src="https://cdn.jsdelivr.net/npm/vega-embed@6.21.0"></script>
 
+            <meta charset="UTF-8">    <meta charset="UTF-8">
+
+    <!-- Custom Styles -->
+
+    <link rel="stylesheet" href="style.css">    <!-- Core Dependencies -->
+
+</head>
+
+<body>    <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>    <meta name="viewport" content="width=device-width, initial-scale=1.0">    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <div class="container">
+
+        <header class="header">    <script src="https://cdn.jsdelivr.net/npm/vega@5.22.1"></script>
+
+            <h1>Australian Labour Market Analysis</h1>
+
+            <div class="subtitle">    <script src="https://cdn.jsdelivr.net/npm/vega-lite@5.6.0"></script>    <title>Australian Labour Market Analysis Dashboard</title>    <title>Australian Labour Market Analysis Dashboard</title>
+
+                Comprehensive Analysis of Employment Patterns and Economic Indicators
+
+            </div>    <script src="https://cdn.jsdelivr.net/npm/vega-embed@6.21.0"></script>
+
+        </header>
+
             <script src="https://cdn.jsdelivr.net/npm/vega@5"></script>
 
-    <style>
+        <!-- Controls -->
 
-        /* Reset and Base Styles */    <!-- Core Dependencies -->    <script src="https://cdn.jsdelivr.net/npm/vega-lite@5"></script>
+        <div class="controls">    <style>
 
-        * {
+            <select id="yearQuarter">
 
-            margin: 0;    <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>    <script src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
+                <option value="all">All Quarters</option>        /* Reset and Base Styles */    <!-- Core Dependencies -->    <script src="https://cdn.jsdelivr.net/npm/vega-lite@5"></script>
 
-            padding: 0;
+                <option value="2025Q3" selected>2025 Q3</option>
 
-            box-sizing: border-box;    <script src="https://cdn.jsdelivr.net/npm/vega@5.22.1"></script>    <style>
+                <option value="2025Q2">2025 Q2</option>        * {
 
-        }
+                <option value="2025Q1">2025 Q1</option>
 
-    <script src="https://cdn.jsdelivr.net/npm/vega-lite@5.6.0"></script>        body {
+            </select>            margin: 0;    <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>    <script src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
 
-        body {
+            <select id="state">
 
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;    <script src="https://cdn.jsdelivr.net/npm/vega-embed@6.21.0"></script>            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                <option value="all">All States</option>            padding: 0;
 
-            background-color: #f8f9fa;
+                <option value="NSW">New South Wales</option>
 
-            color: #2c3e50;                margin: 0;
+                <option value="VIC">Victoria</option>            box-sizing: border-box;    <script src="https://cdn.jsdelivr.net/npm/vega@5.22.1"></script>    <style>
 
-            line-height: 1.6;
+                <option value="QLD">Queensland</option>
 
-            padding: 0;    <style>            padding: 20px;
+                <option value="WA">Western Australia</option>        }
 
-            margin: 0;
+                <option value="SA">South Australia</option>
 
-        }        body {            background-color: #f8f9fa;
+                <option value="TAS">Tasmania</option>    <script src="https://cdn.jsdelivr.net/npm/vega-lite@5.6.0"></script>        body {
+
+                <option value="NT">Northern Territory</option>
+
+                <option value="ACT">Australian Capital Territory</option>        body {
+
+            </select>
+
+        </div>            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;    <script src="https://cdn.jsdelivr.net/npm/vega-embed@6.21.0"></script>            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 
 
 
-        /* Main Container */            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;        }
+        <!-- Geographic Distribution Section -->            background-color: #f8f9fa;
 
-        .dashboard-container {
+        <section class="section">
 
-            max-width: 1400px;            margin: 0;
+            <div class="section-title">            color: #2c3e50;                margin: 0;
 
-            margin: 0 auto;
+                <span class="section-icon">🗺️</span>
 
-            padding: 20px;            padding: 20px;        .dashboard-container {
+                Geographic Employment Distribution            line-height: 1.6;
 
-        }
+            </div>
 
-            background-color: #f8f9fa;            max-width: 1400px;
+            <div class="chart-container">            padding: 0;    <style>            padding: 20px;
 
-        /* Header */
+                <div id="choropleth-vis"></div>
 
-        .dashboard-header {            color: #2c3e50;            margin: 0 auto;
+                <div class="loading-spinner"></div>            margin: 0;
 
-            background: white;
+                <div class="error-message"></div>
 
-            padding: 30px;        }            padding: 20px;
+            </div>        }        body {            background-color: #f8f9fa;
 
-            margin-bottom: 30px;
+        </section>
 
-            border-radius: 15px;        }
 
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
 
-            text-align: center;        .dashboard-container {
+        <!-- Employment vs Wage Section -->
 
-        }
+        <section class="section">        /* Main Container */            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;        }
 
-            max-width: 1400px;        .header {
+            <div class="section-title">
 
-        .dashboard-title {
+                <span class="section-icon">📈</span>        .dashboard-container {
 
-            font-size: 2.5em;            margin: 0 auto;            text-align: center;
+                Employment vs Wage Analysis
+
+            </div>            max-width: 1400px;            margin: 0;
+
+            <div class="chart-container">
+
+                <div id="scatter-vis"></div>            margin: 0 auto;
+
+                <div class="loading-spinner"></div>
+
+                <div class="error-message"></div>            padding: 20px;            padding: 20px;        .dashboard-container {
+
+            </div>
+
+        </section>        }
+
+
+
+        <!-- Key Insights -->            background-color: #f8f9fa;            max-width: 1400px;
+
+        <section class="section">
+
+            <div class="section-title">        /* Header */
+
+                <span class="section-icon">💡</span>
+
+                Key Insights        .dashboard-header {            color: #2c3e50;            margin: 0 auto;
+
+            </div>
+
+            <div class="insights">            background: white;
+
+                <div class="insight-card">
+
+                    <h3>Regional Patterns</h3>            padding: 30px;        }            padding: 20px;
+
+                    <p>Clear geographic variations in employment rates, with metropolitan areas showing distinct patterns from regional zones.</p>
+
+                </div>            margin-bottom: 30px;
+
+                <div class="insight-card">
+
+                    <h3>Economic Indicators</h3>            border-radius: 15px;        }
+
+                    <p>Strong correlation between employment rates and wage growth, particularly in states with diverse industry bases.</p>
+
+                </div>            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+
+                <div class="insight-card">
+
+                    <h3>Population Centers</h3>            text-align: center;        .dashboard-container {
+
+                    <p>Larger labour force concentrations in NSW and VIC, reflecting the economic significance of major metropolitan areas.</p>
+
+                </div>        }
+
+                <div class="insight-card">
+
+                    <h3>State Performance</h3>            max-width: 1400px;        .header {
+
+                    <p>Varying economic performance across states, with some showing stronger employment outcomes relative to their wage indices.</p>
+
+                </div>        .dashboard-title {
+
+            </div>
+
+        </section>            font-size: 2.5em;            margin: 0 auto;            text-align: center;
+
+    </div>
 
             color: #2c3e50;
 
-            margin-bottom: 10px;            padding: 20px;            margin-bottom: 30px;
+    <script>
 
-        }
+        // Utility Functions            margin-bottom: 10px;            padding: 20px;            margin-bottom: 30px;
 
-        }            padding: 20px;
+        function showLoading(containerId) {
 
-        .dashboard-subtitle {
+            document.querySelector(`#${containerId}`).parentElement.querySelector('.loading-spinner').style.display = 'block';        }
 
-            color: #7f8c8d;            background: white;
+            document.querySelector(`#${containerId}`).parentElement.querySelector('.error-message').style.display = 'none';
 
-            font-size: 1.2em;
-
-        }        .header {            border-radius: 15px;
+        }        }            padding: 20px;
 
 
 
-        /* Section Styles */            text-align: center;            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        function hideLoading(containerId) {        .dashboard-subtitle {
 
-        .section {
+            document.querySelector(`#${containerId}`).parentElement.querySelector('.loading-spinner').style.display = 'none';
 
-            background: white;            margin-bottom: 30px;        }
+        }            color: #7f8c8d;            background: white;
 
-            border-radius: 15px;
 
-            padding: 25px;            padding: 20px;
 
-            margin-bottom: 30px;
+        function showError(containerId, error) {            font-size: 1.2em;
 
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);            background: white;        h1 {
+            const container = document.querySelector(`#${containerId}`).parentElement;
 
-        }
+            container.querySelector('.loading-spinner').style.display = 'none';        }        .header {            border-radius: 15px;
 
-            border-radius: 15px;            color: #2c3e50;
+            container.querySelector('.error-message').style.display = 'block';
 
-        .section-header {
+            container.querySelector('.error-message').textContent = `Error: ${error.message}`;
+
+            console.error(`Error in ${containerId}:`, error);
+
+        }        /* Section Styles */            text-align: center;            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+
+
+
+        // Load Choropleth Map        .section {
+
+        async function loadChoroplethMap() {
+
+            showLoading('choropleth-vis');            background: white;            margin-bottom: 30px;        }
+
+            try {
+
+                const spec = await fetch('assets/week9_homework_map.json').then(r => r.json());            border-radius: 15px;
+
+                spec.width = 'container';
+
+                spec.height = 500;            padding: 25px;            padding: 20px;
+
+                
+
+                // Update data URLs            margin-bottom: 30px;
+
+                spec.layer.forEach(layer => {
+
+                    if (layer.data && layer.data.url) {            box-shadow: 0 4px 15px rgba(0,0,0,0.1);            background: white;        h1 {
+
+                        if (layer.data.url.includes('australia-states.geojson')) {
+
+                            layer.data.url = 'assets/australia-states.geojson';        }
+
+                        } else if (layer.data.url.includes('labour_force_cleaned.csv')) {
+
+                            layer.data.url = 'data/merged_labour_data.csv';            border-radius: 15px;            color: #2c3e50;
+
+                        }
+
+                    }        .section-header {
+
+                });
 
             display: flex;            box-shadow: 0 4px 15px rgba(0,0,0,0.1);            margin: 0;
 
-            align-items: center;
+                await vegaEmbed('#choropleth-vis', spec, {
 
-            gap: 10px;        }            font-size: 2.5em;
+                    actions: false,            align-items: center;
 
-            margin-bottom: 20px;
+                    renderer: 'canvas'
 
-            padding-bottom: 15px;        }
+                });            gap: 10px;        }            font-size: 2.5em;
+
+                hideLoading('choropleth-vis');
+
+            } catch (error) {            margin-bottom: 20px;
+
+                showError('choropleth-vis', error);
+
+            }            padding-bottom: 15px;        }
+
+        }
 
             border-bottom: 2px solid #f0f2f5;
 
-        }        h1 {
+        // Load Scatter Plot
 
+        async function loadScatterPlot() {        }        h1 {
 
+            showLoading('scatter-vis');
 
-        .section-title {            margin: 0;        .subtitle {
+            try {
 
-            font-size: 1.5em;
+                const spec = await fetch('assets/week10_scatter_chart.json').then(r => r.json());
 
-            font-weight: 600;            font-size: 2.5em;            color: #7f8c8d;
+                spec.width = 'container';        .section-title {            margin: 0;        .subtitle {
+
+                spec.height = 500;
+
+                            font-size: 1.5em;
+
+                if (spec.data && spec.data.url) {
+
+                    spec.data.url = 'data/merged_labour_data.csv';            font-weight: 600;            font-size: 2.5em;            color: #7f8c8d;
+
+                }
 
             color: #2c3e50;
 
-        }            color: #2c3e50;            font-size: 1.2em;
+                await vegaEmbed('#scatter-vis', spec, {
 
+                    actions: false,        }            color: #2c3e50;            font-size: 1.2em;
 
+                    renderer: 'canvas'
 
-        .section-icon {        }            margin-top: 10px;
+                });
 
-            width: 32px;
+                hideLoading('scatter-vis');
+
+            } catch (error) {        .section-icon {        }            margin-top: 10px;
+
+                showError('scatter-vis', error);
+
+            }            width: 32px;
+
+        }
 
             height: 32px;        }
 
-            display: flex;
+        // Initialize Dashboard
 
-            align-items: center;        .subtitle {
+        document.addEventListener('DOMContentLoaded', () => {            display: flex;
 
-            justify-content: center;
+            // Load all visualizations independently
+
+            Promise.all([            align-items: center;        .subtitle {
+
+                loadChoroplethMap(),
+
+                loadScatterPlot()            justify-content: center;
+
+            ]).catch(console.error);
 
             background: #e1f0ff;            color: #7f8c8d;        .visualization-grid {
 
-            border-radius: 8px;
+            // Add filter change handlers
 
-            color: #3498db;            font-size: 1.2em;            display: grid;
+            document.getElementById('yearQuarter').addEventListener('change', () => {            border-radius: 8px;
 
-        }
+                Promise.all([
+
+                    loadChoroplethMap(),            color: #3498db;            font-size: 1.2em;            display: grid;
+
+                    loadScatterPlot()
+
+                ]).catch(console.error);        }
+
+            });
 
             margin-top: 10px;            grid-template-columns: 1fr;
 
-        /* Visualization Container */
+            document.getElementById('state').addEventListener('change', () => {
 
-        .viz-container {        }            gap: 20px;
+                Promise.all([        /* Visualization Container */
 
-            width: 100%;
+                    loadChoroplethMap(),
+
+                    loadScatterPlot()        .viz-container {        }            gap: 20px;
+
+                ]).catch(console.error);
+
+            });            width: 100%;
+
+        });
 
             height: 500px;            margin-top: 20px;
 
-            position: relative;
+        // Handle window resizing
 
-            margin-top: 20px;        .visualization-grid {        }
+        let resizeTimeout;            position: relative;
 
-        }
+        window.addEventListener('resize', () => {
 
-            display: grid;
+            clearTimeout(resizeTimeout);            margin-top: 20px;        .visualization-grid {        }
 
-        /* Controls */
+            resizeTimeout = setTimeout(() => {
 
-        .controls {            grid-template-columns: 1fr;        .visualization-card {
+                Promise.all([        }
 
-            display: flex;
+                    loadChoroplethMap(),
+
+                    loadScatterPlot()            display: grid;
+
+                ]).catch(console.error);
+
+            }, 250);        /* Controls */
+
+        });
+
+    </script>        .controls {            grid-template-columns: 1fr;        .visualization-card {
+
+</body>
+
+</html>            display: flex;
 
             gap: 15px;            gap: 30px;            background: white;
 
