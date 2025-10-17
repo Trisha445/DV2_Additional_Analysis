@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advanced Labour Market Analysis - Extended Insights</title>
+    
+    <!-- Vega-Lite Dependencies -->
+    <script src="https://cdn.jsdelivr.net/npm/vega@5"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-lite@5"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
+    
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f8f9fa;
+        }
+        .container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.1);
+        }
+        h1, h2 {
+            color: #2c3e50;
+            margin-bottom: 0.5em;
+        }
+        .subtitle {
+            color: #7f8c8d;
+            font-size: 1.1em;
+            margin-bottom: 2em;
+        }
+        .visualization-section {
+            margin: 40px 0;
+            padding: 25px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        .insight-box {
+            background-color: #f1f8ff;
+            padding: 15px;
+            border-left: 4px solid #3498db;
+            margin: 15px 0;
+            border-radius: 0 8px 8px 0;
+        }
+        .methodology {
+            background-color: #fff8f1;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 30px 0;
+            font-size: 0.9em;
+        }
+        .key-findings {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+        .finding-card {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            border-top: 3px solid #3498db;
+        }
+        .chart-title {
+            font-size: 1.2em;
+            color: #34495e;
+            margin-bottom: 10px;
+        }
+        .chart-description {
+            color: #7f8c8d;
+            line-height: 1.6;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Advanced Australian Labour Market Analysis</h1>
+        <div class="subtitle">
+            Exploring Industry Dynamics, Skills Mismatches, and Regional Resilience
+        </div>
+
+        <div class="key-findings">
+            <div class="finding-card">
+                <h3>Industry Growth</h3>
+                <p>Healthcare and Professional Services lead employment growth, while Manufacturing shows structural decline.</p>
+            </div>
+            <div class="finding-card">
+                <h3>Skills Mismatch</h3>
+                <p>Significant disparities between job requirements and workforce skills in regional areas.</p>
+            </div>
+            <div class="finding-card">
+                <h3>Economic Resilience</h3>
+                <p>ACT and NSW demonstrate highest economic resilience scores due to diverse industry base.</p>
+            </div>
+        </div>
+
+        <div class="visualization-section">
+            <h2>Industry Growth Patterns</h2>
+            <div id="industry-growth-vis"></div>
+            <div class="insight-box">
+                <p>Analysis reveals significant variations in employment growth across industries,
+                with healthcare and technology sectors showing consistent expansion while traditional
+                manufacturing sectors experience ongoing transformation.</p>
+            </div>
+        </div>
+
+        <div class="visualization-section">
+            <h2>Skills-Geography Mismatch Analysis</h2>
+            <div id="skills-mismatch-vis"></div>
+            <div class="insight-box">
+                <p>The bubble size represents the magnitude of skills mismatch in each state.
+                Larger bubbles indicate greater disparity between available jobs and workforce skills,
+                suggesting areas requiring targeted training programs.</p>
+            </div>
+        </div>
+
+        <div class="visualization-section">
+            <h2>Regional Economic Resilience</h2>
+            <div id="economic-resilience-vis"></div>
+            <div class="insight-box">
+                <p>This choropleth map visualizes the economic resilience score of each state,
+                calculated from employment stability, economic diversity, and growth indicators.
+                Darker colors indicate higher resilience.</p>
+            </div>
+        </div>
+
+        <div class="visualization-section">
+            <h2>Policy Intervention Priority Matrix</h2>
+            <div id="policy-matrix-vis"></div>
+            <div class="insight-box">
+                <p>This matrix helps identify regions requiring immediate policy intervention
+                based on employment rates and workforce challenges. The size of each point
+                represents the labour force size, while colors indicate priority levels.</p>
+            </div>
+        </div>
+
+        <div class="methodology">
+            <h3>Methodology Notes</h3>
+            <p>These visualizations combine data from multiple ABS sources and apply various
+            analytical techniques:</p>
+            <ul>
+                <li>Economic Resilience Score: Composite index incorporating employment stability,
+                    economic diversity, and growth indicators</li>
+                <li>Skills Mismatch Index: Calculated using the differential between job vacancy
+                    rates and qualified workforce availability</li>
+                <li>Intervention Priority: Determined through multi-factor analysis of employment
+                    rates, skills gaps, and regional characteristics</li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        // Load Industry Growth Visualization
+        vegaEmbed('#industry-growth-vis', 'assets/enhanced_visualizations/industry_growth.json', {
+            theme: 'googlecharts',
+            renderer: 'canvas',
+            actions: false
+        }).catch(console.error);
+
+        // Load Skills Mismatch Visualization
+        vegaEmbed('#skills-mismatch-vis', 'assets/enhanced_visualizations/skills_mismatch.json', {
+            theme: 'googlecharts',
+            renderer: 'canvas',
+            actions: false
+        }).catch(console.error);
+
+        // Load Economic Resilience Visualization
+        vegaEmbed('#economic-resilience-vis', 'assets/enhanced_visualizations/economic_resilience.json', {
+            theme: 'googlecharts',
+            renderer: 'canvas',
+            actions: false
+        }).catch(console.error);
+
+        // Load Policy Matrix Visualization
+        vegaEmbed('#policy-matrix-vis', 'assets/enhanced_visualizations/policy_matrix.json', {
+            theme: 'googlecharts',
+            renderer: 'canvas',
+            actions: false
+        }).catch(console.error);
+    </script>
+</body>
+</html>

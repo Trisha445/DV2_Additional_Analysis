@@ -1,0 +1,58 @@
+{
+  "title": {
+    "text": "Employment Rate Trends by State (2020-2025)",
+    "fontSize": 20,
+    "anchor": "start",
+    "subtitle": "Quarterly employment rates across Australian states and territories"
+  },
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "width": "container",
+  "height": 400,
+  "data": {
+    "url": "https://raw.githubusercontent.com/Trisha445/DV2/main/data/merged_labour_data.csv"
+  },
+  "params": [{
+    "name": "state_highlight",
+    "select": {"type": "point", "fields": ["State"]},
+    "bind": "legend"
+  }],
+  "mark": {
+    "type": "line",
+    "point": true,
+    "strokeWidth": 3
+  },
+  "encoding": {
+    "x": {
+      "field": "Quarter",
+      "type": "temporal",
+      "title": "Time Period",
+      "axis": {"format": "%Y-Q%q"}
+    },
+    "y": {
+      "field": "Employment_Rate",
+      "type": "quantitative",
+      "title": "Employment Rate (%)",
+      "scale": {"domain": [50, 70]}
+    },
+    "color": {
+      "field": "State",
+      "type": "nominal",
+      "scale": {
+        "scheme": "category10"
+      }
+    },
+    "opacity": {
+      "condition": {"param": "state_highlight", "value": 1},
+      "value": 0.2
+    },
+    "tooltip": [
+      {"field": "State", "type": "nominal"},
+      {"field": "Quarter", "type": "temporal", "format": "%Y Q%q"},
+      {"field": "Employment_Rate", "type": "quantitative", "format": ".1f", "title": "Employment Rate (%)"}
+    ]
+  },
+  "config": {
+    "view": {"stroke": null},
+    "axisY": {"minExtent": 30}
+  }
+}

@@ -1,0 +1,61 @@
+{
+  "title": {
+    "text": "Unemployment vs Job Vacancies by State",
+    "fontSize": 20,
+    "anchor": "start",
+    "subtitle": "Size indicates working population"
+  },
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "width": "container",
+  "height": 500,
+  "data": {
+    "url": "https://raw.githubusercontent.com/Trisha445/DV2/main/data/merged_labour_data.csv"
+  },
+  "params": [{
+    "name": "state_highlight",
+    "select": {"type": "point", "fields": ["State"]},
+    "bind": "legend"
+  }],
+  "mark": {
+    "type": "circle",
+    "opacity": 0.7
+  },
+  "encoding": {
+    "x": {
+      "field": "Unemployment_Rate",
+      "type": "quantitative",
+      "title": "Unemployment Rate (%)",
+      "scale": {"zero": false}
+    },
+    "y": {
+      "field": "Job_Vacancies",
+      "type": "quantitative",
+      "title": "Number of Job Vacancies",
+      "scale": {"type": "log"}
+    },
+    "size": {
+      "field": "Working_Population",
+      "type": "quantitative",
+      "scale": {"range": [100, 2000]},
+      "title": "Working Population"
+    },
+    "color": {
+      "field": "State",
+      "type": "nominal",
+      "scale": {"scheme": "category10"}
+    },
+    "opacity": {
+      "condition": {"param": "state_highlight", "value": 1},
+      "value": 0.2
+    },
+    "tooltip": [
+      {"field": "State", "type": "nominal"},
+      {"field": "Unemployment_Rate", "type": "quantitative", "format": ".1f"},
+      {"field": "Job_Vacancies", "type": "quantitative", "format": ","},
+      {"field": "Working_Population", "type": "quantitative", "format": ","}
+    ]
+  },
+  "config": {
+    "view": {"stroke": null}
+  }
+}

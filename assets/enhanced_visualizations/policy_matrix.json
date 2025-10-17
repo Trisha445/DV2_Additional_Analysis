@@ -1,0 +1,66 @@
+{
+  "title": {
+    "text": "Policy Intervention Priority Matrix",
+    "fontSize": 20,
+    "anchor": "start",
+    "subtitle": "Identifying regions requiring targeted workforce development"
+  },
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "width": "container",
+  "height": 400,
+  "data": {
+    "url": "https://raw.githubusercontent.com/Trisha445/DV2/main/data/merged_labour_data.csv"
+  },
+  "transform": [
+    {
+      "calculate": "(datum.Job_Vacancies / datum.Labour_Force) * 100",
+      "as": "Intervention_Score"
+    },
+    {
+      "calculate": "datum.Employment_Rate < 60 ? 'High Priority' : datum.Employment_Rate < 65 ? 'Medium Priority' : 'Low Priority'",
+      "as": "Priority_Level"
+    }
+  ],
+  "mark": {
+    "type": "point",
+    "filled": true
+  },
+  "encoding": {
+    "x": {
+      "field": "Employment_Rate",
+      "type": "quantitative",
+      "title": "Employment Rate (%)",
+      "scale": {"domain": [55, 70]}
+    },
+    "y": {
+      "field": "Intervention_Score",
+      "type": "quantitative",
+      "title": "Intervention Priority Score"
+    },
+    "size": {
+      "field": "Labour_Force",
+      "type": "quantitative",
+      "title": "Labour Force Size",
+      "scale": {"range": [100, 1000]}
+    },
+    "color": {
+      "field": "Priority_Level",
+      "type": "nominal",
+      "scale": {
+        "domain": ["High Priority", "Medium Priority", "Low Priority"],
+        "range": ["#e41a1c", "#ff7f00", "#4daf4a"]
+      }
+    },
+    "shape": {
+      "field": "Priority_Level",
+      "type": "nominal"
+    },
+    "tooltip": [
+      {"field": "State", "type": "nominal"},
+      {"field": "Employment_Rate", "type": "quantitative", "format": ".1f"},
+      {"field": "Priority_Level", "type": "nominal"},
+      {"field": "Intervention_Score", "type": "quantitative", "format": ".1f"},
+      {"field": "Labour_Force", "type": "quantitative", "format": ","}
+    ]
+  }
+}

@@ -1,0 +1,86 @@
+{
+  "title": {
+    "text": "Industry Growth and Employment Distribution",
+    "fontSize": 20,
+    "anchor": "start",
+    "subtitle": "Sector-wise employment changes and regional distribution"
+  },
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "width": "container",
+  "height": 400,
+  "data": {
+    "url": "https://raw.githubusercontent.com/Trisha445/DV2/main/data/merged_labour_data.csv"
+  },
+  "transform": [
+    {
+      "calculate": "datum.Employment_Rate - datum.Previous_Quarter_Employment",
+      "as": "Employment_Change"
+    },
+    {
+      "window": [
+        {
+          "op": "rank",
+          "as": "Growth_Rank"
+        }
+      ],
+      "groupby": ["Industry"],
+      "sort": [
+        {
+          "field": "Employment_Change",
+          "order": "descending"
+        }
+      ]
+    }
+  ],
+  "layer": [
+    {
+      "mark": "bar",
+      "encoding": {
+        "x": {
+          "field": "Industry",
+          "type": "nominal",
+          "sort": "-y",
+          "title": "Industry Sector"
+        },
+        "y": {
+          "field": "Employment_Change",
+          "type": "quantitative",
+          "title": "Employment Change (%)",
+          "axis": {"format": "+.1f"}
+        },
+        "color": {
+          "field": "Employment_Change",
+          "type": "quantitative",
+          "scale": {
+            "scheme": "blueorange",
+            "domain": [-2, 2]
+          }
+        },
+        "tooltip": [
+          {"field": "Industry", "type": "nominal"},
+          {"field": "Employment_Change", "type": "quantitative", "format": "+.1f", "title": "Change (%)"},
+          {"field": "Growth_Rank", "type": "ordinal", "title": "Growth Rank"}
+        ]
+      }
+    },
+    {
+      "mark": {
+        "type": "text",
+        "dy": -10,
+        "fontSize": 11
+      },
+      "encoding": {
+        "x": {"field": "Industry", "type": "nominal"},
+        "y": {"field": "Employment_Change", "type": "quantitative"},
+        "text": {"field": "Employment_Change", "type": "quantitative", "format": "+.1f"},
+        "color": {
+          "condition": {
+            "test": "datum.Employment_Change > 0",
+            "value": "darkgreen"
+          },
+          "value": "darkred"
+        }
+      }
+    }
+  ]
+}

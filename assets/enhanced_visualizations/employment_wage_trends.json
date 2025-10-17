@@ -1,0 +1,50 @@
+{
+  "title": {
+    "text": "Employment Rate and Wage Index Trends",
+    "fontSize": 20,
+    "anchor": "start",
+    "subtitle": "Comparing employment and wage growth patterns"
+  },
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "width": "container",
+  "height": 400,
+  "data": {
+    "url": "https://raw.githubusercontent.com/Trisha445/DV2/main/data/merged_labour_data.csv"
+  },
+  "encoding": {
+    "x": {
+      "field": "Quarter",
+      "type": "temporal",
+      "title": "Time Period",
+      "axis": {"format": "%Y-Q%q"}
+    }
+  },
+  "layer": [
+    {
+      "mark": {"type": "line", "color": "#1f77b4"},
+      "encoding": {
+        "y": {
+          "field": "Employment_Rate",
+          "type": "quantitative",
+          "title": "Employment Rate (%)",
+          "axis": {"titleColor": "#1f77b4"}
+        }
+      }
+    },
+    {
+      "mark": {"type": "line", "color": "#ff7f0e"},
+      "encoding": {
+        "y": {
+          "field": "Wage_Index",
+          "type": "quantitative",
+          "title": "Wage Index (2017=100)",
+          "axis": {"titleColor": "#ff7f0e"}
+        }
+      }
+    }
+  ],
+  "resolve": {"scale": {"y": "independent"}},
+  "config": {
+    "view": {"stroke": null}
+  }
+}

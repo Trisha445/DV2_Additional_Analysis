@@ -1,0 +1,78 @@
+{
+  "title": {
+    "text": "Skills-Geography Mismatch Index",
+    "fontSize": 20,
+    "anchor": "start",
+    "subtitle": "Analyzing disparities between job requirements and workforce skills"
+  },
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "width": "container",
+  "height": 500,
+  "data": {
+    "url": "https://raw.githubusercontent.com/Trisha445/DV2/main/data/merged_labour_data.csv"
+  },
+  "transform": [
+    {
+      "calculate": "(datum.Job_Vacancies / datum.Labour_Force) * 100",
+      "as": "Vacancy_Rate"
+    },
+    {
+      "calculate": "abs(datum.Employment_Rate - datum.Vacancy_Rate)",
+      "as": "Mismatch_Score"
+    }
+  ],
+  "layer": [
+    {
+      "mark": {"type": "circle", "opacity": 0.7},
+      "encoding": {
+        "x": {
+          "field": "Employment_Rate",
+          "type": "quantitative",
+          "title": "Employment Rate (%)",
+          "scale": {"domain": [50, 70]}
+        },
+        "y": {
+          "field": "Vacancy_Rate",
+          "type": "quantitative",
+          "title": "Job Vacancy Rate (%)"
+        },
+        "size": {
+          "field": "Mismatch_Score",
+          "type": "quantitative",
+          "title": "Skills Mismatch Score",
+          "scale": {"range": [100, 1000]}
+        },
+        "color": {
+          "field": "State",
+          "type": "nominal",
+          "scale": {"scheme": "category10"}
+        },
+        "tooltip": [
+          {"field": "State", "type": "nominal"},
+          {"field": "Employment_Rate", "type": "quantitative", "format": ".1f"},
+          {"field": "Vacancy_Rate", "type": "quantitative", "format": ".1f"},
+          {"field": "Mismatch_Score", "type": "quantitative", "format": ".1f"}
+        ]
+      }
+    },
+    {
+      "mark": {
+        "type": "text",
+        "align": "left",
+        "dx": 10
+      },
+      "encoding": {
+        "x": {"field": "Employment_Rate", "type": "quantitative"},
+        "y": {"field": "Vacancy_Rate", "type": "quantitative"},
+        "text": {"field": "State", "type": "nominal"},
+        "opacity": {
+          "condition": {
+            "test": "datum.Mismatch_Score > 5",
+            "value": 1
+          },
+          "value": 0
+        }
+      }
+    }
+  ]
+}

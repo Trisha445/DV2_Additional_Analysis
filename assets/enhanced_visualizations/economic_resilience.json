@@ -1,0 +1,71 @@
+{
+  "title": {
+    "text": "Regional Economic Resilience Score",
+    "fontSize": 20,
+    "anchor": "start",
+    "subtitle": "Composite index based on employment stability and economic diversity"
+  },
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "width": "container",
+  "height": 500,
+  "data": {
+    "url": "../australia-states.geojson",
+    "format": {
+      "type": "json",
+      "property": "features"
+    }
+  },
+  "projection": {
+    "type": "mercator",
+    "center": [133, -28],
+    "scale": 1000
+  },
+  "transform": [
+    {
+      "lookup": "properties.STATE_NAME",
+      "from": {
+        "data": {
+          "url": "https://raw.githubusercontent.com/Trisha445/DV2/main/data/merged_labour_data.csv"
+        },
+        "key": "State",
+        "fields": ["Economic_Score", "Employment_Rate", "Job_Vacancies"]
+      }
+    }
+  ],
+  "layer": [
+    {
+      "mark": {"type": "geoshape", "stroke": "white", "strokeWidth": 1},
+      "encoding": {
+        "color": {
+          "field": "Economic_Score",
+          "type": "quantitative",
+          "title": "Economic Resilience Score",
+          "scale": {
+            "scheme": "viridis",
+            "domain": [30, 65]
+          }
+        },
+        "tooltip": [
+          {"field": "properties.STATE_NAME", "type": "nominal", "title": "State"},
+          {"field": "Economic_Score", "type": "quantitative", "format": ".1f", "title": "Resilience Score"},
+          {"field": "Employment_Rate", "type": "quantitative", "format": ".1f", "title": "Employment Rate (%)"},
+          {"field": "Job_Vacancies", "type": "quantitative", "format": ",", "title": "Job Vacancies"}
+        ]
+      }
+    },
+    {
+      "mark": {
+        "type": "text",
+        "fontSize": 10,
+        "fontWeight": "bold",
+        "dy": -10
+      },
+      "encoding": {
+        "longitude": {"field": "properties.CENT_LONG"},
+        "latitude": {"field": "properties.CENT_LAT"},
+        "text": {"field": "properties.STATE_NAME"},
+        "color": {"value": "black"}
+      }
+    }
+  ]
+}

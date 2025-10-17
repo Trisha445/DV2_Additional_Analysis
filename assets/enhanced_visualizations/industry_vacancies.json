@@ -1,0 +1,55 @@
+{
+  "title": {
+    "text": "Job Vacancies by Industry and State",
+    "fontSize": 20,
+    "anchor": "start",
+    "subtitle": "Distribution of job opportunities across major industries"
+  },
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "width": "container",
+  "height": 400,
+  "data": {
+    "url": "https://raw.githubusercontent.com/Trisha445/DV2/main/data/merged_labour_data.csv"
+  },
+  "transform": [
+    {
+      "aggregate": [{
+        "op": "sum",
+        "field": "Job_Vacancies",
+        "as": "Total_Vacancies"
+      }],
+      "groupby": ["State", "Industry"]
+    }
+  ],
+  "mark": "bar",
+  "encoding": {
+    "x": {
+      "field": "State",
+      "type": "nominal",
+      "title": "State/Territory",
+      "axis": {"labelAngle": -45}
+    },
+    "y": {
+      "field": "Total_Vacancies",
+      "type": "quantitative",
+      "title": "Number of Job Vacancies",
+      "stack": true
+    },
+    "color": {
+      "field": "Industry",
+      "type": "nominal",
+      "scale": {
+        "scheme": "tableau20"
+      }
+    },
+    "tooltip": [
+      {"field": "State", "type": "nominal"},
+      {"field": "Industry", "type": "nominal"},
+      {"field": "Total_Vacancies", "type": "quantitative", "format": ","}
+    ]
+  },
+  "config": {
+    "view": {"stroke": null},
+    "axisY": {"minExtent": 30}
+  }
+}
