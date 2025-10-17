@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Scatter Plot</title>
+    <script src="https://cdn.jsdelivr.net/npm/vega@5"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-lite@5"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
+</head>
+<body>
+    <h1>Test Scatter Plot</h1>
+    <div id="vis" style="width: 100%; height: 500px;"></div>
+    
+    <script>
+        const spec = {
+            "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+            "title": "Test Scatter Plot",
+            "width": 600,
+            "height": 400,
+            "data": {"url": "http://localhost:8000/data/merged_labour_data.csv"},
+            "mark": "circle",
+            "encoding": {
+                "x": {"field": "Employment_Rate", "type": "quantitative", "title": "Employment Rate (%)"},
+                "y": {"field": "WageIndex", "type": "quantitative", "title": "Wage Index"},
+                "color": {"field": "State", "type": "nominal", "title": "State"},
+                "size": {"field": "Job_Vacancies", "type": "quantitative", "title": "Job Vacancies"},
+                "tooltip": [
+                    {"field": "State", "type": "nominal"},
+                    {"field": "Employment_Rate", "type": "quantitative", "format": ".1f"},
+                    {"field": "WageIndex", "type": "quantitative", "format": ".1f"},
+                    {"field": "Job_Vacancies", "type": "quantitative", "format": ","}
+                ]
+            }
+        };
+        
+        vegaEmbed('#vis', spec).then(result => {
+            console.log('✅ Test scatter plot loaded successfully');
+        }).catch(error => {
+            console.error('❌ Error loading test scatter plot:', error);
+            document.getElementById('vis').innerHTML = 
+                '<div style="color: red;">Error: ' + error.message + '</div>';
+        });
+    </script>
+</body>
+</html>

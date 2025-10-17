@@ -1,0 +1,153 @@
+﻿{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "title": {
+    "text": "Australian Employment Statistics - Q3 2025",
+    "subtitle": "Employment Rates and Labour Force Distribution Across States and Territories",
+    "fontSize": 18,
+    "anchor": "middle",
+    "color": "#2c3e50",
+    "subtitleFontSize": 13,
+    "subtitleColor": "#7f8c8d"
+  },
+  "width": 900,
+  "height": 600,
+  "projection": {
+    "type": "conicEqualArea",
+    "parallels": [-18, -36],
+    "rotate": [-132, 0],
+    "center": [0, -26],
+    "scale": 1000,
+    "translate": [450, 270]
+  },
+  "layer": [
+    {
+      "data": {"values": [{}]},
+      "mark": {
+        "type": "rect",
+        "width": 900,
+        "height": 600,
+        "fill": "#e8f4fd",
+        "opacity": 0.8
+      }
+    },
+    {
+      "data": {"graticule": {"step": [15, 15]}},
+      "mark": {
+        "type": "geoshape",
+        "fill": null,
+        "stroke": "#cccccc",
+        "strokeWidth": 0.5,
+        "strokeDash": [1, 1],
+        "opacity": 0.4
+      }
+    },
+    {
+      "data": {
+        "url": "assets/australia-states.geojson"
+      },
+      "mark": {
+        "type": "geoshape",
+        "fill": "#f0f9ff",
+        "stroke": "#1e40af",
+        "strokeWidth": 1.5,
+        "opacity": 0.7
+      }
+    },
+    {
+      "data": {"url": "../data/labour_force_cleaned.csv"},
+      "transform": [
+        {
+          "calculate": "datum.State_Code == 'NSW' ? 151.2 : datum.State_Code == 'VIC' ? 144.9 : datum.State_Code == 'QLD' ? 153.0 : datum.State_Code == 'WA' ? 115.9 : datum.State_Code == 'SA' ? 138.6 : datum.State_Code == 'TAS' ? 147.3 : datum.State_Code == 'ACT' ? 149.1 : datum.State_Code == 'NT' ? 130.8 : 0",
+          "as": "longitude"
+        },
+        {
+          "calculate": "datum.State_Code == 'NSW' ? -33.9 : datum.State_Code == 'VIC' ? -37.8 : datum.State_Code == 'QLD' ? -27.5 : datum.State_Code == 'WA' ? -32.0 : datum.State_Code == 'SA' ? -34.9 : datum.State_Code == 'TAS' ? -42.9 : datum.State_Code == 'ACT' ? -35.3 : datum.State_Code == 'NT' ? -12.5 : 0",
+          "as": "latitude"
+        }
+      ],
+      "mark": {
+        "type": "circle",
+        "stroke": "#ffffff",
+        "strokeWidth": 2,
+        "opacity": 0.95
+      },
+      "encoding": {
+        "longitude": {"field": "longitude", "type": "quantitative"},
+        "latitude": {"field": "latitude", "type": "quantitative"},
+        "size": {
+          "field": "Labour_Force",
+          "type": "quantitative",
+          "scale": {"type": "sqrt", "range": [200, 1500]},
+          "legend": {
+            "title": "Labour Force (thousands)",
+            "orient": "right",
+            "offset": 160,
+            "titleFontSize": 12,
+            "labelFontSize": 11
+          }
+        },
+        "color": {
+          "field": "Employment_Rate",
+          "type": "quantitative",
+          "scale": {"scheme": "viridis"},
+          "legend": {
+            "title": "Employment Rate (%)",
+            "orient": "right",
+            "offset": 20,
+            "gradientLength": 220,
+            "titleFontSize": 12,
+            "labelFontSize": 11
+          }
+        },
+        "tooltip": [
+          {"field": "State", "type": "nominal", "title": "State/Territory"},
+          {"field": "Employment_Rate", "type": "quantitative", "title": "Employment Rate (%)", "format": ".1f"},
+          {"field": "Labour_Force", "type": "quantitative", "title": "Labour Force", "format": ",.0f"},
+          {"field": "Population", "type": "quantitative", "title": "Population", "format": ",.0f"},
+          {"field": "Unemployment_Rate", "type": "quantitative", "title": "Unemployment Rate (%)", "format": ".1f"}
+        ]
+      }
+    },
+    {
+      "name": "state_labels",
+      "data": {"url": "../data/labour_force_cleaned.csv"},
+      "transform": [
+        {"calculate": "datum.State_Code == 'NSW' ? 151.2 : datum.State_Code == 'VIC' ? 144.9 : datum.State_Code == 'QLD' ? 153.0 : datum.State_Code == 'WA' ? 115.9 : datum.State_Code == 'SA' ? 138.6 : datum.State_Code == 'TAS' ? 147.3 : datum.State_Code == 'ACT' ? 149.1 : 130.8", "as": "longitude"},
+        {"calculate": "datum.State_Code == 'NSW' ? -33.9 : datum.State_Code == 'VIC' ? -37.8 : datum.State_Code == 'QLD' ? -27.5 : datum.State_Code == 'WA' ? -32.0 : datum.State_Code == 'SA' ? -34.9 : datum.State_Code == 'TAS' ? -42.9 : datum.State_Code == 'ACT' ? -35.3 : -12.5", "as": "latitude"}
+      ],
+      "mark": {
+        "type": "text",
+        "fontSize": 13,
+        "fontWeight": "bold",
+        "fill": "#0b2545",
+        "stroke": null,
+        "dy": -40
+      },
+      "encoding": {
+        "longitude": {"field": "longitude", "type": "quantitative"},
+        "latitude": {"field": "latitude", "type": "quantitative"},
+        "text": {"field": "State_Code", "type": "nominal"}
+      }
+    },
+    {
+      "data": {"url": "../data/labour_force_cleaned.csv"},
+      "transform": [
+        {"calculate": "datum.State_Code == 'NSW' ? 151.2 : datum.State_Code == 'VIC' ? 144.9 : datum.State_Code == 'QLD' ? 153.0 : datum.State_Code == 'WA' ? 115.9 : datum.State_Code == 'SA' ? 138.6 : datum.State_Code == 'TAS' ? 147.3 : datum.State_Code == 'ACT' ? 149.1 : 130.8", "as": "longitude"},
+        {"calculate": "datum.State_Code == 'NSW' ? -33.9 : datum.State_Code == 'VIC' ? -37.8 : datum.State_Code == 'QLD' ? -27.5 : datum.State_Code == 'WA' ? -32.0 : datum.State_Code == 'SA' ? -34.9 : datum.State_Code == 'TAS' ? -42.9 : datum.State_Code == 'ACT' ? -35.3 : -12.5", "as": "latitude"}
+      ],
+      "mark": {
+        "type": "text",
+        "fontSize": 11,
+        "fill": "#334155",
+        "stroke": null,
+        "dy": 40
+      },
+      "encoding": {
+        "longitude": {"field": "longitude", "type": "quantitative"},
+        "latitude": {"field": "latitude", "type": "quantitative"},
+        "text": {"field": "Employment_Rate", "type": "quantitative", "format": ".1f"}
+      }
+    }
+  ],
+  "background": "#f8f9fa"
+}
