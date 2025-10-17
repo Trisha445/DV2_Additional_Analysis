@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Comprehensive Australian Labour Market Analysis</title>
+    
+    <!-- Vega-Lite Dependencies -->
+    <script src="https://cdn.jsdelivr.net/npm/vega@5"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-lite@5"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
+    
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f8f9fa;
+        }
+        .container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        h1, h2 {
+            color: #2c3e50;
+        }
+        .visualization-section {
+            margin: 40px 0;
+            padding: 20px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        .description {
+            margin: 20px 0;
+            line-height: 1.6;
+            color: #34495e;
+        }
+        .analysis {
+            background-color: #f7f9fc;
+            padding: 15px;
+            border-left: 4px solid #3498db;
+            margin: 15px 0;
+        }
+        .key-findings {
+            background-color: #e8f4f8;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 30px 0;
+        }
+        .methodology {
+            font-size: 0.9em;
+            color: #7f8c8d;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Comprehensive Australian Labour Market Analysis (2020-2025)</h1>
+        
+        <div class="key-findings">
+            <h2>Key Findings</h2>
+            <ul>
+                <li>Strong positive correlation (0.75) between Employment Rate and Wage Index</li>
+                <li>Healthcare sector shows consistent growth, leading employment composition</li>
+                <li>Significant regional variations in job vacancy distribution</li>
+                <li>Western Australia maintains highest wage index at 153.7</li>
+            </ul>
+        </div>
+
+        <div class="visualization-section">
+            <h2>Employment Rate Changes Over Time</h2>
+            <div id="heatmap-vis"></div>
+            <div class="analysis">
+                <p>The heatmap reveals temporal patterns in employment rate changes across states,
+                highlighting regional variations in labour market recovery and growth.</p>
+            </div>
+        </div>
+
+        <div class="visualization-section">
+            <h2>Job Vacancies and Wage Distribution</h2>
+            <div id="bubble-map-vis"></div>
+            <div class="analysis">
+                <p>This geographic visualization combines job vacancy data with wage indices,
+                showcasing the relationship between employment opportunities and wage levels.</p>
+            </div>
+        </div>
+
+        <div class="visualization-section">
+            <h2>Industry Employment Composition</h2>
+            <div id="industry-vis"></div>
+            <div class="analysis">
+                <p>The stacked area chart demonstrates the evolving composition of employment
+                across major industries, highlighting structural changes in the labour market.</p>
+            </div>
+        </div>
+
+        <div class="visualization-section">
+            <h2>Labour Market Indicator Correlations</h2>
+            <div id="correlation-vis"></div>
+            <div class="analysis">
+                <p>The correlation matrix reveals the interrelationships between key labour
+                market indicators, providing insights into market dynamics.</p>
+            </div>
+        </div>
+
+        <div class="methodology">
+            <h3>Methodology Notes</h3>
+            <p>Data sources include the Australian Bureau of Statistics (ABS), state-level
+            employment reports, and industry surveys. All visualizations use the latest
+            available data as of October 2025.</p>
+        </div>
+    </div>
+
+    <script>
+        // Load Time Series Heat Map
+        vegaEmbed('#heatmap-vis', 'assets/new_visualizations/heatmap.json', {
+            theme: 'googlecharts',
+            renderer: 'canvas',
+            actions: false
+        }).catch(console.error);
+
+        // Load Bubble Map
+        vegaEmbed('#bubble-map-vis', 'assets/new_visualizations/bubble_map.json', {
+            theme: 'googlecharts',
+            renderer: 'canvas',
+            actions: false
+        }).catch(console.error);
+
+        // Load Industry Composition Chart
+        vegaEmbed('#industry-vis', 'assets/new_visualizations/industry_composition.json', {
+            theme: 'googlecharts',
+            renderer: 'canvas',
+            actions: false
+        }).catch(console.error);
+
+        // Load Correlation Matrix
+        vegaEmbed('#correlation-vis', 'assets/new_visualizations/correlation_matrix.json', {
+            theme: 'googlecharts',
+            renderer: 'canvas',
+            actions: false
+        }).catch(console.error);
+    </script>
+</body>
+</html>

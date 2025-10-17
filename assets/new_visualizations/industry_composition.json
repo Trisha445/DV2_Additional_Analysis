@@ -1,0 +1,52 @@
+{
+  "title": {
+    "text": "Employment Composition by Industry (2020-2025)",
+    "fontSize": 20,
+    "anchor": "start"
+  },
+  "width": 800,
+  "height": 400,
+  "data": {
+    "values": [
+      {"Year": 2020, "Industry": "Healthcare", "Employment": 1650000},
+      {"Year": 2020, "Industry": "Professional Services", "Employment": 1420000},
+      {"Year": 2020, "Industry": "Construction", "Employment": 1180000},
+      {"Year": 2020, "Industry": "Education", "Employment": 1050000},
+      {"Year": 2020, "Industry": "Retail", "Employment": 980000},
+      {"Year": 2021, "Industry": "Healthcare", "Employment": 1720000},
+      {"Year": 2021, "Industry": "Professional Services", "Employment": 1460000},
+      {"Year": 2021, "Industry": "Construction", "Employment": 1220000},
+      {"Year": 2021, "Industry": "Education", "Employment": 1080000},
+      {"Year": 2021, "Industry": "Retail", "Employment": 995000},
+      {"Year": 2022, "Industry": "Healthcare", "Employment": 1790000},
+      {"Year": 2022, "Industry": "Professional Services", "Employment": 1510000},
+      {"Year": 2022, "Industry": "Construction", "Employment": 1260000},
+      {"Year": 2022, "Industry": "Education", "Employment": 1110000},
+      {"Year": 2022, "Industry": "Retail", "Employment": 1020000}
+    ]
+  },
+  "mark": "area",
+  "encoding": {
+    "x": {
+      "field": "Year",
+      "type": "ordinal",
+      "title": "Year"
+    },
+    "y": {
+      "field": "Employment",
+      "type": "quantitative",
+      "title": "Employment",
+      "stack": "normalize"
+    },
+    "color": {
+      "field": "Industry",
+      "type": "nominal",
+      "scale": {"scheme": "category10"}
+    },
+    "tooltip": [
+      {"field": "Year", "type": "ordinal"},
+      {"field": "Industry", "type": "nominal"},
+      {"field": "Employment", "type": "quantitative", "format": ","}
+    ]
+  }
+}

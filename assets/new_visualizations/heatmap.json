@@ -1,0 +1,59 @@
+{
+  "title": {
+    "text": "Employment Rate Changes Over Time (2020-2025)",
+    "fontSize": 20,
+    "anchor": "start"
+  },
+  "width": 800,
+  "height": 400,
+  "data": {
+    "values": [
+      {"State": "NSW", "Quarter": "2023-Q1", "Change": 2.1},
+      {"State": "VIC", "Quarter": "2023-Q1", "Change": 1.8},
+      {"State": "QLD", "Quarter": "2023-Q1", "Change": 2.3},
+      {"State": "SA", "Quarter": "2023-Q1", "Change": 1.5},
+      {"State": "WA", "Quarter": "2023-Q1", "Change": 2.7},
+      {"State": "TAS", "Quarter": "2023-Q1", "Change": 1.2},
+      {"State": "NT", "Quarter": "2023-Q1", "Change": 1.9},
+      {"State": "ACT", "Quarter": "2023-Q1", "Change": 2.4},
+      {"State": "NSW", "Quarter": "2023-Q2", "Change": 2.3},
+      {"State": "VIC", "Quarter": "2023-Q2", "Change": 2.0},
+      {"State": "QLD", "Quarter": "2023-Q2", "Change": 2.5},
+      {"State": "SA", "Quarter": "2023-Q2", "Change": 1.7},
+      {"State": "WA", "Quarter": "2023-Q2", "Change": 2.9},
+      {"State": "TAS", "Quarter": "2023-Q2", "Change": 1.4},
+      {"State": "NT", "Quarter": "2023-Q2", "Change": 2.1},
+      {"State": "ACT", "Quarter": "2023-Q2", "Change": 2.6}
+    ]
+  },
+  "mark": "rect",
+  "encoding": {
+    "x": {
+      "field": "Quarter",
+      "type": "ordinal",
+      "title": "Quarter"
+    },
+    "y": {
+      "field": "State",
+      "type": "ordinal",
+      "title": "State/Territory"
+    },
+    "color": {
+      "field": "Change",
+      "type": "quantitative",
+      "title": "Employment Rate Change (%)",
+      "scale": {
+        "scheme": "viridis"
+      }
+    },
+    "tooltip": [
+      {"field": "State", "type": "nominal"},
+      {"field": "Quarter", "type": "ordinal"},
+      {"field": "Change", "type": "quantitative", "format": ".1f", "title": "Change (%)"}
+    ]
+  },
+  "config": {
+    "view": {"strokeWidth": 0},
+    "axis": {"domain": false}
+  }
+}

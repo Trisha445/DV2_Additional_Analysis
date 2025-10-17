@@ -1,0 +1,121 @@
+{
+  "title": {
+    "text": "Job Vacancies and Wage Index Distribution (2025)",
+    "fontSize": 20,
+    "anchor": "start"
+  },
+  "width": 800,
+  "height": 500,
+  "projection": {
+    "type": "mercator",
+    "center": [133, -28],
+    "scale": 1000
+  },
+  "layer": [
+    {
+      "data": {
+        "url": "../australia-states.geojson",
+        "format": {"type": "json", "property": "features"}
+      },
+      "mark": {
+        "type": "geoshape",
+        "fill": "#f0f0f0",
+        "stroke": "#ffffff",
+        "strokeWidth": 1
+      }
+    },
+    {
+      "data": {
+        "values": [
+          {
+            "State": "New South Wales",
+            "Longitude": 146.9,
+            "Latitude": -32.2,
+            "JobVacancies": 116992,
+            "WageIndex": 150.8,
+            "TopIndustry": "Professional Services"
+          },
+          {
+            "State": "Victoria",
+            "Longitude": 144.8,
+            "Latitude": -37.0,
+            "JobVacancies": 90772,
+            "WageIndex": 150.3,
+            "TopIndustry": "Healthcare"
+          },
+          {
+            "State": "Queensland",
+            "Longitude": 144.0,
+            "Latitude": -23.0,
+            "JobVacancies": 63356,
+            "WageIndex": 149.5,
+            "TopIndustry": "Tourism"
+          },
+          {
+            "State": "Western Australia",
+            "Longitude": 122.2,
+            "Latitude": -27.7,
+            "JobVacancies": 44651,
+            "WageIndex": 153.7,
+            "TopIndustry": "Mining"
+          },
+          {
+            "State": "South Australia",
+            "Longitude": 136.2,
+            "Latitude": -30.0,
+            "JobVacancies": 18490,
+            "WageIndex": 148.2,
+            "TopIndustry": "Manufacturing"
+          },
+          {
+            "State": "Tasmania",
+            "Longitude": 146.8,
+            "Latitude": -42.0,
+            "JobVacancies": 5465,
+            "WageIndex": 147.6,
+            "TopIndustry": "Agriculture"
+          },
+          {
+            "State": "Northern Territory",
+            "Longitude": 133.9,
+            "Latitude": -19.5,
+            "JobVacancies": 3926,
+            "WageIndex": 152.4,
+            "TopIndustry": "Public Administration"
+          },
+          {
+            "State": "Australian Capital Territory",
+            "Longitude": 149.1,
+            "Latitude": -35.3,
+            "JobVacancies": 7291,
+            "WageIndex": 152.9,
+            "TopIndustry": "Government Services"
+          }
+        ]
+      },
+      "mark": {"type": "circle", "opacity": 0.8},
+      "encoding": {
+        "longitude": {"field": "Longitude", "type": "quantitative"},
+        "latitude": {"field": "Latitude", "type": "quantitative"},
+        "size": {
+          "field": "JobVacancies",
+          "type": "quantitative",
+          "scale": {"range": [100, 1000]},
+          "title": "Job Vacancies"
+        },
+        "color": {
+          "field": "WageIndex",
+          "type": "quantitative",
+          "scale": {"scheme": "viridis"},
+          "title": "Wage Index"
+        },
+        "tooltip": [
+          {"field": "State", "type": "nominal"},
+          {"field": "JobVacancies", "type": "quantitative", "format": ","},
+          {"field": "WageIndex", "type": "quantitative", "format": ".1f"},
+          {"field": "TopIndustry", "type": "nominal", "title": "Top Industry"}
+        ]
+      }
+    }
+  ]
+}

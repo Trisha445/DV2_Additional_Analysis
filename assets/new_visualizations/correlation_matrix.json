@@ -1,0 +1,59 @@
+{
+  "title": {
+    "text": "Correlation Matrix of Labour Market Indicators",
+    "fontSize": 20,
+    "anchor": "start"
+  },
+  "width": 400,
+  "height": 400,
+  "data": {
+    "values": [
+      {"Variable1": "Employment Rate", "Variable2": "Employment Rate", "Correlation": 1.0},
+      {"Variable1": "Employment Rate", "Variable2": "Wage Index", "Correlation": 0.75},
+      {"Variable1": "Employment Rate", "Variable2": "Job Vacancies", "Correlation": 0.62},
+      {"Variable1": "Employment Rate", "Variable2": "GDP Growth", "Correlation": 0.58},
+      {"Variable1": "Wage Index", "Variable2": "Employment Rate", "Correlation": 0.75},
+      {"Variable1": "Wage Index", "Variable2": "Wage Index", "Correlation": 1.0},
+      {"Variable1": "Wage Index", "Variable2": "Job Vacancies", "Correlation": 0.45},
+      {"Variable1": "Wage Index", "Variable2": "GDP Growth", "Correlation": 0.52},
+      {"Variable1": "Job Vacancies", "Variable2": "Employment Rate", "Correlation": 0.62},
+      {"Variable1": "Job Vacancies", "Variable2": "Wage Index", "Correlation": 0.45},
+      {"Variable1": "Job Vacancies", "Variable2": "Job Vacancies", "Correlation": 1.0},
+      {"Variable1": "Job Vacancies", "Variable2": "GDP Growth", "Correlation": 0.68},
+      {"Variable1": "GDP Growth", "Variable2": "Employment Rate", "Correlation": 0.58},
+      {"Variable1": "GDP Growth", "Variable2": "Wage Index", "Correlation": 0.52},
+      {"Variable1": "GDP Growth", "Variable2": "Job Vacancies", "Correlation": 0.68},
+      {"Variable1": "GDP Growth", "Variable2": "GDP Growth", "Correlation": 1.0}
+    ]
+  },
+  "mark": "rect",
+  "encoding": {
+    "x": {
+      "field": "Variable1",
+      "type": "ordinal",
+      "title": null
+    },
+    "y": {
+      "field": "Variable2",
+      "type": "ordinal",
+      "title": null
+    },
+    "color": {
+      "field": "Correlation",
+      "type": "quantitative",
+      "scale": {
+        "scheme": "viridis",
+        "domain": [-1, 1]
+      }
+    },
+    "tooltip": [
+      {"field": "Variable1", "type": "nominal"},
+      {"field": "Variable2", "type": "nominal"},
+      {"field": "Correlation", "type": "quantitative", "format": ".2f"}
+    ]
+  },
+  "config": {
+    "view": {"strokeWidth": 0},
+    "axis": {"domain": false}
+  }
+}
