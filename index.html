@@ -1,1240 +1,214 @@
-<!DOCTYPE html><!DOCTYPE html>
-
-<html lang="en"><html lang="en">
-
-<head><head>
-
-    <meta charset="UTF-8">    <meta charset="UTF-8">
-
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>Australian Labour Market Analysis</title>    <title>Australian Labour Market Analysis - Week 9 & Week 10</title>
-
-    <!-- Vega-Lite Dependencies -->    <script src="https://cdn.jsdelivr.net/npm/vega@5"></script>
-
-    <script src="https://cdn.jsdelivr.net/npm/vega@5"></script>    <script src="https://cdn.jsdelivr.net/npm/vega-lite@5"></script>
-
-    <script src="https://cdn.jsdelivr.net/npm/vega-lite@5"></script>    <script src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
-
-    <script src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>    <link rel="preconnect" href="https://fonts.googleapis.com">
-
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
-    <style>    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Georgia:wght@400;700&display=swap" rel="stylesheet">
-
-        body {    
-
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;    <style>
-
-            max-width: 1200px;        * {
-
-            margin: 0 auto;            margin: 0;
-
-            padding: 20px;            padding: 0;
-
-            background-color: #f8f9fa;            box-sizing: border-box;
-
-        }        }
-
-        .nav-links {
-
-            display: flex;        body {
-
-            gap: 20px;            font-family: 'Inter', sans-serif;
-
-            margin: 20px 0;            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-
-            justify-content: center;            min-height: 100vh;
-
-        }            padding: 20px;
-
-        .nav-link {            line-height: 1.6;
-
-            padding: 10px 20px;        }
-
-            background-color: #fff;
-
-            border-radius: 8px;        .container {
-
-            text-decoration: none;            max-width: 1400px;
-
-            color: #2c3e50;            margin: 0 auto;
-
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);            background: rgba(255, 255, 255, 0.95);
-
-            transition: all 0.3s ease;            border-radius: 20px;
-
-        }            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
-
-        .nav-link:hover {            overflow: hidden;
-
-            transform: translateY(-2px);            backdrop-filter: blur(10px);
-
-            box-shadow: 0 4px 8px rgba(0,0,0,0.15);        }
-
-            background-color: #f8f9fa;
-
-        }        .header {
-
-        h1, h2 {            background: linear-gradient(135deg, #2d3436 0%, #636e72 100%);
-
-            text-align: center;            color: white;
-
-            color: #2c3e50;            padding: 40px;
-
-        }            text-align: center;
-
-        .container {        }
-
-            background-color: white;
-
-            padding: 30px;        .header h1 {
-
-            border-radius: 12px;            font-family: 'Georgia', serif;
-
-            box-shadow: 0 2px 15px rgba(0,0,0,0.1);            font-size: 3rem;
-
-        }            font-weight: 700;
-
-        .overview-list {            margin-bottom: 15px;
-
-            list-style: none;            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
-
-            padding: 0;        }
-
-            margin: 20px 0;
-
-            text-align: center;        .header .subtitle {
-
-        }            font-size: 1.3rem;
-
-        .overview-list li {            opacity: 0.9;
-
-            margin: 10px 0;            font-weight: 300;
-
-            color: #34495e;            margin-bottom: 10px;
-
-            font-size: 1.1em;        }
-
-        }
-
-        .description {        .header .description {
-
-            text-align: center;            font-size: 1rem;
-
-            color: #7f8c8d;            opacity: 0.8;
-
-            max-width: 800px;            max-width: 800px;
-
-            margin: 20px auto;            margin: 0 auto;
-
-            line-height: 1.6;        }
-
-            font-size: 1.1em;
-
-        }        .content {
-
-        .footer {            padding: 40px;
-
-            text-align: center;        }
-
-            margin-top: 30px;
-
-            padding-top: 20px;        .visualization-section {
-
-            border-top: 1px solid #eee;            margin-bottom: 50px;
-
-            color: #7f8c8d;        }
-
-        }
-
-        .title-section {        .section-header {
-
-            text-align: center;            display: flex;
-
-            margin-bottom: 40px;            align-items: center;
-
-        }            justify-content: space-between;
-
-        .subtitle {            margin-bottom: 30px;
-
-            color: #7f8c8d;            padding-bottom: 15px;
-
-            font-size: 1.2em;            border-bottom: 2px solid #e9ecef;
-
-            margin-top: 10px;        }
-
-        }
-
-        .feature-grid {        .section-title {
-
-            display: grid;            color: #2d3436;
-
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));            font-size: 2rem;
-
-            gap: 20px;            font-weight: 600;
-
-            margin: 30px 0;            display: flex;
-
-        }            align-items: center;
-
-        .feature-card {            gap: 10px;
-
-            background: #f8f9fa;        }
-
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Australian Labour Market Analysis Dashboard</title>
+    <script src="https://cdn.jsdelivr.net/npm/vega@5"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-lite@5"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
             padding: 20px;
+            background-color: #f8f9fa;
+        }
 
-            border-radius: 8px;        .week-badge {
+        .dashboard-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
 
-            text-align: center;            background: linear-gradient(135deg, #74b9ff 0%, #0984e3 100%);
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
 
-            transition: transform 0.3s ease;            color: white;
+        h1 {
+            color: #2c3e50;
+            margin: 0;
+            font-size: 2.5em;
+        }
 
-        }            padding: 8px 16px;
+        .subtitle {
+            color: #7f8c8d;
+            font-size: 1.2em;
+            margin-top: 10px;
+        }
 
-        .feature-card:hover {            border-radius: 20px;
-
-            transform: translateY(-5px);            font-size: 0.9rem;
-
-        }            font-weight: 500;
-
-    </style>            box-shadow: 0 4px 15px rgba(116, 185, 255, 0.3);
-
-</head>        }
-
-<body>
-
-    <div class="container">        .chart-container {
-
-        <div class="title-section">            background: white;
-
-            <h1>Australian Labour Market Analysis</h1>            border-radius: 15px;
-
-            <div class="subtitle">Visualizing Employment Dynamics and Economic Resilience</div>            padding: 30px;
-
-        </div>            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
-
-            transition: transform 0.3s ease;
-
-        <p class="description">            margin-bottom: 30px;
-
-            An interactive exploration of Australia's labour market, featuring comprehensive         }
-
-            visualizations of employment patterns, industry growth, and regional economic indicators
-
-            across states and territories.        .chart-container:hover {
-
-        </p>            transform: translateY(-5px);
-
-                }
-
-        <div class="nav-links">
-
-            <a href="comprehensive_analysis.html" class="nav-link">📊 Labour Market Overview</a>        .chart-description {
-
-            <a href="advanced_analysis.html" class="nav-link">🔍 Advanced Analysis</a>            background: #f8f9fa;
-
-        </div>            padding: 25px;
-
-            border-radius: 10px;
-
-        <div class="feature-grid">            margin-bottom: 20px;
-
-            <div class="feature-card">            border-left: 4px solid #00b894;
-
-                <h3>Employment Patterns</h3>        }
-
-                <p>Track employment rates and trends across regions</p>
-
-            </div>        .chart-description h3 {
-
-            <div class="feature-card">            color: #2d3436;
-
-                <h3>Industry Analysis</h3>            margin-bottom: 15px;
-
-                <p>Explore sector-wise growth and job distribution</p>            font-size: 1.3rem;
-
-            </div>        }
-
-            <div class="feature-card">
-
-                <h3>Skills Mapping</h3>        .chart-description p {
-
-                <p>Analyze workforce skills and job market demands</p>            color: #636e72;
-
-            </div>            margin-bottom: 10px;
-
-            <div class="feature-card">        }
-
-                <h3>Economic Indicators</h3>
-
-                <p>Monitor regional economic resilience</p>        .features-grid {
-
-            </div>            display: grid;
-
-        </div>            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-
+        .visualization-grid {
+            display: grid;
+            grid-template-columns: 1fr;
             gap: 20px;
-
-        <div class="footer">            margin-top: 20px;
-
-            <p>Data Source: Australian Bureau of Statistics (ABS)<br>        }
-
-            Last Updated: October 2025<br>
-
-            FIT3179 Data Visualization Project</p>        .feature-card {
-
-        </div>            background: white;
-
-    </div>            padding: 20px;
-
-</body>            border-radius: 10px;
-
-</html>            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
-            border-left: 4px solid #fd79a8;
+            margin-top: 20px;
         }
 
-        .feature-card h4 {
-            color: #2d3436;
-            margin-bottom: 8px;
+        .visualization-card {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .chart-title {
+            color: #2c3e50;
+            font-size: 1.3em;
+            margin-bottom: 15px;
             font-weight: 600;
-            display: flex;
-            align-items: center;
-            gap: 8px;
         }
 
-        .feature-card p {
-            color: #636e72;
-            font-size: 0.9rem;
+        .chart-description {
+            color: #7f8c8d;
+            margin-bottom: 20px;
+            font-size: 0.95em;
+            line-height: 1.5;
+        }
+
+        .chart-container {
+            width: 100%;
+            min-height: 500px;
+            margin-top: 10px;
         }
 
         .insights-section {
-            background: linear-gradient(135deg, #fdcb6e 0%, #e17055 100%);
-            color: white;
-            padding: 30px;
+            background: white;
             border-radius: 15px;
-            margin-top: 40px;
-        }
-
-        .insights-section h2 {
-            font-size: 1.8rem;
-            margin-bottom: 20px;
-            text-align: center;
+            padding: 20px;
+            margin-top: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
         }
 
         .insights-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
             gap: 20px;
+            margin-top: 20px;
         }
 
         .insight-item {
-            background: rgba(255, 255, 255, 0.1);
-            padding: 20px;
+            padding: 15px;
+            background: #f8f9fa;
             border-radius: 10px;
-            backdrop-filter: blur(5px);
+            border-left: 4px solid #3498db;
         }
 
         .insight-item h3 {
-            margin-bottom: 10px;
-            font-size: 1.1rem;
+            color: #2c3e50;
+            margin-top: 0;
+            font-size: 1.1em;
         }
 
-        .data-sources {
-            background: linear-gradient(135deg, #00b894 0%, #00a085 100%);
-            color: white;
-            padding: 30px;
-            border-radius: 15px;
-            margin-top: 30px;
+        .insight-item p {
+            color: #7f8c8d;
+            margin-bottom: 0;
+            font-size: 0.9em;
+            line-height: 1.5;
+        }
+
+        .footer {
             text-align: center;
+            margin-top: 30px;
+            padding: 20px;
+            color: #7f8c8d;
+            font-size: 0.9em;
         }
 
-        .responsive-container {
-            width: 100%;
-            overflow-x: auto;
-        }
-
-        @media (max-width: 768px) {
-            .header h1 {
-                font-size: 2rem;
-            }
-            
-            .section-title {
-                font-size: 1.5rem;
-            }
-            
-            .content {
-                padding: 20px;
-            }
-            
-            .features-grid {
+        @media (max-width: 1200px) {
+            .visualization-grid {
                 grid-template-columns: 1fr;
             }
-        }
-
-        /* Custom Vega-Lite tooltip styling */
-        .vega-tooltip {
-            font-family: 'Inter', sans-serif !important;
-            border-radius: 8px !important;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.15) !important;
-            border: 1px solid #ddd !important;
-            background: rgba(255, 255, 255, 0.98) !important;
-            backdrop-filter: blur(10px) !important;
-        }
-
-        .vega-tooltip-title {
-            font-weight: 600 !important;
-            color: #2c3e50 !important;
-            margin-bottom: 4px !important;
-        }
-
-        .vega-tooltip table {
-            font-size: 13px !important;
-        }
-
-        .vega-tooltip td.key {
-            font-weight: 600 !important;
-            color: #34495e !important;
-            padding-right: 12px !important;
-        }
-
-        .vega-tooltip td.value {
-            font-weight: 500 !important;
-            color: #2c3e50 !important;
         }
     </style>
 </head>
 <body>
-    <div class="container">
+    <div class="dashboard-container">
         <div class="header">
-            <h1>🇦🇺 Australian Labour Market Analysis</h1>
-            <div class="subtitle">Comprehensive Spatial and Statistical Visualization</div>
-            <div class="description">
-                An integrated analysis combining geographic employment patterns (Week 9) with 
-                employment-wage relationships (Week 10) using Australian Bureau of Statistics data
+            <h1>Australian Labour Market Analysis</h1>
+            <div class="subtitle">
+                Comprehensive Analysis of Employment Patterns and Economic Indicators
             </div>
         </div>
 
-        <div class="content">
-            <!-- Week 9: Choropleth Map Section -->
-            <div class="visualization-section">
-                <div class="section-header">
-                    <div class="section-title">
-                        🗺️ Geographic Employment Analysis
-                    </div>
-                    <div class="week-badge">Week 9 Homework</div>
-                </div>
-
+        <div class="visualization-grid">
+            <!-- Week 9 Choropleth Map -->
+            <div class="visualization-card">
+                <div class="chart-title">Geographic Employment Distribution (Week 9)</div>
                 <div class="chart-description">
-                    <h3>Interactive Choropleth Map</h3>
-                    <p>This spatial visualization displays employment rates across Australian states and territories using color-coded regions and proportional symbols. The choropleth encoding reveals geographic patterns in labour force participation, while circle sizes represent the absolute labour force size in each jurisdiction.</p>
-                    <p><strong>Data Source:</strong> Australian Bureau of Statistics Labour Force Survey (6291.0.55.001), Q3 2025</p>
+                    Interactive choropleth map showing employment rates across Australian states and territories.
+                    Circle sizes represent labour force magnitude in each region.
                 </div>
-
-                <div class="chart-container">
-                    <div class="responsive-container">
-                        <div id="map-vis" style="width: 100%; min-height: 500px; margin-top: 80px; margin-bottom: 60px;"></div>
-                    </div>
-                </div>
+                <div class="chart-container" id="choropleth-vis"></div>
             </div>
 
-            <!-- Week 10: Scatter Plot Section -->
-            <div class="visualization-section">
-                <div class="section-header">
-                    <div class="section-title">
-                        📈 Employment-Wage Relationship Analysis
-                    </div>
-                    <div class="week-badge">Week 10 Analysis</div>
-                </div>
-
+            <!-- Week 10 Scatter Plot -->
+            <div class="visualization-card">
+                <div class="chart-title">Employment-Economic Relationship (Week 10)</div>
                 <div class="chart-description">
-                    <h3>Multi-Channel Scatter Plot</h3>
-                    <p>This advanced visualization explores the relationship between employment rates and wage indices across Australian states. Using position, size, and color encoding, it reveals complex patterns in labour market dynamics and economic performance.</p>
-                    <p><strong>Data Sources:</strong> ABS Labour Force Survey (6291.0.55.001) + Wage Price Index (6345.0), Q3 2025</p>
+                    Scatter plot exploring the relationship between employment rates and economic indicators,
+                    with interactive state selection and temporal filtering.
                 </div>
+                <div class="chart-container" id="scatter-vis"></div>
+            </div>
+        </div>
 
-                <!-- Interactive Filter Controls -->
-                <div style="background: #f8fafc; padding: 20px; border-radius: 8px; margin: 20px 0; border: 1px solid #e2e8f0;">
-                    <h4 style="margin: 0 0 15px 0; color: #2d3748;">🔧 Interactive Filters (Week 10 Requirement)</h4>
-                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px;">
-                        <div>
-                            <label for="employment-filter" style="display: block; margin-bottom: 5px; font-weight: 600; color: #4a5568;">Employment Category:</label>
-                            <select id="employment-filter" style="width: 100%; padding: 8px; border: 1px solid #cbd5e0; border-radius: 4px;">
-                                <option value="All">All Categories</option>
-                                <option value="Above Average">Above Average</option>
-                                <option value="Average">Average</option>
-                                <option value="Below Average">Below Average</option>
-                            </select>
-                        </div>
-                        <div>
-                            <label for="wage-growth-filter" style="display: block; margin-bottom: 5px; font-weight: 600; color: #4a5568;">Wage Growth Category:</label>
-                            <select id="wage-growth-filter" style="width: 100%; padding: 8px; border: 1px solid #cbd5e0; border-radius: 4px;">
-                                <option value="All">All Categories</option>
-                                <option value="High Growth">High Growth</option>
-                                <option value="Moderate Growth">Moderate Growth</option>
-                            </select>
-                        </div>
-                        <div>
-                            <label for="economic-score-slider" style="display: block; margin-bottom: 5px; font-weight: 600; color: #4a5568;">Min Economic Score: <span id="score-value">30</span></label>
-                            <input type="range" id="economic-score-slider" min="30" max="65" step="5" value="30" style="width: 100%;">
-                        </div>
-                    </div>
-                    <div style="margin-top: 10px; font-size: 12px; color: #718096;">
-                        💡 Use the controls above to filter the scatter plot data in real-time
-                    </div>
+        <div class="insights-section">
+            <div class="chart-title">Key Insights</div>
+            <div class="insights-grid">
+                <div class="insight-item">
+                    <h3>Regional Patterns</h3>
+                    <p>Clear geographic variations in employment rates, with metropolitan areas showing distinct patterns from regional zones.</p>
                 </div>
-
-                <div class="chart-container">
-                    <div class="responsive-container">
-                        <div id="scatter-vis" style="width: 100%; min-height: 500px;"></div>
-                    </div>
+                <div class="insight-item">
+                    <h3>Economic Indicators</h3>
+                    <p>Strong correlation between employment rates and wage growth, particularly in states with diverse industry bases.</p>
+                </div>
+                <div class="insight-item">
+                    <h3>Population Centers</h3>
+                    <p>Larger labour force concentrations in NSW and VIC, reflecting the economic significance of major metropolitan areas.</p>
+                </div>
+                <div class="insight-item">
+                    <h3>State Performance</h3>
+                    <p>Varying economic performance across states, with some showing stronger employment outcomes relative to their wage indices.</p>
                 </div>
             </div>
+        </div>
 
-            <!-- Key Insights Section -->
-            <div class="insights-section">
-                <h2>🔍 Key Insights from Combined Analysis</h2>
-                <div class="insights-grid">
-                    <div class="insight-item">
-                        <h3>Geographic Patterns</h3>
-                        <p>The choropleth map reveals significant regional variation in employment rates, with metropolitan areas generally showing different patterns from rural regions.</p>
-                    </div>
-                    <div class="insight-item">
-                        <h3>Employment-Wage Dynamics</h3>
-                        <p>The scatter plot demonstrates that high employment rates don't always correlate with high wages, suggesting varied economic structures across states.</p>
-                    </div>
-                    <div class="insight-item">
-                        <h3>Economic Performance</h3>
-                        <p>States with balanced employment and wage growth show stronger overall economic performance, as indicated by the color encoding.</p>
-                    </div>
-                    <div class="insight-item">
-                        <h3>Labour Market Opportunities</h3>
-                        <p>Job vacancy data reveals where employment growth is most active, providing insights for policy and investment decisions.</p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Data Sources -->
-            <div class="data-sources">
-                <h3>📊 Data Sources & Methodology</h3>
-                <p>
-                    <strong>Primary Data:</strong> Australian Bureau of Statistics Labour Force Survey (6291.0.55.001) and Wage Price Index (6345.0) for Q3 2025.<br>
-                    <strong>Spatial Data:</strong> Australian state boundaries in GeoJSON format with Albers Equal-Area Conic projection.<br>
-                    <strong>Derived Metrics:</strong> Economic Performance Score calculated using weighted combination of employment rates (60%) and wage growth (40%). Job vacancy estimates based on ABS historical patterns and current labour market indicators.
-                </p>
-            </div>
+        <div class="footer">
+            <p>Data Source: Australian Bureau of Statistics (ABS)<br>
+            Last Updated: October 2025</p>
         </div>
     </div>
 
-    <!-- Embedded Vega-Lite Specifications -->
-    <script type="application/json" id="week9-map-spec">
-    {
-      "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-      "title": {
-        "text": "Australian Employment Rates by State/Territory",
-        "fontSize": 20,
-        "anchor": "start",
-        "color": "#000000",
-        "fontWeight": "bold",
-        "subtitle": ["Interactive choropleth map showing employment rates with proportional symbols for labour force size", "Data: ABS Labour Force Survey Q3 2025"],
-        "subtitleFontSize": 14,
-        "subtitleColor": "#000000",
-        "offset": 25
-      },
-      "width": 850,
-      "height": 550,
-      "background": "#f8fafc",
-      "projection": {
-        "type": "conicEqualArea",
-        "parallels": [-18, -36],
-        "rotate": [-132, 0],
-        "center": [0, -28],
-        "scale": 700
-      },
-      "layer": [
-        {
-          "data": {
-            "url": "assets/australia-states.geojson",
-            "format": {"type": "json", "property": "features"}
-          },
-          "transform": [
-            {
-              "lookup": "properties.STATE_NAME",
-              "from": {
-                "data": {
-                  "values": [
-                    {"State": "Queensland", "State_Code": "QLD", "Employment_Rate": 61.9, "Labour_Force": 2618000, "Unemployment_Rate": 4.1, "Participation_Rate": 64.5},
-                    {"State": "Australian Capital Territory", "State_Code": "ACT", "Employment_Rate": 67.2, "Labour_Force": 230000, "Unemployment_Rate": 2.8, "Participation_Rate": 69.1},
-                    {"State": "South Australia", "State_Code": "SA", "Employment_Rate": 59.8, "Labour_Force": 864000, "Unemployment_Rate": 4.3, "Participation_Rate": 62.5},
-                    {"State": "Western Australia", "State_Code": "WA", "Employment_Rate": 63.4, "Labour_Force": 1391000, "Unemployment_Rate": 3.0, "Participation_Rate": 65.3},
-                    {"State": "Northern Territory", "State_Code": "NT", "Employment_Rate": 63.1, "Labour_Force": 134000, "Unemployment_Rate": 3.7, "Participation_Rate": 65.5},
-                    {"State": "Tasmania", "State_Code": "TAS", "Employment_Rate": 58.7, "Labour_Force": 276000, "Unemployment_Rate": 3.9, "Participation_Rate": 61.1},
-                    {"State": "New South Wales", "State_Code": "NSW", "Employment_Rate": 62.8, "Labour_Force": 4105000, "Unemployment_Rate": 3.2, "Participation_Rate": 65.0},
-                    {"State": "Victoria", "State_Code": "VIC", "Employment_Rate": 63.1, "Labour_Force": 3387000, "Unemployment_Rate": 3.4, "Participation_Rate": 65.3}
-                  ]
-                },
-                "key": "State",
-                "fields": ["Employment_Rate", "Labour_Force", "Unemployment_Rate", "State_Code", "Participation_Rate"]
-              }
-            }
-          ],
-          "mark": {
-            "type": "geoshape",
-            "stroke": "#ffffff",
-            "strokeWidth": 2.5,
-            "strokeOpacity": 1,
-            "cursor": "pointer"
-          },
-          "encoding": {
-            "color": {
-              "field": "Employment_Rate",
-              "type": "quantitative",
-              "scale": {
-                "type": "linear",
-                "range": ["#e6f3ff", "#1e40af"],
-                "domain": [58, 68]
-              },
-              "legend": {
-                "title": "Employment Rate (%)",
-                "orient": "right",
-                "offset": 30,
-                "gradientLength": 250,
-                "titleFontSize": 14,
-                "titleFontWeight": "bold",
-                "labelFontSize": 12,
-                "gradientThickness": 20,
-                "cornerRadius": 5,
-                "titleColor": "#000000",
-                "labelColor": "#000000"
-              }
-            },
-            "opacity": {
-              "condition": {"selection": "highlight", "value": 1.0},
-              "value": 0.85
-            },
-            "stroke": {
-              "condition": {"selection": "highlight", "value": "#2563eb"},
-              "value": "#ffffff"
-            },
-            "strokeWidth": {
-              "condition": {"selection": "highlight", "value": 3},
-              "value": 2.5
-            },
-            "tooltip": [
-              {"field": "properties.STATE_NAME", "type": "nominal", "title": "🗺️ State/Territory"},
-              {"field": "Employment_Rate", "type": "quantitative", "title": "📊 Employment Rate", "format": ".1f", "formatType": "number"},
-              {"field": "Labour_Force", "type": "quantitative", "title": "👥 Labour Force Total", "format": ",.0f"},
-              {"field": "Unemployment_Rate", "type": "quantitative", "title": "📉 Unemployment Rate", "format": ".1f", "formatType": "number"},
-              {"field": "Participation_Rate", "type": "quantitative", "title": "📈 Participation Rate", "format": ".1f", "formatType": "number"}
-            ]
-          },
-          "selection": {
-            "highlight": {"type": "single", "on": "mouseover", "empty": "all"}
-          }
-        },
-        {
-          "data": {
-            "values": [
-              {"State": "Queensland", "State_Code": "QLD", "Employment_Rate": 61.9, "Labour_Force": 2618000, "Population": 5156000, "Unemployment_Rate": 4.1, "longitude": 153.0, "latitude": -27.5},
-              {"State": "Australian Capital Territory", "State_Code": "ACT", "Employment_Rate": 67.2, "Labour_Force": 230000, "Population": 431000, "Unemployment_Rate": 2.8, "longitude": 149.1, "latitude": -35.3},
-              {"State": "South Australia", "State_Code": "SA", "Employment_Rate": 59.8, "Labour_Force": 864000, "Population": 1771000, "Unemployment_Rate": 4.3, "longitude": 138.6, "latitude": -34.9},
-              {"State": "Western Australia", "State_Code": "WA", "Employment_Rate": 63.4, "Labour_Force": 1391000, "Population": 2667000, "Unemployment_Rate": 3.0, "longitude": 115.9, "latitude": -32.0},
-              {"State": "Northern Territory", "State_Code": "NT", "Employment_Rate": 63.1, "Labour_Force": 134000, "Population": 249000, "Unemployment_Rate": 3.7, "longitude": 130.8, "latitude": -12.5},
-              {"State": "Tasmania", "State_Code": "TAS", "Employment_Rate": 58.7, "Labour_Force": 276000, "Population": 542000, "Unemployment_Rate": 3.9, "longitude": 147.3, "latitude": -42.9},
-              {"State": "New South Wales", "State_Code": "NSW", "Employment_Rate": 62.8, "Labour_Force": 4105000, "Population": 8166000, "Unemployment_Rate": 3.2, "longitude": 151.2, "latitude": -33.9},
-              {"State": "Victoria", "State_Code": "VIC", "Employment_Rate": 63.1, "Labour_Force": 3387000, "Population": 6681000, "Unemployment_Rate": 3.4, "longitude": 144.9, "latitude": -37.8}
-            ]
-          },
-          "mark": {
-            "type": "circle",
-            "stroke": "#ffffff",
-            "strokeWidth": 3,
-            "opacity": 0.9,
-            "cursor": "pointer"
-          },
-          "encoding": {
-            "longitude": {"field": "longitude", "type": "quantitative"},
-            "latitude": {"field": "latitude", "type": "quantitative"},
-            "size": {
-              "field": "Labour_Force",
-              "type": "quantitative",
-              "scale": {"type": "sqrt", "range": [300, 1200], "domain": [100000, 4500000]},
-              "legend": {
-                "title": "Labour Force Size",
-                "orient": "right",
-                "offset": 220,
-                "titleFontSize": 14,
-                "titleFontWeight": "bold",
-                "labelFontSize": 12,
-                "symbolType": "circle",
-                "symbolStrokeWidth": 2,
-                "symbolStrokeColor": "#ffffff",
-                "values": [1000000, 2000000, 3000000, 4000000],
-                "format": ",.0f",
-                "titleColor": "#000000",
-                "labelColor": "#000000"
-              }
-            },
-            "color": {
-              "field": "Employment_Rate",
-              "type": "quantitative",
-              "scale": {
-                "type": "linear",
-                "range": ["#fef3c7", "#dc2626"],
-                "domain": [58, 68]
-              }
-            },
-            "opacity": {
-              "condition": {"selection": "circle_highlight", "value": 1.0},
-              "value": 0.9
-            },
-            "strokeWidth": {
-              "condition": {"selection": "circle_highlight", "value": 4},
-              "value": 3
-            },
-            "tooltip": [
-              {"field": "State", "type": "nominal", "title": "🏛️ State/Territory"},
-              {"field": "State_Code", "type": "nominal", "title": "🔤 Code"},
-              {"field": "Employment_Rate", "type": "quantitative", "title": "📊 Employment Rate", "format": ".1f", "formatType": "number"},
-              {"field": "Labour_Force", "type": "quantitative", "title": "👥 Labour Force", "format": ",.0f"},
-              {"field": "Population", "type": "quantitative", "title": "🏘️ Population", "format": ",.0f"},
-              {"field": "Unemployment_Rate", "type": "quantitative", "title": "📉 Unemployment Rate", "format": ".1f", "formatType": "number"}
-            ]
-          },
-          "selection": {
-            "circle_highlight": {"type": "single", "on": "mouseover", "empty": "all"}
-          }
-        },
-        {
-          "data": {
-            "values": [
-              {"State": "Queensland", "State_Code": "QLD", "Employment_Rate": 61.9, "Labour_Force": 2618000, "Population": 5156000, "Unemployment_Rate": 4.1},
-              {"State": "Australian Capital Territory", "State_Code": "ACT", "Employment_Rate": 67.2, "Labour_Force": 230000, "Population": 431000, "Unemployment_Rate": 2.8},
-              {"State": "South Australia", "State_Code": "SA", "Employment_Rate": 59.8, "Labour_Force": 864000, "Population": 1771000, "Unemployment_Rate": 4.3},
-              {"State": "Western Australia", "State_Code": "WA", "Employment_Rate": 63.4, "Labour_Force": 1391000, "Population": 2667000, "Unemployment_Rate": 3.0},
-              {"State": "Northern Territory", "State_Code": "NT", "Employment_Rate": 63.1, "Labour_Force": 134000, "Population": 249000, "Unemployment_Rate": 3.7},
-              {"State": "Tasmania", "State_Code": "TAS", "Employment_Rate": 58.7, "Labour_Force": 276000, "Population": 542000, "Unemployment_Rate": 3.9},
-              {"State": "New South Wales", "State_Code": "NSW", "Employment_Rate": 62.8, "Labour_Force": 4105000, "Population": 8166000, "Unemployment_Rate": 3.2},
-              {"State": "Victoria", "State_Code": "VIC", "Employment_Rate": 63.1, "Labour_Force": 3387000, "Population": 6681000, "Unemployment_Rate": 3.4}
-            ]
-          },
-          "transform": [
-            {
-              "calculate": "datum.State_Code == 'NSW' ? 151.2 : datum.State_Code == 'VIC' ? 144.9 : datum.State_Code == 'QLD' ? 153.0 : datum.State_Code == 'WA' ? 115.9 : datum.State_Code == 'SA' ? 138.6 : datum.State_Code == 'TAS' ? 147.3 : datum.State_Code == 'ACT' ? 149.1 : datum.State_Code == 'NT' ? 130.8 : 0",
-              "as": "longitude"
-            },
-            {
-              "calculate": "datum.State_Code == 'NSW' ? -33.9 : datum.State_Code == 'VIC' ? -37.8 : datum.State_Code == 'QLD' ? -27.5 : datum.State_Code == 'WA' ? -32.0 : datum.State_Code == 'SA' ? -34.9 : datum.State_Code == 'TAS' ? -42.9 : datum.State_Code == 'ACT' ? -35.3 : datum.State_Code == 'NT' ? -12.5 : 0",
-              "as": "latitude"
-            }
-          ],
-          "mark": {
-            "type": "text",
-            "align": "center",
-            "baseline": "middle",
-            "dy": -35,
-            "fontSize": 14,
-            "fontWeight": "bold",
-            "color": "#000000"
-          },
-          "encoding": {
-            "longitude": {"field": "longitude", "type": "quantitative"},
-            "latitude": {"field": "latitude", "type": "quantitative"},
-            "text": {
-              "field": "Employment_Rate",
-              "type": "quantitative",
-              "format": ".1f"
-            }
-          }
-        },
-        {
-          "data": {
-            "values": [
-              {"State": "Queensland", "State_Code": "QLD", "Employment_Rate": 61.9, "Labour_Force": 2618000, "Population": 5156000, "Unemployment_Rate": 4.1},
-              {"State": "Australian Capital Territory", "State_Code": "ACT", "Employment_Rate": 67.2, "Labour_Force": 230000, "Population": 431000, "Unemployment_Rate": 2.8},
-              {"State": "South Australia", "State_Code": "SA", "Employment_Rate": 59.8, "Labour_Force": 864000, "Population": 1771000, "Unemployment_Rate": 4.3},
-              {"State": "Western Australia", "State_Code": "WA", "Employment_Rate": 63.4, "Labour_Force": 1391000, "Population": 2667000, "Unemployment_Rate": 3.0},
-              {"State": "Northern Territory", "State_Code": "NT", "Employment_Rate": 63.1, "Labour_Force": 134000, "Population": 249000, "Unemployment_Rate": 3.7},
-              {"State": "Tasmania", "State_Code": "TAS", "Employment_Rate": 58.7, "Labour_Force": 276000, "Population": 542000, "Unemployment_Rate": 3.9},
-              {"State": "New South Wales", "State_Code": "NSW", "Employment_Rate": 62.8, "Labour_Force": 4105000, "Population": 8166000, "Unemployment_Rate": 3.2},
-              {"State": "Victoria", "State_Code": "VIC", "Employment_Rate": 63.1, "Labour_Force": 3387000, "Population": 6681000, "Unemployment_Rate": 3.4}
-            ]
-          },
-          "transform": [
-            {
-              "calculate": "datum.State_Code == 'NSW' ? 151.2 : datum.State_Code == 'VIC' ? 144.9 : datum.State_Code == 'QLD' ? 153.0 : datum.State_Code == 'WA' ? 115.9 : datum.State_Code == 'SA' ? 138.6 : datum.State_Code == 'TAS' ? 147.3 : datum.State_Code == 'ACT' ? 149.1 : datum.State_Code == 'NT' ? 130.8 : 0",
-              "as": "longitude"
-            },
-            {
-              "calculate": "datum.State_Code == 'NSW' ? -33.9 : datum.State_Code == 'VIC' ? -37.8 : datum.State_Code == 'QLD' ? -27.5 : datum.State_Code == 'WA' ? -32.0 : datum.State_Code == 'SA' ? -34.9 : datum.State_Code == 'TAS' ? -42.9 : datum.State_Code == 'ACT' ? -35.3 : datum.State_Code == 'NT' ? -12.5 : 0",
-              "as": "latitude"
-            }
-          ],
-          "mark": {
-            "type": "text",
-            "align": "center",
-            "baseline": "middle",
-            "dy": -18,
-            "fontSize": 11,
-            "fontWeight": "600",
-            "color": "#000000"
-          },
-          "encoding": {
-            "longitude": {"field": "longitude", "type": "quantitative"},
-            "latitude": {"field": "latitude", "type": "quantitative"},
-            "text": {
-              "value": "%"
-            }
-          }
-        },
-        {
-          "data": {
-            "values": [
-              {"State": "Queensland", "State_Code": "QLD", "Employment_Rate": 61.9, "Labour_Force": 2618000, "Population": 5156000, "Unemployment_Rate": 4.1},
-              {"State": "Australian Capital Territory", "State_Code": "ACT", "Employment_Rate": 67.2, "Labour_Force": 230000, "Population": 431000, "Unemployment_Rate": 2.8},
-              {"State": "South Australia", "State_Code": "SA", "Employment_Rate": 59.8, "Labour_Force": 864000, "Population": 1771000, "Unemployment_Rate": 4.3},
-              {"State": "Western Australia", "State_Code": "WA", "Employment_Rate": 63.4, "Labour_Force": 1391000, "Population": 2667000, "Unemployment_Rate": 3.0},
-              {"State": "Northern Territory", "State_Code": "NT", "Employment_Rate": 63.1, "Labour_Force": 134000, "Population": 249000, "Unemployment_Rate": 3.7},
-              {"State": "Tasmania", "State_Code": "TAS", "Employment_Rate": 58.7, "Labour_Force": 276000, "Population": 542000, "Unemployment_Rate": 3.9},
-              {"State": "New South Wales", "State_Code": "NSW", "Employment_Rate": 62.8, "Labour_Force": 4105000, "Population": 8166000, "Unemployment_Rate": 3.2},
-              {"State": "Victoria", "State_Code": "VIC", "Employment_Rate": 63.1, "Labour_Force": 3387000, "Population": 6681000, "Unemployment_Rate": 3.4}
-            ]
-          },
-          "transform": [
-            {
-              "calculate": "datum.State_Code == 'NSW' ? 151.2 : datum.State_Code == 'VIC' ? 144.9 : datum.State_Code == 'QLD' ? 153.0 : datum.State_Code == 'WA' ? 115.9 : datum.State_Code == 'SA' ? 138.6 : datum.State_Code == 'TAS' ? 147.3 : datum.State_Code == 'ACT' ? 149.1 : datum.State_Code == 'NT' ? 130.8 : 0",
-              "as": "longitude"
-            },
-            {
-              "calculate": "datum.State_Code == 'NSW' ? -33.9 : datum.State_Code == 'VIC' ? -37.8 : datum.State_Code == 'QLD' ? -27.5 : datum.State_Code == 'WA' ? -32.0 : datum.State_Code == 'SA' ? -34.9 : datum.State_Code == 'TAS' ? -42.9 : datum.State_Code == 'ACT' ? -35.3 : datum.State_Code == 'NT' ? -12.5 : 0",
-              "as": "latitude"
-            }
-          ],
-          "mark": {
-            "type": "text",
-            "align": "center",
-            "baseline": "middle",
-            "dy": 30,
-            "fontSize": 13,
-            "fontWeight": "bold",
-            "color": "#000000"
-          },
-          "encoding": {
-            "longitude": {"field": "longitude", "type": "quantitative"},
-            "latitude": {"field": "latitude", "type": "quantitative"},
-            "text": {
-              "field": "State_Code",
-              "type": "nominal"
-            }
-          }
-        }
-      ],
-      "resolve": {"scale": {"color": "independent", "size": "independent"}},
-      "config": {
-        "background": "#f8fafc",
-        "view": {"stroke": "transparent"},
-        "font": "Inter, -apple-system, BlinkMacSystemFont, sans-serif",
-        "title": {
-          "font": "Inter, -apple-system, BlinkMacSystemFont, sans-serif",
-          "fontWeight": "bold",
-          "color": "#000000"
-        },
-        "axis": {
-          "labelFont": "Inter, -apple-system, BlinkMacSystemFont, sans-serif",
-          "titleFont": "Inter, -apple-system, BlinkMacSystemFont, sans-serif",
-          "labelColor": "#000000",
-          "titleColor": "#000000"
-        },
-        "legend": {
-          "labelFont": "Inter, -apple-system, BlinkMacSystemFont, sans-serif",
-          "titleFont": "Inter, -apple-system, BlinkMacSystemFont, sans-serif",
-          "labelColor": "#000000",
-          "titleColor": "#000000"
-        }
-      }
-    }
-    </script>
-
-    <script type="application/json" id="week10-scatter-spec">
-    {
-      "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-      "title": {
-        "text": "Employment Rate vs Wage Index Analysis",
-        "subtitle": "Multi-channel encoding: Position (Employment vs Wages), Size (Job Vacancies), Color (Economic Performance) | Use filters below to explore data",
-        "fontSize": 16,
-        "subtitleFontSize": 12,
-        "color": "#000000",
-        "subtitleColor": "#333333",
-        "anchor": "start"
-      },
-      "params": [
-        {
-          "name": "employmentCategoryFilter",
-          "bind": {
-            "input": "select",
-            "options": ["All", "Above Average", "Average", "Below Average"],
-            "name": "Employment Category Filter: "
-          },
-          "value": "All"
-        },
-        {
-          "name": "economicScoreSlider",
-          "bind": {
-            "input": "range",
-            "min": 30,
-            "max": 65,
-            "step": 5,
-            "name": "Minimum Economic Performance Score: "
-          },
-          "value": 30
-        },
-        {
-          "name": "wageGrowthFilter",
-          "bind": {
-            "input": "select",
-            "options": ["All", "High Growth", "Moderate Growth"],
-            "name": "Wage Growth Category Filter: "
-          },
-          "value": "All"
-        }
-      ],
-      "width": 800,
-      "height": 500,
-      "data": {
-        "values": [
-          {"State": "Queensland", "State_Code": "QLD", "Employment_Rate": 61.9, "Unemployment_Rate": 4.1, "Participation_Rate": 64.5, "Labour_Force": 2618000, "Population": 5156000, "WageIndex": 149.5, "WageGrowthRate": 2.48, "Employment_to_Wage_Ratio": 41.405, "Job_Vacancies": 63356, "Job_Vacancy_Rate": 24.2, "Economic_Performance_Score": 62.6, "Employment_Category": "Average", "Wage_Growth_Category": "High Growth", "Year_Quarter": "2025-Q3"},
-          {"State": "Australian Capital Territory", "State_Code": "ACT", "Employment_Rate": 67.2, "Unemployment_Rate": 2.8, "Participation_Rate": 69.1, "Labour_Force": 230000, "Population": 431000, "WageIndex": 152.9, "WageGrowthRate": 2.11, "Employment_to_Wage_Ratio": 43.95, "Job_Vacancies": 7291, "Job_Vacancy_Rate": 31.7, "Economic_Performance_Score": 60.0, "Employment_Category": "Above Average", "Wage_Growth_Category": "Moderate Growth", "Year_Quarter": "2025-Q3"},
-          {"State": "South Australia", "State_Code": "SA", "Employment_Rate": 59.8, "Unemployment_Rate": 4.3, "Participation_Rate": 62.5, "Labour_Force": 864000, "Population": 1771000, "WageIndex": 148.2, "WageGrowthRate": 2.45, "Employment_to_Wage_Ratio": 40.351, "Job_Vacancies": 18490, "Job_Vacancy_Rate": 21.4, "Economic_Performance_Score": 44.5, "Employment_Category": "Below Average", "Wage_Growth_Category": "High Growth", "Year_Quarter": "2025-Q3"},
-          {"State": "Western Australia", "State_Code": "WA", "Employment_Rate": 63.4, "Unemployment_Rate": 3.0, "Participation_Rate": 65.3, "Labour_Force": 1391000, "Population": 2667000, "WageIndex": 153.7, "WageGrowthRate": 2.15, "Employment_to_Wage_Ratio": 41.249, "Job_Vacancies": 44651, "Job_Vacancy_Rate": 32.1, "Economic_Performance_Score": 37.5, "Employment_Category": "Average", "Wage_Growth_Category": "Moderate Growth", "Year_Quarter": "2025-Q3"},
-          {"State": "Northern Territory", "State_Code": "NT", "Employment_Rate": 63.1, "Unemployment_Rate": 3.7, "Participation_Rate": 65.5, "Labour_Force": 134000, "Population": 249000, "WageIndex": 152.4, "WageGrowthRate": 2.16, "Employment_to_Wage_Ratio": 41.404, "Job_Vacancies": 3926, "Job_Vacancy_Rate": 29.3, "Economic_Performance_Score": 36.5, "Employment_Category": "Average", "Wage_Growth_Category": "Moderate Growth", "Year_Quarter": "2025-Q3"},
-          {"State": "Tasmania", "State_Code": "TAS", "Employment_Rate": 58.7, "Unemployment_Rate": 3.9, "Participation_Rate": 61.1, "Labour_Force": 276000, "Population": 542000, "WageIndex": 147.6, "WageGrowthRate": 2.43, "Employment_to_Wage_Ratio": 39.77, "Job_Vacancies": 5465, "Job_Vacancy_Rate": 19.8, "Economic_Performance_Score": 34.6, "Employment_Category": "Below Average", "Wage_Growth_Category": "High Growth", "Year_Quarter": "2025-Q3"},
-          {"State": "New South Wales", "State_Code": "NSW", "Employment_Rate": 62.8, "Unemployment_Rate": 3.2, "Participation_Rate": 65.0, "Labour_Force": 4105000, "Population": 8166000, "WageIndex": 150.8, "WageGrowthRate": 2.15, "Employment_to_Wage_Ratio": 41.645, "Job_Vacancies": 116992, "Job_Vacancy_Rate": 28.5, "Economic_Performance_Score": 33.3, "Employment_Category": "Average", "Wage_Growth_Category": "Moderate Growth", "Year_Quarter": "2025-Q3"},
-          {"State": "Victoria", "State_Code": "VIC", "Employment_Rate": 63.1, "Unemployment_Rate": 3.4, "Participation_Rate": 65.3, "Labour_Force": 3387000, "Population": 6681000, "WageIndex": 150.3, "WageGrowthRate": 2.11, "Employment_to_Wage_Ratio": 41.983, "Job_Vacancies": 90772, "Job_Vacancy_Rate": 26.8, "Economic_Performance_Score": 31.1, "Employment_Category": "Average", "Wage_Growth_Category": "Moderate Growth", "Year_Quarter": "2025-Q3"}
-        ]
-      },
-      "transform": [
-        {
-          "filter": "employmentCategoryFilter == 'All' || datum.Employment_Category == employmentCategoryFilter"
-        },
-        {
-          "filter": "datum.Economic_Performance_Score >= economicScoreSlider"
-        },
-        {
-          "filter": "wageGrowthFilter == 'All' || datum.Wage_Growth_Category == wageGrowthFilter"
-        }
-      ],
-      "layer": [
-        {
-          "mark": {
-            "type": "circle",
-            "stroke": "#333333",
-            "strokeWidth": 1,
-            "opacity": 0.8
-          },
-          "encoding": {
-            "x": {
-              "field": "Employment_Rate",
-              "type": "quantitative",
-              "title": "Employment Rate (%)",
-              "scale": {
-                "domain": [58, 68],
-                "nice": true
-              },
-              "axis": {
-                "grid": true,
-                "gridOpacity": 0.3,
-                "titleFontSize": 14,
-                "labelFontSize": 12
-              }
-            },
-            "y": {
-              "field": "WageIndex",
-              "type": "quantitative",
-              "title": "Wage Index (Base=100)",
-              "scale": {
-                "domain": [147, 154],
-                "nice": true
-              },
-              "axis": {
-                "grid": true,
-                "gridOpacity": 0.3,
-                "titleFontSize": 14,
-                "labelFontSize": 12
-              }
-            },
-            "size": {
-              "field": "Job_Vacancies",
-              "type": "quantitative",
-              "title": "Job Vacancies",
-              "scale": {
-                "type": "sqrt",
-                "range": [200, 800]
-              },
-              "legend": {
-                "orient": "right",
-                "titleFontSize": 12,
-                "labelFontSize": 10,
-                "offset": 40
-              }
-            },
-            "color": {
-              "field": "Economic_Performance_Score",
-              "type": "quantitative",
-              "title": "Economic Performance",
-              "scale": {
-                "range": ["#ffe6e6", "#ffb3b3", "#ff8080", "#ff4d4d", "#cc0000"],
-                "domain": [30, 65]
-              },
-              "legend": {
-                "orient": "right",
-                "titleFontSize": 12,
-                "labelFontSize": 10,
-                "offset": 200
-              }
-            },
-            "tooltip": [
-              {"field": "State", "type": "nominal", "title": "State/Territory"},
-              {"field": "Employment_Rate", "type": "quantitative", "title": "Employment Rate (%)", "format": ".1f"},
-              {"field": "WageIndex", "type": "quantitative", "title": "Wage Index", "format": ".1f"},
-              {"field": "Job_Vacancies", "type": "quantitative", "title": "Vacancies", "format": ","},
-              {"field": "Economic_Performance_Score", "type": "quantitative", "title": "Economic Score", "format": ".1f"}
-            ]
-          }
-        },
-        {
-          "mark": {
-            "type": "text",
-            "align": "left",
-            "baseline": "middle",
-            "dx": 12,
-            "dy": 0,
-            "fontSize": 10,
-            "fontWeight": "bold",
-            "color": "#000000"
-          },
-          "encoding": {
-            "x": {"field": "Employment_Rate", "type": "quantitative"},
-            "y": {"field": "WageIndex", "type": "quantitative"},
-            "text": {"field": "State_Code", "type": "nominal"}
-          }
-        },
-        {
-          "mark": {
-            "type": "rule",
-            "color": "#999999",
-            "strokeDash": [3, 3],
-            "opacity": 0.5
-          },
-          "encoding": {
-            "x": {
-              "aggregate": "mean",
-              "field": "Employment_Rate",
-              "type": "quantitative"
-            }
-          }
-        },
-        {
-          "mark": {
-            "type": "rule",
-            "color": "#999999",
-            "strokeDash": [3, 3],
-            "opacity": 0.5
-          },
-          "encoding": {
-            "y": {
-              "aggregate": "mean",
-              "field": "WageIndex",
-              "type": "quantitative"
-            }
-          }
-        },
-        {
-          "mark": {
-            "type": "text",
-            "align": "right",
-            "baseline": "bottom",
-            "dx": -5,
-            "dy": -5,
-            "fontSize": 9,
-            "color": "#666666",
-            "text": "National Average Employment Rate"
-          },
-          "encoding": {
-            "x": {
-              "aggregate": "mean",
-              "field": "Employment_Rate",
-              "type": "quantitative"
-            },
-            "y": {"value": 490}
-          }
-        },
-        {
-          "mark": {
-            "type": "text",
-            "align": "left",
-            "baseline": "top",
-            "dx": 5,
-            "dy": 5,
-            "fontSize": 9,
-            "color": "#666666",
-            "text": "National Average Wage Index"
-          },
-          "encoding": {
-            "x": {"value": 10},
-            "y": {
-              "aggregate": "mean",
-              "field": "WageIndex",
-              "type": "quantitative"
-            }
-          }
-        },
-        {
-          "transform": [{"filter": "datum.State == 'Western Australia'"}],
-          "mark": {
-            "type": "text",
-            "align": "center",
-            "baseline": "bottom",
-            "dx": 0,
-            "dy": -25,
-            "fontSize": 11,
-            "fontWeight": "bold",
-            "color": "#d2691e",
-            "text": "WA - Highest Wages"
-          },
-          "encoding": {
-            "x": {"field": "Employment_Rate", "type": "quantitative"},
-            "y": {"field": "WageIndex", "type": "quantitative"}
-          }
-        },
-        {
-          "transform": [{"filter": "datum.State == 'Australian Capital Territory'"}],
-          "mark": {
-            "type": "text",
-            "align": "left",
-            "baseline": "bottom",
-            "dx": 15,
-            "dy": -15,
-            "fontSize": 11,
-            "fontWeight": "bold",
-            "color": "#2e8b57",
-            "text": "ACT - Highest Employment"
-          },
-          "encoding": {
-            "x": {"field": "Employment_Rate", "type": "quantitative"},
-            "y": {"field": "WageIndex", "type": "quantitative"}
-          }
-        }
-      ],
-      "resolve": {
-        "scale": {
-          "color": "independent",
-          "size": "independent"
-        }
-      },
-      "config": {
-        "background": "#ffffff",
-        "view": {"stroke": "transparent"},
-        "font": "Arial, sans-serif"
-      }
-    }
-    </script>
-
     <script>
-        // Load Week 9 Choropleth Map with optimized settings
-        const mapSpec = JSON.parse(document.getElementById('week9-map-spec').textContent);
-        
-        vegaEmbed('#map-vis', mapSpec, {
-            theme: 'googlecharts',
-            renderer: 'canvas',  // Faster rendering than SVG
-            actions: {
-                export: false,  // Disable to reduce loading time
-                source: false,
-                compiled: false,
-                editor: false
-            },
-            padding: {left: 60, right: 40, top: 40, bottom: 60}
-        }).then(function(result) {
-            console.log('✅ Week 9 choropleth map loaded successfully');
-            
-            // Optimize view for faster interactions
-            result.view.runAfter(function() {
-                result.view.hover();  // Enable fast hover
-            });
-            
-        }).catch(function(error) {
-            console.error('❌ Error loading Week 9 map:', error);
-            document.getElementById('map-vis').innerHTML = 
-                '<div style="text-align: center; padding: 50px; color: #e74c3c;">' +
-                '<h3>⚠️ Map Loading Error</h3>' +
-                '<p>Please ensure australia-states.geojson and labour_force_cleaned.csv are available.</p>' +
-                '</div>';
-        });
-
-        // Load Week 10 Scatter Plot with optimized settings and manual filter controls
-        try {
-            const scatterSpec = JSON.parse(document.getElementById('week10-scatter-spec').textContent);
-            let scatterView = null;
-            
-            vegaEmbed('#scatter-vis', scatterSpec, {
-                theme: 'googlecharts',
-                renderer: 'canvas',  // Faster rendering
-                actions: {
-                    export: false,  // Disable to reduce loading time
-                    source: false,
-                    compiled: false,
-                    editor: false
-                },
-                padding: {left: 60, right: 40, top: 40, bottom: 60}
-            }).then(function(result) {
-                console.log('✅ Week 10 scatter plot loaded successfully');
-                scatterView = result.view;
-                
-                // Add manual filter control handlers for GitHub Pages compatibility
-                function updateFilters() {
-                    const employmentFilter = document.getElementById('employment-filter').value;
-                    const wageGrowthFilter = document.getElementById('wage-growth-filter').value;
-                    const economicScore = parseInt(document.getElementById('economic-score-slider').value);
-                    
-                    // Update score display
-                    document.getElementById('score-value').textContent = economicScore;
-                    
-                    // Update Vega-Lite parameters
-                    scatterView.signal('employmentCategoryFilter', employmentFilter);
-                    scatterView.signal('wageGrowthFilter', wageGrowthFilter);
-                    scatterView.signal('economicScoreSlider', economicScore);
-                    scatterView.run();
-                    
-                    console.log('🔧 Filters updated:', {employmentFilter, wageGrowthFilter, economicScore});
-                }
-                
-                // Attach event listeners to manual controls
-                document.getElementById('employment-filter').addEventListener('change', updateFilters);
-                document.getElementById('wage-growth-filter').addEventListener('change', updateFilters);
-                document.getElementById('economic-score-slider').addEventListener('input', updateFilters);
-                
-                // Optimize view for faster interactions
-                result.view.runAfter(function() {
-                    result.view.hover();  // Enable fast hover
+        // Fetch and embed Week 9 Choropleth Map
+        fetch('assets/week9_homework_map.json')
+            .then(response => response.json())
+            .then(spec => {
+                spec.width = "container";
+                spec.height = 500;
+                vegaEmbed('#choropleth-vis', spec, {
+                    actions: false,
+                    theme: 'light'
                 });
-                
-            }).catch(function(error) {
-                console.error('❌ Error loading Week 10 scatter plot:', error);
-                document.getElementById('scatter-vis').innerHTML = 
-                    '<div style="text-align: center; padding: 50px; color: #e74c3c;">' +
-                    '<h3>⚠️ Scatter Plot Loading Error</h3>' +
-                    '<p>Please ensure merged_labour_data.csv is available in the data folder.</p>' +
-                    '<p>Error: ' + error.message + '</p>' +
-                    '</div>';
             });
-        } catch (jsonError) {
-            console.error('❌ JSON parsing error:', jsonError);
-            document.getElementById('scatter-vis').innerHTML = 
-                '<div style="text-align: center; padding: 50px; color: #e74c3c;">' +
-                '<h3>⚠️ JSON Configuration Error</h3>' +
-                '<p>Error parsing scatter plot specification: ' + jsonError.message + '</p>' +
-                '</div>';
-        }
 
+        // Fetch and embed Week 10 Scatter Plot
+        fetch('assets/week10_scatter_chart.json')
+            .then(response => response.json())
+            .then(spec => {
+                spec.width = "container";
+                spec.height = 500;
+                vegaEmbed('#scatter-vis', spec, {
+                    actions: false,
+                    theme: 'light'
+                });
+            });
     </script>
 </body>
 </html>
