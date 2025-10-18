@@ -133,6 +133,14 @@
             margin-bottom: 10px;
         }
 
+    /* Improve readability: limit text width to ~60-70 chars and increase paragraph spacing */
+    .description, .chart-description p {
+      max-width: 60ch;
+      margin-left: auto;
+      margin-right: auto;
+      line-height: 1.5;
+    }
+
         .features-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -276,6 +284,7 @@
       flex-direction: column;
       min-height: 360px;
       min-width: 340px;
+      border: 1px solid rgba(0,0,0,0.06); /* subtle card border for separation */
     }
 
     .chart-card:hover, .feature-card:hover {
@@ -451,31 +460,31 @@
             <div class="chart-card">
               <div class="chart-title">Vacancies by Industry</div>
               <div id="vacancies-vis" class="chart-figure"></div>
-              <div class="chart-annotation">Summary: Shows distribution of job vacancies across states (higher values indicate more openings).</div>
+            <div class="chart-annotation">Summary: Distribution of job vacancies by state.</div>
             </div>
 
             <div class="chart-card">
               <div class="chart-title">Wage vs Employment Comparison</div>
               <div id="wage-employment-vis" class="chart-figure"></div>
-              <div class="chart-annotation">Comparison of wage growth and employment rates across states — highlighting economic performance balance.</div>
+              <div class="chart-annotation">Comparison of wage index vs employment rate by state.</div>
             </div>
 
             <div class="chart-card">
               <div class="chart-title">Unemployment Heatmap</div>
               <div id="heatmap-unemployment-vis" class="chart-figure"></div>
-              <div class="chart-annotation">Summary: Unemployment rate heatmap (state vs period) — darker = higher unemployment.</div>
+              <div class="chart-annotation">Summary: Unemployment rate by state and period.</div>
             </div>
 
             <div class="chart-card">
               <div class="chart-title">Stacked by Gender</div>
               <div id="stacked-gender-vis" class="chart-figure"></div>
-              <div class="chart-annotation">Summary: Stacked representation of employment rates by group (fallback aggregated by state).</div>
+              <div class="chart-annotation">Summary: Stacked employment by gender (state-aggregated fallback).</div>
             </div>
 
             <div class="chart-card">
               <div class="chart-title">Employment & Vacancies (Bubble)</div>
               <div id="bubble-vis" class="chart-figure"></div>
-              <div class="chart-annotation">Summary: Bubble chart mapping employment rate (x), wage index (y), and vacancies (size).</div>
+              <div class="chart-annotation">Summary: Employment vs wage (bubble size = vacancies).</div>
             </div>
           </div>
         </div>
@@ -580,8 +589,7 @@
               "field": "Employment_Rate",
               "type": "quantitative",
               "scale": {
-                "type": "linear",
-                "range": ["#e6f3ff", "#1e40af"],
+                "scheme": "blues",
                 "domain": [58, 68]
               },
               "legend": {
@@ -669,10 +677,10 @@
               "field": "Employment_Rate",
               "type": "quantitative",
               "scale": {
-                "type": "linear",
-                "range": ["#fef3c7", "#dc2626"],
+                "scheme": "blues",
                 "domain": [58, 68]
-              }
+              },
+              "legend": null
             },
             "opacity": {
               "condition": {"selection": "circle_highlight", "value": 1.0},
@@ -875,7 +883,7 @@
         "x": { "field": "Employment_Rate", "type": "quantitative", "title": "Employment Rate (%)" },
         "y": { "field": "WageIndex", "type": "quantitative", "title": "Wage Index" },
         "size": { "field": "Job_Vacancies", "type": "quantitative", "title": "Job Vacancies", "scale": { "type": "sqrt", "range": [100, 1200] } },
-        "color": { "field": "Economic_Performance_Score", "type": "quantitative", "scale": { "scheme": "reds" } },
+  "color": { "field": "Economic_Performance_Score", "type": "quantitative", "scale": { "scheme": "viridis" }, "legend": {"title":"Economic Score"} },
         "tooltip": [ { "field": "State", "type": "nominal" }, { "field": "Job_Vacancies", "type": "quantitative", "format": "," }, { "field": "WageIndex", "type": "quantitative", "format": ".1f" } ]
       }
     }
