@@ -339,6 +339,7 @@
       background: #ffffff;
       padding: 8px;
       border: 1px solid rgba(0,0,0,0.04);
+      position: relative; /* allow absolute overlay inside */
     }
     /* Smooth SVG transitions and subtle glow on hover for map geoshapes */
     #map-vis svg path {
@@ -354,16 +355,17 @@
       position: absolute;
       bottom: 14px;
       left: 18px;
-      background: rgba(255,255,255,0.92);
-      padding: 8px 10px;
+      background: rgba(255,255,255,0.96);
+      padding: 10px 12px;
       border-radius: 8px;
-      box-shadow: 0 6px 18px rgba(17,24,39,0.08);
+      box-shadow: 0 8px 20px rgba(17,24,39,0.10);
       font-size: 13px;
-      color: #1f2937;
-      line-height: 1.35;
-      max-width: 46%;
+      color: #0f172a;
+      line-height: 1.28;
+      max-width: 42%;
+      border: 1px solid rgba(15,23,42,0.04);
     }
-    .map-annotations div { margin-bottom: 4px; }
+    .map-annotations div { margin-bottom: 6px; }
     </style>
 </head>
 <body>
@@ -427,9 +429,23 @@
                           
                             <!-- overlay annotation box inside map hero (uses whitespace) -->
                             <div class="map-annotations" aria-hidden="false">
-                              <div>Shows employment rate by state.</div>
-                              <div>Hover to highlight and view rates.</div>
-                              <div>Data: ABS labour force survey, Q3 2025.</div>
+                              <div style="font-weight:700; margin-bottom:6px;">Employment insights</div>
+                              <div>High: ACT, VIC (above 66%).</div>
+                              <div>Medium: NSW, QLD, WA (around 62–64%).</div>
+                              <div style="margin-top:6px; display:flex; gap:10px; align-items:center;">
+                                <div style="display:flex; gap:6px; align-items:center;">
+                                  <span style="width:12px; height:12px; background:#440154; display:inline-block; border-radius:2px;"> </span>
+                                  <small>High</small>
+                                </div>
+                                <div style="display:flex; gap:6px; align-items:center;">
+                                  <span style="width:12px; height:12px; background:#21918c; display:inline-block; border-radius:2px;"> </span>
+                                  <small>Medium</small>
+                                </div>
+                                <div style="display:flex; gap:6px; align-items:center;">
+                                  <span style="width:12px; height:12px; background:#fde725; display:inline-block; border-radius:2px;"> </span>
+                                  <small>Low</small>
+                                </div>
+                              </div>
                             </div>
                           </div>
                           </div>
@@ -991,17 +1007,22 @@
             "fields": ["Employment_Rate","Labour_Force","State_Code"]
           }
         }
+        ,
+        {
+          "calculate": "datum.Employment_Rate >= 66 ? 'High' : datum.Employment_Rate <= 60 ? 'Low' : 'Medium'",
+          "as": "Employment_Level"
+        }
       ],
       "mark": { "type": "geoshape", "stroke": "#ffffff", "strokeWidth": 1 },
       "params": [
         { "name": "hoverState", "select": { "type": "point", "on": "mouseover", "clear": "mouseout" } }
       ],
         "encoding": {
-          "color": { "field": "Employment_Rate", "type": "quantitative", "scale": { "range": ["#e6f0fb","#cbe3fb","#9fc9f9","#60a5fa","#2b6cb0"] , "domain": [58,68] }, "legend": { "title": "Employment Rate (%)", "orient": "right", "offset": 20 } },
-          "stroke": { "condition": { "param": "hoverState", "value": "#1e40af" }, "value": "#ffffff" },
+          "color": { "field": "Employment_Rate", "type": "quantitative", "scale": { "scheme": "viridis", "domain": [58,68] }, "legend": { "title": "Employment Rate (%)", "orient": "right", "offset": 20 } },
+          "stroke": { "condition": { "param": "hoverState", "value": "#0b3d91" }, "value": "#ffffff" },
           "strokeWidth": { "condition": { "param": "hoverState", "value": 3 }, "value": 1 },
           "opacity": { "condition": { "param": "hoverState", "value": 1 }, "value": 0.95 },
-          "tooltip": [ { "field": "properties.STATE_NAME", "type": "nominal", "title": "State" }, { "field": "Employment_Rate", "type": "quantitative", "title": "Employment rate", "format": ".1f" }, { "field": "Labour_Force", "type": "quantitative", "title": "Labour force", "format": ",.0f" } ]
+          "tooltip": [ { "field": "properties.STATE_NAME", "type": "nominal", "title": "State" }, { "field": "Employment_Rate", "type": "quantitative", "title": "Rate", "format": ".1f" }, { "field": "Labour_Force", "type": "quantitative", "title": "Labour", "format": ",.0f" }, { "field": "Employment_Level", "type": "nominal", "title": "Level" } ]
         },
       "config": { "view": { "stroke": "transparent" }, "background": "#f8fafc" }
     }
