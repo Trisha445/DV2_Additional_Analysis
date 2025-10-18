@@ -327,6 +327,19 @@
       .charts-grid { grid-template-columns: 1fr; }
       .chart-card { padding: 1rem; }
     }
+    /* Map hero styles: large centered map area for HD layout */
+    .map-hero {
+      width: 90%;
+      max-width: 1200px;
+      min-height: 560px;
+      margin: 24px auto;
+      border-radius: 1rem;
+      box-shadow: 0 18px 40px rgba(17,24,39,0.08);
+      overflow: hidden;
+      background: #ffffff;
+      padding: 8px;
+      border: 1px solid rgba(0,0,0,0.04);
+    }
     </style>
 </head>
 <body>
@@ -385,7 +398,9 @@
 
                 <div class="chart-container">
                     <div class="responsive-container">
-                        <div id="map-vis" style="width: 100%; min-height: 500px; margin-top: 80px; margin-bottom: 60px;"></div>
+            <div class="map-hero">
+              <div id="map-vis" style="width:100%; height:100%; min-height:560px;"></div>
+            </div>
                     </div>
                 </div>
             </div>
@@ -478,290 +493,55 @@
             <div class="chart-card">
               <div class="chart-title">Stacked by Gender</div>
               <div id="stacked-gender-vis" class="chart-figure"></div>
-              <div class="chart-annotation">Summary: Stacked employment by gender (state-aggregated fallback).</div>
-            </div>
-
-            <div class="chart-card">
-              <div class="chart-title">Employment & Vacancies (Bubble)</div>
-              <div id="bubble-vis" class="chart-figure"></div>
-              <div class="chart-annotation">Summary: Employment vs wage (bubble size = vacancies).</div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Key Insights Section -->
-      <div class="insights-section">
-                <h2>🔍 Key Insights from Combined Analysis</h2>
-                <div class="insights-grid">
-                    <div class="insight-item">
-                        <h3>Geographic Patterns</h3>
-                        <p>The choropleth map reveals significant regional variation in employment rates, with metropolitan areas generally showing different patterns from rural regions.</p>
-                    </div>
-                    <div class="insight-item">
-                        <h3>Employment-Wage Dynamics</h3>
-                        <p>The scatter plot demonstrates that high employment rates don't always correlate with high wages, suggesting varied economic structures across states.</p>
-                    </div>
-                    <div class="insight-item">
-                        <h3>Economic Performance</h3>
-                        <p>States with balanced employment and wage growth show stronger overall economic performance, as indicated by the color encoding.</p>
-                    </div>
-                    <div class="insight-item">
-                        <h3>Labour Market Opportunities</h3>
-                        <p>Job vacancy data reveals where employment growth is most active, providing insights for policy and investment decisions.</p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Data Sources -->
-            <div class="data-sources">
-                <h3>📊 Data Sources & Methodology</h3>
-                <p>
-                    <strong>Primary Data:</strong> Australian Bureau of Statistics Labour Force Survey (6291.0.55.001) and Wage Price Index (6345.0) for Q3 2025.<br>
-                    <strong>Spatial Data:</strong> Australian state boundaries in GeoJSON format with Albers Equal-Area Conic projection.<br>
-                    <strong>Derived Metrics:</strong> Economic Performance Score calculated using weighted combination of employment rates (60%) and wage growth (40%). Job vacancy estimates based on ABS historical patterns and current labour market indicators.
-                </p>
-            </div>
-        </div>
-    </div>
-
-    <!-- Embedded Vega-Lite Specifications -->
-    <script type="application/json" id="week9-map-spec">
-    {
-      "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-      "title": {
-        "text": "Australian Employment Rates by State/Territory",
-        "fontSize": 20,
-        "anchor": "start",
-        "color": "#000000",
-        "fontWeight": "bold",
-        "subtitle": ["Interactive choropleth map showing employment rates with proportional symbols for labour force size", "Data: ABS Labour Force Survey Q3 2025"],
-        "subtitleFontSize": 14,
-        "subtitleColor": "#000000",
-        "offset": 25
-      },
-      "width": 850,
-      "height": 550,
-      "background": "#f8fafc",
-      "projection": {
-        "type": "conicEqualArea",
-        "parallels": [-18, -36],
-        "rotate": [-132, 0],
-        "center": [0, -28],
-        "scale": 700
-      },
-      "layer": [
-        {
-          "data": {
-            "url": "assets/australia-states.geojson",
-            "format": {"type": "json", "property": "features"}
-          },
-          "transform": [
-            {
-              "lookup": "properties.STATE_NAME",
-              "from": {
-                "data": {
-                  "values": [
-                    {"State": "Queensland", "State_Code": "QLD", "Employment_Rate": 61.9, "Labour_Force": 2618000, "Unemployment_Rate": 4.1, "Participation_Rate": 64.5},
-                    {"State": "Australian Capital Territory", "State_Code": "ACT", "Employment_Rate": 67.2, "Labour_Force": 230000, "Unemployment_Rate": 2.8, "Participation_Rate": 69.1},
-                    {"State": "South Australia", "State_Code": "SA", "Employment_Rate": 59.8, "Labour_Force": 864000, "Unemployment_Rate": 4.3, "Participation_Rate": 62.5},
-                    {"State": "Western Australia", "State_Code": "WA", "Employment_Rate": 63.4, "Labour_Force": 1391000, "Unemployment_Rate": 3.0, "Participation_Rate": 65.3},
-                    {"State": "Northern Territory", "State_Code": "NT", "Employment_Rate": 63.1, "Labour_Force": 134000, "Unemployment_Rate": 3.7, "Participation_Rate": 65.5},
-                    {"State": "Tasmania", "State_Code": "TAS", "Employment_Rate": 58.7, "Labour_Force": 276000, "Unemployment_Rate": 3.9, "Participation_Rate": 61.1},
-                    {"State": "New South Wales", "State_Code": "NSW", "Employment_Rate": 62.8, "Labour_Force": 4105000, "Unemployment_Rate": 3.2, "Participation_Rate": 65.0},
-                    {"State": "Victoria", "State_Code": "VIC", "Employment_Rate": 63.1, "Labour_Force": 3387000, "Unemployment_Rate": 3.4, "Participation_Rate": 65.3}
-                  ]
-                },
-                "key": "State",
-                "fields": ["Employment_Rate", "Labour_Force", "Unemployment_Rate", "State_Code", "Participation_Rate"]
-              }
-            }
-          ],
-          "mark": {
-            "type": "geoshape",
-            "stroke": "#ffffff",
-            "strokeWidth": 2.5,
-            "strokeOpacity": 1,
-            "cursor": "pointer"
-          },
-          "encoding": {
-            "color": {
-              "field": "Employment_Rate",
-              "type": "quantitative",
-              "scale": {
-                "scheme": "blues",
-                "domain": [58, 68]
-              },
-              "legend": {
-                "title": "Employment Rate (%)",
-                "orient": "right",
-                "offset": 30,
-                "gradientLength": 250,
-                "titleFontSize": 14,
-                "titleFontWeight": "bold",
-                "labelFontSize": 12,
-                "gradientThickness": 20,
-                "cornerRadius": 5,
-                "titleColor": "#000000",
-                "labelColor": "#000000"
-              }
-            },
-            "opacity": {
-              "condition": {"selection": "highlight", "value": 1.0},
-              "value": 0.85
-            },
-            "stroke": {
-              "condition": {"selection": "highlight", "value": "#2563eb"},
-              "value": "#ffffff"
-            },
-            "strokeWidth": {
-              "condition": {"selection": "highlight", "value": 3},
-              "value": 2.5
-            },
-            "tooltip": [
-              {"field": "properties.STATE_NAME", "type": "nominal", "title": "🗺️ State/Territory"},
-              {"field": "Employment_Rate", "type": "quantitative", "title": "📊 Employment Rate", "format": ".1f", "formatType": "number"},
-              {"field": "Labour_Force", "type": "quantitative", "title": "👥 Labour Force Total", "format": ",.0f"},
-              {"field": "Unemployment_Rate", "type": "quantitative", "title": "📉 Unemployment Rate", "format": ".1f", "formatType": "number"},
-              {"field": "Participation_Rate", "type": "quantitative", "title": "📈 Participation Rate", "format": ".1f", "formatType": "number"}
-            ]
-          },
-          "selection": {
-            "highlight": {"type": "single", "on": "mouseover", "empty": "all"}
-          }
-        },
-        {
-          "data": {
-            "values": [
-              {"State": "Queensland", "State_Code": "QLD", "Employment_Rate": 61.9, "Labour_Force": 2618000, "Population": 5156000, "Unemployment_Rate": 4.1, "longitude": 153.0, "latitude": -27.5},
-              {"State": "Australian Capital Territory", "State_Code": "ACT", "Employment_Rate": 67.2, "Labour_Force": 230000, "Population": 431000, "Unemployment_Rate": 2.8, "longitude": 149.1, "latitude": -35.3},
-              {"State": "South Australia", "State_Code": "SA", "Employment_Rate": 59.8, "Labour_Force": 864000, "Population": 1771000, "Unemployment_Rate": 4.3, "longitude": 138.6, "latitude": -34.9},
-              {"State": "Western Australia", "State_Code": "WA", "Employment_Rate": 63.4, "Labour_Force": 1391000, "Population": 2667000, "Unemployment_Rate": 3.0, "longitude": 115.9, "latitude": -32.0},
-              {"State": "Northern Territory", "State_Code": "NT", "Employment_Rate": 63.1, "Labour_Force": 134000, "Population": 249000, "Unemployment_Rate": 3.7, "longitude": 130.8, "latitude": -12.5},
-              {"State": "Tasmania", "State_Code": "TAS", "Employment_Rate": 58.7, "Labour_Force": 276000, "Population": 542000, "Unemployment_Rate": 3.9, "longitude": 147.3, "latitude": -42.9},
-              {"State": "New South Wales", "State_Code": "NSW", "Employment_Rate": 62.8, "Labour_Force": 4105000, "Population": 8166000, "Unemployment_Rate": 3.2, "longitude": 151.2, "latitude": -33.9},
-              {"State": "Victoria", "State_Code": "VIC", "Employment_Rate": 63.1, "Labour_Force": 3387000, "Population": 6681000, "Unemployment_Rate": 3.4, "longitude": 144.9, "latitude": -37.8}
-            ]
-          },
-          "mark": {
-            "type": "circle",
-            "stroke": "#ffffff",
-            "strokeWidth": 3,
-            "opacity": 0.9,
-            "cursor": "pointer"
-          },
-          "encoding": {
-            "longitude": {"field": "longitude", "type": "quantitative"},
-            "latitude": {"field": "latitude", "type": "quantitative"},
-            "size": {
-              "field": "Labour_Force",
-              "type": "quantitative",
-              "scale": {"type": "sqrt", "range": [300, 1200], "domain": [100000, 4500000]},
-              "legend": {
-                "title": "Labour Force Size",
-                "orient": "right",
-                "offset": 220,
-                "titleFontSize": 14,
-                "titleFontWeight": "bold",
-                "labelFontSize": 12,
-                "symbolType": "circle",
-                "symbolStrokeWidth": 2,
-                "symbolStrokeColor": "#ffffff",
-                "values": [1000000, 2000000, 3000000, 4000000],
-                "format": ",.0f",
-                "titleColor": "#000000",
-                "labelColor": "#000000"
-              }
-            },
-            "color": {
-              "field": "Employment_Rate",
-              "type": "quantitative",
-              "scale": {
-                "scheme": "blues",
-                "domain": [58, 68]
-              },
-              "legend": null
-            },
-            "opacity": {
-              "condition": {"selection": "circle_highlight", "value": 1.0},
-              "value": 0.9
-            },
-            "strokeWidth": {
-              "condition": {"selection": "circle_highlight", "value": 4},
-              "value": 3
-            },
-            "tooltip": [
-              {"field": "State", "type": "nominal", "title": "🏛️ State/Territory"},
-              {"field": "State_Code", "type": "nominal", "title": "🔤 Code"},
-              {"field": "Employment_Rate", "type": "quantitative", "title": "📊 Employment Rate", "format": ".1f", "formatType": "number"},
-              {"field": "Labour_Force", "type": "quantitative", "title": "👥 Labour Force", "format": ",.0f"},
-              {"field": "Population", "type": "quantitative", "title": "🏘️ Population", "format": ",.0f"},
-              {"field": "Unemployment_Rate", "type": "quantitative", "title": "📉 Unemployment Rate", "format": ".1f", "formatType": "number"}
-            ]
-          },
-          "selection": {
-            "circle_highlight": {"type": "single", "on": "mouseover", "empty": "all"}
-          }
-        },
-        {
-          "data": {
-            "values": [
-              {"State": "Queensland", "State_Code": "QLD", "Employment_Rate": 61.9, "Labour_Force": 2618000, "Population": 5156000, "Unemployment_Rate": 4.1},
-              {"State": "Australian Capital Territory", "State_Code": "ACT", "Employment_Rate": 67.2, "Labour_Force": 230000, "Population": 431000, "Unemployment_Rate": 2.8},
-              {"State": "South Australia", "State_Code": "SA", "Employment_Rate": 59.8, "Labour_Force": 864000, "Population": 1771000, "Unemployment_Rate": 4.3},
-              {"State": "Western Australia", "State_Code": "WA", "Employment_Rate": 63.4, "Labour_Force": 1391000, "Population": 2667000, "Unemployment_Rate": 3.0},
-              {"State": "Northern Territory", "State_Code": "NT", "Employment_Rate": 63.1, "Labour_Force": 134000, "Population": 249000, "Unemployment_Rate": 3.7},
-              {"State": "Tasmania", "State_Code": "TAS", "Employment_Rate": 58.7, "Labour_Force": 276000, "Population": 542000, "Unemployment_Rate": 3.9},
-              {"State": "New South Wales", "State_Code": "NSW", "Employment_Rate": 62.8, "Labour_Force": 4105000, "Population": 8166000, "Unemployment_Rate": 3.2},
-              {"State": "Victoria", "State_Code": "VIC", "Employment_Rate": 63.1, "Labour_Force": 3387000, "Population": 6681000, "Unemployment_Rate": 3.4}
-            ]
-          },
-          "transform": [
-            {
-              "calculate": "datum.State_Code == 'NSW' ? 151.2 : datum.State_Code == 'VIC' ? 144.9 : datum.State_Code == 'QLD' ? 153.0 : datum.State_Code == 'WA' ? 115.9 : datum.State_Code == 'SA' ? 138.6 : datum.State_Code == 'TAS' ? 147.3 : datum.State_Code == 'ACT' ? 149.1 : datum.State_Code == 'NT' ? 130.8 : 0",
-              "as": "longitude"
-            },
-            {
-              "calculate": "datum.State_Code == 'NSW' ? -33.9 : datum.State_Code == 'VIC' ? -37.8 : datum.State_Code == 'QLD' ? -27.5 : datum.State_Code == 'WA' ? -32.0 : datum.State_Code == 'SA' ? -34.9 : datum.State_Code == 'TAS' ? -42.9 : datum.State_Code == 'ACT' ? -35.3 : datum.State_Code == 'NT' ? -12.5 : 0",
-              "as": "latitude"
-            }
-          ],
-          "mark": {
-            "type": "text",
-            "align": "center",
-            "baseline": "middle",
-            "dy": -35,
-            "fontSize": 14,
-            "fontWeight": "bold",
-            "color": "#000000"
-          },
-          "encoding": {
-            "longitude": {"field": "longitude", "type": "quantitative"},
-            "latitude": {"field": "latitude", "type": "quantitative"},
-            "text": {
-              "field": "Employment_Rate",
-              "type": "quantitative",
-              "format": ".1f"
-            }
-          }
-        },
-        {
-          "data": {
-            "values": [
-              {"State": "Queensland", "State_Code": "QLD", "Employment_Rate": 61.9, "Labour_Force": 2618000, "Population": 5156000, "Unemployment_Rate": 4.1},
-              {"State": "Australian Capital Territory", "State_Code": "ACT", "Employment_Rate": 67.2, "Labour_Force": 230000, "Population": 431000, "Unemployment_Rate": 2.8},
-              {"State": "South Australia", "State_Code": "SA", "Employment_Rate": 59.8, "Labour_Force": 864000, "Population": 1771000, "Unemployment_Rate": 4.3},
-              {"State": "Western Australia", "State_Code": "WA", "Employment_Rate": 63.4, "Labour_Force": 1391000, "Population": 2667000, "Unemployment_Rate": 3.0},
-              {"State": "Northern Territory", "State_Code": "NT", "Employment_Rate": 63.1, "Labour_Force": 134000, "Population": 249000, "Unemployment_Rate": 3.7},
-              {"State": "Tasmania", "State_Code": "TAS", "Employment_Rate": 58.7, "Labour_Force": 276000, "Population": 542000, "Unemployment_Rate": 3.9},
-              {"State": "New South Wales", "State_Code": "NSW", "Employment_Rate": 62.8, "Labour_Force": 4105000, "Population": 8166000, "Unemployment_Rate": 3.2},
-              {"State": "Victoria", "State_Code": "VIC", "Employment_Rate": 63.1, "Labour_Force": 3387000, "Population": 6681000, "Unemployment_Rate": 3.4}
-            ]
-          },
-          "transform": [
-            {
-              "calculate": "datum.State_Code == 'NSW' ? 151.2 : datum.State_Code == 'VIC' ? 144.9 : datum.State_Code == 'QLD' ? 153.0 : datum.State_Code == 'WA' ? 115.9 : datum.State_Code == 'SA' ? 138.6 : datum.State_Code == 'TAS' ? 147.3 : datum.State_Code == 'ACT' ? 149.1 : datum.State_Code == 'NT' ? 130.8 : 0",
-              "as": "longitude"
+              "layer": [
+                {
+                  "data": {
+                    "url": "assets/australia-states.geojson",
+                    "format": {"type": "json", "property": "features"}
+                  },
+                  "transform": [
+                    {
+                      "lookup": "properties.STATE_NAME",
+                      "from": {
+                        "data": {
+                          "values": [
+                            {"State": "Queensland", "State_Code": "QLD", "Employment_Rate": 61.9, "Labour_Force": 2618000, "Unemployment_Rate": 4.1, "Participation_Rate": 64.5},
+                            {"State": "Australian Capital Territory", "State_Code": "ACT", "Employment_Rate": 67.2, "Labour_Force": 230000, "Unemployment_Rate": 2.8, "Participation_Rate": 69.1},
+                            {"State": "South Australia", "State_Code": "SA", "Employment_Rate": 59.8, "Labour_Force": 864000, "Unemployment_Rate": 4.3, "Participation_Rate": 62.5},
+                            {"State": "Western Australia", "State_Code": "WA", "Employment_Rate": 63.4, "Labour_Force": 1391000, "Unemployment_Rate": 3.0, "Participation_Rate": 65.3},
+                            {"State": "Northern Territory", "State_Code": "NT", "Employment_Rate": 63.1, "Labour_Force": 134000, "Unemployment_Rate": 3.7, "Participation_Rate": 65.5},
+                            {"State": "Tasmania", "State_Code": "TAS", "Employment_Rate": 58.7, "Labour_Force": 276000, "Unemployment_Rate": 3.9, "Participation_Rate": 61.1},
+                            {"State": "New South Wales", "State_Code": "NSW", "Employment_Rate": 62.8, "Labour_Force": 4105000, "Unemployment_Rate": 3.2, "Participation_Rate": 65.0},
+                            {"State": "Victoria", "State_Code": "VIC", "Employment_Rate": 63.1, "Labour_Force": 3387000, "Unemployment_Rate": 3.4, "Participation_Rate": 65.3}
+                          ]
+                        },
+                        "key": "State",
+                        "fields": ["Employment_Rate", "Labour_Force", "Unemployment_Rate", "State_Code", "Participation_Rate"]
+                      }
+                    }
+                  ],
+                  "mark": {
+                    "type": "geoshape",
+                    "stroke": "#ffffff",
+                    "strokeWidth": 1,
+                    "cursor": "pointer"
+                  },
+                  "encoding": {
+                    "color": {
+                      "field": "Employment_Rate",
+                      "type": "quantitative",
+                      "scale": { "scheme": "blues", "domain": [58, 68] },
+                      "legend": {"title": "Employment Rate (%)", "orient": "right"}
+                    },
+                    "tooltip": [
+                      {"field": "properties.STATE_NAME", "type": "nominal", "title": "State/Territory"},
+                      {"field": "Employment_Rate", "type": "quantitative", "title": "Employment Rate (%)", "format": ".1f"},
+                      {"field": "Labour_Force", "type": "quantitative", "title": "Labour Force", "format": ",.0f"}
+                    ]
+                  },
+                  "selection": {"highlight": {"type": "single", "on": "mouseover", "empty": "all"}}
+                }
+              ],
             },
             {
               "calculate": "datum.State_Code == 'NSW' ? -33.9 : datum.State_Code == 'VIC' ? -37.8 : datum.State_Code == 'QLD' ? -27.5 : datum.State_Code == 'WA' ? -32.0 : datum.State_Code == 'SA' ? -34.9 : datum.State_Code == 'TAS' ? -42.9 : datum.State_Code == 'ACT' ? -35.3 : datum.State_Code == 'NT' ? -12.5 : 0",
