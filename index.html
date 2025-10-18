@@ -946,6 +946,7 @@
       "title": "Australian Employment Rates by State/Territory",
       "width": "container",
       "height": 560,
+      "autosize": { "type": "fit", "contains": "padding" },
       "projection": { "type": "conicEqualArea", "parallels": [-18, -36], "rotate": [-132,0], "center": [0,-28], "scale": 700 },
       "data": { "url": "assets/australia-states.geojson", "format": { "type": "json", "property": "features" } },
       "transform": [
@@ -969,10 +970,10 @@
           }
         }
       ],
-      "mark": { "type": "geoshape" },
-        "params": [
-          { "name": "hoverState", "select": { "type": "point", "on": "mouseover", "encodings": ["shape"] } }
-        ],
+      "mark": { "type": "geoshape", "stroke": "#ffffff", "strokeWidth": 1 },
+      "params": [
+        { "name": "hoverState", "select": { "type": "point", "on": "mouseover", "clear": "mouseout" } }
+      ],
         "encoding": {
           "color": { "field": "Employment_Rate", "type": "quantitative", "scale": { "range": ["#e6f0fb","#cbe3fb","#9fc9f9","#60a5fa","#2b6cb0"] , "domain": [58,68] }, "legend": { "title": "Employment Rate (%)", "orient": "right", "offset": 20 } },
           "stroke": { "condition": { "param": "hoverState", "value": "#2563eb" }, "value": "#ffffff" },
