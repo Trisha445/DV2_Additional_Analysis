@@ -321,6 +321,30 @@
     </style>
 </head>
 <body>
+    <script>
+      // Defensive helpers: some older code expected showLoading/hideLoading globally.
+      // These safely no-op if the related DOM elements don't exist to avoid "reading 'style' of null" errors.
+      function showLoading(msg) {
+        try {
+          const el = document.getElementById('global-loading');
+          if (!el) return; // gracefully return when missing
+          el.style.display = 'block';
+          if (msg) el.textContent = msg;
+        } catch (e) {
+          console.warn('showLoading error (ignored):', e && e.message);
+        }
+      }
+
+      function hideLoading() {
+        try {
+          const el = document.getElementById('global-loading');
+          if (!el) return;
+          el.style.display = 'none';
+        } catch (e) {
+          console.warn('hideLoading error (ignored):', e && e.message);
+        }
+      }
+    </script>
     <div class="container">
         <div class="header">
             <h1>🇦🇺 Australian Labour Market Analysis</h1>
@@ -907,23 +931,36 @@
           const file = chart.file;
           fetch(file).then(function(resp) {
             if (!resp.ok) throw new Error('HTTP ' + resp.status + ' ' + resp.statusText);
+            const ct = resp.headers.get('content-type') || '';
+            // If the server returned HTML (e.g. an error page or redirected HTML), fail fast with useful message
+            if (ct.indexOf('text/html') !== -1) throw new Error('Unexpected HTML response (Content-Type: ' + ct + '). The file path may be wrong or GitHub Pages served an error page.');
             return resp.text();
           }).then(function(text) {
             const trimmed = text.trim();
             console.debug('Fetched', file, 'length:', trimmed.length, 'sample:', trimmed.slice(0,200));
             if (!trimmed) throw new Error('Empty file');
 
-            // attempt to extract JSON from HTML wrappers
+            // attempt to extract JSON from HTML wrappers (some assets were wrapped in <script> blocks)
             let jsonText = trimmed;
             const scriptMatch = trimmed.match(/<script[^>]*>([\s\S]*?)<\/script>/i);
             if (scriptMatch) jsonText = scriptMatch[1];
 
             let spec;
-            try { spec = JSON.parse(jsonText); }
-            catch (err) {
+            try {
+              spec = JSON.parse(jsonText);
+            } catch (err) {
+              // Provide a clearer error when the text begins with '<' which commonly indicates HTML
+              if (jsonText.trim().charAt(0) === '<') {
+                throw new Error('Invalid JSON: file appears to contain HTML/markup. This often happens if the asset path is wrong or GitHub Pages returned an HTML error page.');
+              }
+              // Try to pull JSON out of an application/json script block if present
               const jsonBlockMatch = trimmed.match(/<script[^>]+type="application\/json"[^>]*>([\s\S]*?)<\/script>/i);
-              if (jsonBlockMatch) spec = JSON.parse(jsonBlockMatch[1]);
-              else throw err;
+              if (jsonBlockMatch) {
+                try { spec = JSON.parse(jsonBlockMatch[1]); }
+                catch (innerErr) { throw innerErr; }
+              } else {
+                throw err; // rethrow original JSON parse error
+              }
             }
 
             console.log('Parsed spec for', file, ' — embedding now');
