@@ -364,8 +364,17 @@
       line-height: 1.28;
       max-width: 42%;
       border: 1px solid rgba(15,23,42,0.04);
+      z-index: 40;
     }
     .map-annotations div { margin-bottom: 6px; }
+    .map-annot-title { font-weight:700; font-size:14px; margin-bottom:6px; }
+    .map-annot-line { font-size:13px; color:#102a43; }
+    .map-annot-swatches { display:flex; gap:10px; margin-top:6px; align-items:center; }
+    .map-swatch { display:flex; gap:6px; align-items:center; font-size:12px; color:#102a43; }
+    .swatch-box { width:14px; height:14px; display:inline-block; border-radius:2px; }
+    .swatch-box.high { background: #440154; } /* viridis end */
+    .swatch-box.medium { background: #21918c; } /* viridis mid */
+    .swatch-box.low { background: #fde725; } /* viridis start */
     </style>
 </head>
 <body>
@@ -429,22 +438,13 @@
                           
                             <!-- overlay annotation box inside map hero (uses whitespace) -->
                             <div class="map-annotations" aria-hidden="false">
-                              <div style="font-weight:700; margin-bottom:6px;">Employment insights</div>
-                              <div>High: ACT, VIC (above 66%).</div>
-                              <div>Medium: NSW, QLD, WA (around 62–64%).</div>
-                              <div style="margin-top:6px; display:flex; gap:10px; align-items:center;">
-                                <div style="display:flex; gap:6px; align-items:center;">
-                                  <span style="width:12px; height:12px; background:#440154; display:inline-block; border-radius:2px;"> </span>
-                                  <small>High</small>
-                                </div>
-                                <div style="display:flex; gap:6px; align-items:center;">
-                                  <span style="width:12px; height:12px; background:#21918c; display:inline-block; border-radius:2px;"> </span>
-                                  <small>Medium</small>
-                                </div>
-                                <div style="display:flex; gap:6px; align-items:center;">
-                                  <span style="width:12px; height:12px; background:#fde725; display:inline-block; border-radius:2px;"> </span>
-                                  <small>Low</small>
-                                </div>
+                              <div class="map-annot-title">Employment insights</div>
+                              <div class="map-annot-line">High: ACT, VIC (above 66%).</div>
+                              <div class="map-annot-line">Medium: NSW, QLD, WA (62–64%).</div>
+                              <div class="map-annot-swatches" aria-hidden="true" role="presentation">
+                                <div class="map-swatch"><span class="swatch-box high"></span><span class="swatch-label">High</span></div>
+                                <div class="map-swatch"><span class="swatch-box medium"></span><span class="swatch-label">Medium</span></div>
+                                <div class="map-swatch"><span class="swatch-box low"></span><span class="swatch-label">Low</span></div>
                               </div>
                             </div>
                           </div>
