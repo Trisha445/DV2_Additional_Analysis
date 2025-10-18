@@ -340,6 +340,15 @@
       padding: 8px;
       border: 1px solid rgba(0,0,0,0.04);
     }
+    /* Smooth SVG transitions and subtle glow on hover for map geoshapes */
+    #map-vis svg path {
+      transition: stroke-width 180ms ease, stroke 180ms ease, filter 220ms ease, opacity 160ms ease;
+    }
+    #map-vis svg path:hover {
+      filter: drop-shadow(0 8px 18px rgba(59,130,246,0.18));
+      stroke-width: 2.6px !important;
+      stroke: #2563eb !important;
+    }
     </style>
 </head>
 <body>
@@ -482,6 +491,12 @@
               <div class="chart-title">Wage vs Employment Comparison</div>
               <div id="wage-employment-vis" class="chart-figure"></div>
               <div class="chart-annotation">Comparison of wage index vs employment rate by state.</div>
+            </div>
+
+            <div class="chart-card">
+              <div class="chart-title">Bubble: Employment vs Wages</div>
+              <div id="bubble-vis" class="chart-figure"></div>
+              <div class="chart-annotation">Bubble chart (size = vacancies); added container so inline spec can embed without warnings.</div>
             </div>
 
             <div class="chart-card">
@@ -954,11 +969,17 @@
           }
         }
       ],
-      "mark": { "type": "geoshape", "stroke": "#ffffff", "strokeWidth": 1 },
-      "encoding": {
-        "color": { "field": "Employment_Rate", "type": "quantitative", "scale": { "scheme": "blues", "domain": [58,68] }, "legend": { "title": "Employment Rate (%)", "orient": "right" } },
-        "tooltip": [ { "field": "properties.STATE_NAME", "type": "nominal", "title": "State/Territory" }, { "field": "Employment_Rate", "type": "quantitative", "title": "Employment Rate (%)", "format": ".1f" }, { "field": "Labour_Force", "type": "quantitative", "title": "Labour Force", "format": ",.0f" } ]
-      },
+      "mark": { "type": "geoshape" },
+        "params": [
+          { "name": "hoverState", "select": { "type": "point", "on": "mouseover", "encodings": ["shape"] } }
+        ],
+        "encoding": {
+          "color": { "field": "Employment_Rate", "type": "quantitative", "scale": { "range": ["#e6f0fb","#cbe3fb","#9fc9f9","#60a5fa","#2b6cb0"] , "domain": [58,68] }, "legend": { "title": "Employment Rate (%)", "orient": "right", "offset": 20 } },
+          "stroke": { "condition": { "param": "hoverState", "value": "#2563eb" }, "value": "#ffffff" },
+          "strokeWidth": { "condition": { "param": "hoverState", "value": 2.6 }, "value": 1 },
+          "opacity": { "condition": { "param": "hoverState", "value": 1 }, "value": 0.92 },
+          "tooltip": [ { "field": "properties.STATE_NAME", "type": "nominal", "title": "State/Territory" }, { "field": "Employment_Rate", "type": "quantitative", "title": "Employment Rate (%)", "format": ".1f" }, { "field": "Labour_Force", "type": "quantitative", "title": "Labour Force", "format": ",.0f" } ]
+        },
       "config": { "view": { "stroke": "transparent" }, "background": "#f8fafc" }
     }
     </script>
@@ -980,9 +1001,9 @@
         return;
       }
 
-      vegaEmbed('#map-vis', mapSpec, {
-            theme: 'googlecharts',
-            renderer: 'canvas',  // Faster rendering than SVG
+  vegaEmbed('#map-vis', mapSpec, {
+    theme: 'googlecharts',
+    renderer: 'svg',  // Use SVG for crisper hover/stroke transitions
             actions: {
                 export: false,  // Disable to reduce loading time
                 source: false,
