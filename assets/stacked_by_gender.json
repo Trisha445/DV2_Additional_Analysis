@@ -1,0 +1,19 @@
+
+{
+	"$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+	"description": "Stacked chart by gender — fallback to Employment_Rate grouped by State if gender columns missing",
+	"data": { "url": "data/merged_labour_data.csv" },
+	"width": 420,
+	"height": 320,
+	"transform": [],
+	"mark": "bar",
+	"encoding": {
+		"x": { "field": "State", "type": "nominal", "axis": { "labelAngle": -45 } },
+		"y": { "aggregate": "mean", "field": "Employment_Rate", "type": "quantitative", "title": "Avg Employment Rate (%)" },
+		"color": { "field": "State", "type": "nominal", "legend": null },
+		"tooltip": [
+			{ "field": "State", "type": "nominal" },
+			{ "aggregate": "mean", "field": "Employment_Rate", "type": "quantitative", "format": ".1f", "title": "Avg Employment (%)" }
+		]
+	}
+}

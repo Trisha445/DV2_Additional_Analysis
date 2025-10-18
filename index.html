@@ -256,6 +256,68 @@
             font-weight: 500 !important;
             color: #2c3e50 !important;
         }
+    /* Dashboard grid & card refinements for HD layout */
+    .charts-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr); /* show 2 per row for demo */
+      gap: 24px;
+      align-items: start;
+      justify-items: center;
+    }
+
+    .chart-card, .feature-card {
+      background: linear-gradient(180deg, #ffffff 0%, #fbfbfd 100%);
+      border-radius: 1rem;
+      padding: 1.25rem 1.5rem;
+      box-shadow: 0 12px 30px rgba(17,24,39,0.06);
+      transition: transform 220ms cubic-bezier(.2,.9,.3,1), box-shadow 220ms;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      min-height: 360px;
+      min-width: 340px;
+    }
+
+    .chart-card:hover, .feature-card:hover {
+      transform: translateY(-8px) scale(1.01);
+      box-shadow: 0 20px 40px rgba(17,24,39,0.12);
+    }
+
+    .chart-title {
+      font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: #1f2937;
+      margin-bottom: 0.6rem;
+    }
+
+    .chart-figure {
+      flex: 1 1 auto;
+      display:block;
+      min-height: 240px;
+    }
+
+    .chart-annotation {
+      margin-top: 0.8rem;
+      font-size: 0.95rem;
+      color: #475569;
+      background: rgba(15,23,42,0.02);
+      padding: 0.6rem 0.8rem;
+      border-radius: 0.5rem;
+    }
+
+    /* fade-in when charts load */
+    .chart-loaded { animation: chartFadeIn 420ms ease both; }
+    @keyframes chartFadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+
+    @media (max-width: 1100px) {
+      .charts-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    @media (max-width: 640px) {
+      .charts-grid { grid-template-columns: 1fr; }
+      .chart-card { padding: 1rem; }
+    }
     </style>
 </head>
 <body>
@@ -342,11 +404,58 @@
                     <div class="responsive-container">
                         <div id="scatter-vis" style="width: 100%; min-height: 500px;"></div>
                     </div>
-                </div>
+        </div>
+      </div>
+
+      <!-- Additional Charts Section -->
+      <div class="visualization-section">
+        <div class="section-header">
+          <div class="section-title">📚 Additional Charts</div>
+          <div class="week-badge">Supplementary</div>
+        </div>
+
+        <div class="chart-description">
+          <h3>Supplementary Visualizations</h3>
+          <p>The charts below load additional Vega / Vega-Lite specifications from the <code>assets/</code> folder. If a file is missing or the JSON is invalid you'll see a friendly error message in its card.</p>
+        </div>
+
+        <div class="chart-container">
+          <div class="charts-grid">
+            <div class="chart-card">
+              <div class="chart-title">Vacancies by Industry</div>
+              <div id="vacancies-vis" class="chart-figure"></div>
+              <div class="chart-annotation">Summary: Shows distribution of job vacancies across states (higher values indicate more openings).</div>
             </div>
 
-            <!-- Key Insights Section -->
-            <div class="insights-section">
+            <div class="chart-card">
+              <div class="chart-title">Wage vs Employment Comparison</div>
+              <div id="wage-employment-vis" class="chart-figure"></div>
+              <div class="chart-annotation">Comparison of wage growth and employment rates across states — highlighting economic performance balance.</div>
+            </div>
+
+            <div class="chart-card">
+              <div class="chart-title">Unemployment Heatmap</div>
+              <div id="heatmap-unemployment-vis" class="chart-figure"></div>
+              <div class="chart-annotation">Summary: Unemployment rate heatmap (state vs period) — darker = higher unemployment.</div>
+            </div>
+
+            <div class="chart-card">
+              <div class="chart-title">Stacked by Gender</div>
+              <div id="stacked-gender-vis" class="chart-figure"></div>
+              <div class="chart-annotation">Summary: Stacked representation of employment rates by group (fallback aggregated by state).</div>
+            </div>
+
+            <div class="chart-card">
+              <div class="chart-title">Employment & Vacancies (Bubble)</div>
+              <div id="bubble-vis" class="chart-figure"></div>
+              <div class="chart-annotation">Summary: Bubble chart mapping employment rate (x), wage index (y), and vacancies (size).</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Key Insights Section -->
+      <div class="insights-section">
                 <h2>🔍 Key Insights from Combined Analysis</h2>
                 <div class="insights-grid">
                     <div class="insight-item">
@@ -708,6 +817,139 @@
       }
     }
     </script>
+    
+    <!-- Inline specs to avoid fetch/path issues -->
+    <script type="application/json" id="vacancies-spec">
+    {
+      "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+      "description": "Job vacancies by state (inline)",
+      "data": { "url": "data/merged_labour_data.csv" },
+      "width": 420,
+      "height": 320,
+      "mark": { "type": "bar", "cornerRadius": 6 },
+      "encoding": {
+        "x": { "field": "State", "type": "nominal", "sort": "-y", "axis": { "labelAngle": -45 } },
+        "y": { "field": "Job_Vacancies", "type": "quantitative", "title": "Job Vacancies" },
+        "color": { "field": "Job_Vacancies", "type": "quantitative", "scale": { "scheme": "blues" }, "legend": null },
+        "tooltip": [ { "field": "State", "type": "nominal" }, { "field": "Job_Vacancies", "type": "quantitative", "format": "," } ]
+      }
+    }
+    </script>
+
+    <script type="application/json" id="bubble-spec">
+    {
+      "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+      "description": "Bubble chart: Employment Rate vs Wage Index, bubble size = Job Vacancies (inline)",
+      "data": { "url": "data/merged_labour_data.csv" },
+      "width": 420,
+      "height": 320,
+      "mark": { "type": "circle", "opacity": 0.85, "stroke": "#333" },
+      "encoding": {
+        "x": { "field": "Employment_Rate", "type": "quantitative", "title": "Employment Rate (%)" },
+        "y": { "field": "WageIndex", "type": "quantitative", "title": "Wage Index" },
+        "size": { "field": "Job_Vacancies", "type": "quantitative", "title": "Job Vacancies", "scale": { "type": "sqrt", "range": [100, 1200] } },
+        "color": { "field": "Economic_Performance_Score", "type": "quantitative", "scale": { "scheme": "reds" } },
+        "tooltip": [ { "field": "State", "type": "nominal" }, { "field": "Job_Vacancies", "type": "quantitative", "format": "," }, { "field": "WageIndex", "type": "quantitative", "format": ".1f" } ]
+      }
+    }
+    </script>
+    
+  <script>
+    // Dynamically load and embed selected Vega(-Lite) JSON specs after DOM is ready.
+    (function() {
+      document.addEventListener('DOMContentLoaded', function() {
+        console.log('DOM ready — starting chart embedding');
+
+        // Target charts to embed for verification
+        // For vacancies and bubble we prefer inline specs (specId) to avoid fetch/path issues
+        const chartsToLoad = [
+          {id: 'wage-employment-vis', file: './assets/wage_vs_employment.json'},
+          {id: 'vacancies-vis', specId: 'vacancies-spec'},
+          {id: 'heatmap-unemployment-vis', file: './assets/heatmap_unemployment.json'},
+          {id: 'stacked-gender-vis', file: './assets/stacked_by_gender.json'},
+          {id: 'bubble-vis', specId: 'bubble-spec'}
+        ];
+
+        chartsToLoad.forEach(function(chart) {
+          console.log('Attempting to load', chart.file || ('inline spec ' + chart.specId), 'into', chart.id);
+          embedChart(chart);
+        });
+
+        function embedChart(chart) {
+          const id = chart.id;
+          const container = document.getElementById(id);
+          if (!container) {
+            console.warn('Container not found for', id);
+            return;
+          }
+
+          // If inline spec provided, use it
+          if (chart.specId) {
+            try {
+              const scriptEl = document.getElementById(chart.specId);
+              if (!scriptEl) throw new Error('Inline spec element not found: ' + chart.specId);
+              const jsonText = scriptEl.textContent.trim();
+              if (!jsonText) throw new Error('Inline spec is empty: ' + chart.specId);
+              const spec = JSON.parse(jsonText);
+              console.log('Parsed inline spec', chart.specId, ' — embedding now');
+              vegaEmbed('#' + id, spec, { theme: 'googlecharts', renderer: 'canvas', actions: {export: false, source: false, compiled: false, editor: false}, padding: {left:18, right:18, top:18, bottom:18} })
+                .then(function() { document.getElementById(id).classList.add('chart-loaded'); console.log('✅ Embedded inline', chart.specId, 'into', id); })
+                .catch(function(err) { container.innerHTML = '<div style="color:#e74c3c; padding:18px;"><strong>⚠️ Error embedding inline spec:</strong> '+err.message+'</div>'; console.error('Embed error for inline', chart.specId, err); });
+              return;
+            } catch (err) {
+              container.innerHTML = '<div style="color:#e74c3c; padding:18px;"><strong>⚠️ Inline spec error:</strong> '+err.message+'</div>';
+              console.warn('Inline spec error for', chart.specId, err);
+              return;
+            }
+          }
+
+          // Otherwise fetch the JSON spec
+          const file = chart.file;
+          fetch(file).then(function(resp) {
+            if (!resp.ok) throw new Error('HTTP ' + resp.status + ' ' + resp.statusText);
+            return resp.text();
+          }).then(function(text) {
+            const trimmed = text.trim();
+            console.debug('Fetched', file, 'length:', trimmed.length, 'sample:', trimmed.slice(0,200));
+            if (!trimmed) throw new Error('Empty file');
+
+            // attempt to extract JSON from HTML wrappers
+            let jsonText = trimmed;
+            const scriptMatch = trimmed.match(/<script[^>]*>([\s\S]*?)<\/script>/i);
+            if (scriptMatch) jsonText = scriptMatch[1];
+
+            let spec;
+            try { spec = JSON.parse(jsonText); }
+            catch (err) {
+              const jsonBlockMatch = trimmed.match(/<script[^>]+type="application\/json"[^>]*>([\s\S]*?)<\/script>/i);
+              if (jsonBlockMatch) spec = JSON.parse(jsonBlockMatch[1]);
+              else throw err;
+            }
+
+            console.log('Parsed spec for', file, ' — embedding now');
+
+            vegaEmbed('#' + id, spec, {
+              theme: 'googlecharts', renderer: 'canvas',
+              actions: {export: false, source: false, compiled: false, editor: false},
+              padding: {left:18, right:18, top:18, bottom:18}
+            }).then(function(result) {
+              // Add loaded class for animation
+              const el = document.getElementById(id);
+              if (el) el.classList.add('chart-loaded');
+              console.log('✅ Embedded', file, 'into', id);
+            }).catch(function(embedErr) {
+              container.innerHTML = '<div style="color:#e74c3c; padding:18px;"><strong>⚠️ Error embedding:</strong> '+embedErr.message+'</div>';
+              console.error('Embed error for', file, embedErr);
+            });
+
+          }).catch(function(fetchErr) {
+            container.innerHTML = '<div style="color:#e74c3c; padding:18px;"><strong>⚠️ Could not load chart file:</strong> '+fetchErr.message+'</div>';
+            console.warn('Could not load', file, fetchErr);
+          });
+        }
+      });
+    })();
+  </script>
 
     <script type="application/json" id="week10-scatter-spec">
     {

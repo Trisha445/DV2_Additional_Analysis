@@ -1,0 +1,20 @@
+
+{
+	"$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+	"description": "Bubble chart: Employment Rate vs Wage Index, bubble size = Job Vacancies",
+	"data": { "url": "data/merged_labour_data.csv" },
+	"width": 420,
+	"height": 320,
+	"mark": { "type": "circle", "opacity": 0.85, "stroke": "#333" },
+	"encoding": {
+		"x": { "field": "Employment_Rate", "type": "quantitative", "title": "Employment Rate (%)" },
+		"y": { "field": "WageIndex", "type": "quantitative", "title": "Wage Index" },
+		"size": { "field": "Job_Vacancies", "type": "quantitative", "title": "Job Vacancies", "scale": { "type": "sqrt", "range": [100, 1200] } },
+		"color": { "field": "Economic_Performance_Score", "type": "quantitative", "scale": { "scheme": "reds" } },
+		"tooltip": [
+			{ "field": "State", "type": "nominal" },
+			{ "field": "Job_Vacancies", "type": "quantitative", "format": "," },
+			{ "field": "WageIndex", "type": "quantitative", "format": ".1f" }
+		]
+	}
+}

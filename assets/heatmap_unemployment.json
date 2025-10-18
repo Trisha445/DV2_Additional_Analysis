@@ -1,0 +1,25 @@
+
+{
+	"$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+	"description": "Heatmap of Unemployment Rate by State",
+	"data": { "url": "data/merged_labour_data.csv" },
+	"width": 420,
+	"height": 320,
+		"mark": "rect",
+		"encoding": {
+			"x": { "field": "Year_Quarter", "type": "ordinal", "title": "Period", "axis": { "labelAngle": -45, "labelFontSize": 11 } },
+			"y": { "field": "State", "type": "nominal", "title": "State", "axis": { "labelFontSize": 11 } },
+			"color": {
+				"field": "Unemployment_Rate",
+				"type": "quantitative",
+				"title": "Unemployment Rate (%)",
+				"scale": { "scheme": "oranges", "domain": [2.5, 6] },
+				"legend": { "orient": "right", "titleFontSize": 12, "labelFontSize": 11 }
+			},
+		"tooltip": [
+			{ "field": "State", "type": "nominal" },
+			{ "field": "Year_Quarter", "type": "ordinal" },
+			{ "field": "Unemployment_Rate", "type": "quantitative", "format": ".1f" }
+		]
+	}
+}

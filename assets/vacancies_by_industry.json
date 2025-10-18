@@ -1,0 +1,18 @@
+
+{
+	"$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+	"description": "Job vacancies by state (fallback for vacancies_by_industry)",
+	"data": { "url": "data/merged_labour_data.csv" },
+	"width": 420,
+	"height": 320,
+	"mark": { "type": "bar", "cornerRadius": 6 },
+	"encoding": {
+		"x": { "field": "State", "type": "nominal", "sort": "-y", "axis": { "labelAngle": -45 } },
+		"y": { "field": "Job_Vacancies", "type": "quantitative", "title": "Job Vacancies" },
+		"color": { "field": "Job_Vacancies", "type": "quantitative", "scale": { "scheme": "blues" }, "legend": null },
+		"tooltip": [
+			{ "field": "State", "type": "nominal" },
+			{ "field": "Job_Vacancies", "type": "quantitative", "format": "," }
+		]
+	}
+}

@@ -1,0 +1,28 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "description": "Wage vs Employment Comparison: grouped bars for Employment Rate and Wage Index by State",
+  "data": { "url": "data/merged_labour_data.csv" },
+  "width": 420,
+  "height": 320,
+  "transform": [],
+  "layer": [
+    {
+      "transform": [
+        { "fold": ["Employment_Rate", "WageIndex"], "as": ["Measure", "Value"] }
+      ],
+      "mark": "bar",
+      "encoding": {
+        "x": { "field": "State", "type": "nominal", "axis": { "labelAngle": -45 } },
+        "y": { "field": "Value", "type": "quantitative" },
+        "color": { "field": "Measure", "type": "nominal", "scale": { "range": ["#1f77b4", "#ff7f0e"] } },
+        "tooltip": [
+          { "field": "State", "type": "nominal" },
+          { "field": "Measure", "type": "nominal" },
+          { "field": "Value", "type": "quantitative" }
+        ]
+      }
+    }
+  ],
+  "resolve": { "scale": { "y": "independent" } },
+  "config": { "view": { "stroke": "transparent" } }
+}
