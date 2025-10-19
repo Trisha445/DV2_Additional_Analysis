@@ -353,9 +353,9 @@
       transition: stroke-width 180ms ease, stroke 180ms ease, filter 220ms ease, opacity 160ms ease;
     }
     #map-vis svg path:hover {
-      filter: drop-shadow(0 6px 14px rgba(60,120,140,0.12));
-      stroke-width: 2.2px !important;
-      stroke: #2b6d74 !important; /* softened teal-blue */
+      filter: drop-shadow(0 6px 12px rgba(60,120,140,0.08));
+      stroke-width: 1.6px !important;
+      stroke: rgba(33, 37, 41, 0.18) !important; /* much lighter subtle border */
     }
     /* Map overlay annotations placed inside whitespace of card */
     .map-annotations {
@@ -575,7 +575,7 @@
       "encoding": {
         "x": { "field": "State", "type": "nominal", "sort": "-y", "axis": { "labelAngle": -45 } },
         "y": { "field": "Job_Vacancies", "type": "quantitative", "title": "Job Vacancies" },
-        "color": { "field": "Job_Vacancies", "type": "quantitative", "scale": { "scheme": "blues" }, "legend": null },
+        "color": { "field": "Job_Vacancies", "type": "quantitative", "scale": { "range": ["#ffffe0", "#c7e9e4", "#7fb8d6"] }, "legend": null },
         "tooltip": [ { "field": "State", "type": "nominal" }, { "field": "Job_Vacancies", "type": "quantitative", "format": "," } ]
       }
     }
@@ -588,12 +588,12 @@
       "data": { "url": "data/merged_labour_data.csv" },
       "width": 420,
       "height": 320,
-      "mark": { "type": "circle", "opacity": 0.85, "stroke": "#333" },
+  "mark": { "type": "circle", "opacity": 0.85, "stroke": "#6b7280" },
       "encoding": {
         "x": { "field": "Employment_Rate", "type": "quantitative", "title": "Employment Rate (%)" },
         "y": { "field": "WageIndex", "type": "quantitative", "title": "Wage Index" },
         "size": { "field": "Job_Vacancies", "type": "quantitative", "title": "Job Vacancies", "scale": { "type": "sqrt", "range": [100, 1200] } },
-          "color": { "field": "Economic_Performance_Score", "type": "quantitative", "scale": { "range": ["#ffffcc", "#41b6c4", "#253494"], "domain": [30,65] }, "legend": {"title":"Economic Score"} },
+          "color": { "field": "Economic_Performance_Score", "type": "quantitative", "scale": { "range": ["#ffffe0", "#c7e9e4", "#7fb8d6"], "domain": [30,65] }, "legend": {"title":"Economic Score"} },
         "tooltip": [ { "field": "State", "type": "nominal" }, { "field": "Job_Vacancies", "type": "quantitative", "format": "," }, { "field": "WageIndex", "type": "quantitative", "format": ".1f" } ]
       }
     }
@@ -779,9 +779,9 @@
       ],
       "layer": [
         {
-          "mark": {
+            "mark": {
             "type": "circle",
-            "stroke": "#333333",
+            "stroke": "#6b7280",
             "strokeWidth": 1,
             "opacity": 0.8
           },
@@ -831,12 +831,12 @@
                 "offset": 40
               }
             },
-            "color": {
+              "color": {
               "field": "Economic_Performance_Score",
               "type": "quantitative",
               "title": "Economic Performance",
               "scale": {
-                "range": ["#ffe6e6", "#ffb3b3", "#ff8080", "#ff4d4d", "#cc0000"],
+                "range": ["#ffffe0", "#ffd27f", "#c7e9e4", "#7fb8d6", "#b8d6f2"],
                 "domain": [30, 65]
               },
               "legend": {
@@ -1027,14 +1027,14 @@
           "as": "Employment_Level"
         }
       ],
-      "mark": { "type": "geoshape", "stroke": "#ffffff", "strokeWidth": 1 },
+  "mark": { "type": "geoshape", "stroke": "rgba(255,255,255,0.9)", "strokeWidth": 0.9 },
       "params": [
         { "name": "hoverState", "select": { "type": "point", "on": "mouseover", "clear": "mouseout" } }
       ],
         "encoding": {
-          "color": { "field": "Employment_Rate", "type": "quantitative", "scale": { "range": ["#ffffcc", "#41b6c4", "#253494"], "domain": [58,68] }, "legend": { "title": "Employment Rate (%) — Low → High", "orient": "left", "tickMinStep": 1, "values": [58,62,66,68], "format": ".0f", "offset": 10 } },
-          "stroke": { "condition": { "param": "hoverState", "value": "#041c6b" }, "value": "#ffffff" },
-          "strokeWidth": { "condition": { "param": "hoverState", "value": 4 }, "value": 1 },
+          "color": { "field": "Employment_Rate", "type": "quantitative", "scale": { "range": ["#ffffcc", "#41b6c4", "#7fb8d6"], "domain": [58,68] }, "legend": { "title": "Employment Rate (%) — Low → High", "orient": "left", "tickMinStep": 1, "values": [58,62,66,68], "format": ".0f", "offset": 10 } },
+          "stroke": { "condition": { "param": "hoverState", "value": "rgba(33,37,41,0.22)" }, "value": "rgba(255,255,255,0.9)" },
+          "strokeWidth": { "condition": { "param": "hoverState", "value": 2 }, "value": 0.9 },
           "opacity": { "condition": { "param": "hoverState", "value": 1 }, "value": 0.95 },
           "tooltip": [ { "field": "properties.STATE_NAME", "type": "nominal", "title": "State" }, { "field": "Employment_Rate", "type": "quantitative", "title": "Employment (%)", "format": ".1f" }, { "field": "Labour_Force", "type": "quantitative", "title": "Labour", "format": ",.0f" }, { "field": "Employment_Level", "type": "nominal", "title": "Level" } ]
         },

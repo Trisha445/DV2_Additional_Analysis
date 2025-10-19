@@ -35,7 +35,7 @@
       "mark": {
         "type": "geoshape",
         "fill": null,
-        "stroke": "#cccccc",
+  "stroke": "#d1d5db",
         "strokeWidth": 0.5,
         "strokeDash": [1, 1],
         "opacity": 0.4
@@ -48,7 +48,7 @@
         "mark": {
         "type": "geoshape",
         "fill": "#fbfdff",
-        "stroke": "#cbd5e1",
+  "stroke": "#e6eef6",
         "strokeWidth": 1,
         "opacity": 0.9
       }
@@ -67,7 +67,7 @@
       ],
       "mark": {
         "type": "circle",
-        "stroke": "#ffffff",
+  "stroke": "rgba(255,255,255,0.9)",
         "strokeWidth": 2,
         "opacity": 0.95
       },
