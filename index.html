@@ -259,6 +259,9 @@
             margin-bottom: 4px !important;
         }
 
+    /* Smooth heatmap fade for filter transitions */
+    #heatmap-unemployment-vis { transition: opacity 300ms ease; }
+
         .vega-tooltip table {
             font-size: 13px !important;
         }
@@ -381,9 +384,9 @@
     .map-annot-swatches { display:flex; gap:10px; margin-top:6px; align-items:center; }
     .map-swatch { display:flex; gap:6px; align-items:center; font-size:12px; color:#102a43; }
     .swatch-box { width:14px; height:14px; display:inline-block; border-radius:2px; }
-  .swatch-box.high { background: #d94801; } /* high swatch (dark orange) */
-  .swatch-box.medium { background: #fd8d3c; } /* medium swatch (orange) */
-  .swatch-box.low { background: #fff5eb; } /* low swatch (pale orange) */
+  .swatch-box.high { background: #0b2545; } /* high swatch (deep blue) */
+  .swatch-box.medium { background: #41b6c4; } /* medium swatch (teal) */
+  .swatch-box.low { background: #d7eef4; } /* low swatch (light blue) */
     @media (max-width: 900px) {
       .map-annotations { max-width: 60%; font-size: 12px; bottom: 12px; left: 12px; }
     }
@@ -551,6 +554,12 @@
 
             <div class="chart-card full-width">
               <div class="chart-title">Unemployment Heatmap</div>
+              <div style="display:flex; gap:12px; align-items:center; margin-bottom:10px;">
+                <label style="font-weight:600; font-size:13px;">Period:</label>
+                <select id="heatmap-period-select" style="padding:6px; border-radius:6px; border:1px solid #e2e8f0;"></select>
+                <label style="font-weight:600; font-size:13px; margin-left:10px;">State:</label>
+                <select id="heatmap-state-select" style="padding:6px; border-radius:6px; border:1px solid #e2e8f0;"></select>
+              </div>
               <div id="heatmap-unemployment-vis" class="chart-figure"></div>
               <div class="chart-annotation">Summary: Unemployment rate by state and period.</div>
             </div>
@@ -588,7 +597,7 @@
         const chartsToLoad = [
           {id: 'wage-employment-vis', file: './assets/wage_vs_employment.json'},
           {id: 'vacancies-vis', specId: 'vacancies-spec'},
-          {id: 'heatmap-unemployment-vis', file: './assets/heatmap_unemployment.json'}
+          {id: 'heatmap-unemployment-vis', file: './assets/heatmap_unemployment_v2.json'}
         ];
 
         chartsToLoad.forEach(function(chart) {
@@ -614,7 +623,7 @@
               const spec = JSON.parse(jsonText);
               console.log('Parsed inline spec', chart.specId, ' — embedding now');
               vegaEmbed('#' + id, spec, { theme: 'googlecharts', renderer: 'canvas', actions: {export: false, source: false, compiled: false, editor: false}, padding: {left:18, right:18, top:18, bottom:18} })
-                .then(function() { document.getElementById(id).classList.add('chart-loaded'); console.log('✅ Embedded inline', chart.specId, 'into', id); })
+                .then(function(result) { document.getElementById(id).classList.add('chart-loaded'); try { document.getElementById(id).__vega_view = result.view; } catch(e){} console.log('✅ Embedded inline', chart.specId, 'into', id); })
                 .catch(function(err) { container.innerHTML = '<div style="color:#e74c3c; padding:18px;"><strong>⚠️ Error embedding inline spec:</strong> '+err.message+'</div>'; console.error('Embed error for inline', chart.specId, err); });
               return;
             } catch (err) {
@@ -669,7 +678,7 @@
             }).then(function(result) {
               // Add loaded class for animation
               const el = document.getElementById(id);
-              if (el) el.classList.add('chart-loaded');
+              if (el) { el.classList.add('chart-loaded'); try { el.__vega_view = result.view; } catch(e){} }
               console.log('✅ Embedded', file, 'into', id);
             }).catch(function(embedErr) {
               container.innerHTML = '<div style="color:#e74c3c; padding:18px;"><strong>⚠️ Error embedding:</strong> '+embedErr.message+'</div>';
@@ -1008,7 +1017,7 @@
         { "name": "hoverState", "select": { "type": "point", "on": "mouseover", "clear": "mouseout" } }
       ],
         "encoding": {
-          "color": { "field": "Employment_Rate", "type": "quantitative", "scale": { "range": ["#ffffcc", "#41b6c4", "#7fb8d6"], "domain": [58,68] }, "legend": { "title": "Employment Rate (%) — Low → High", "orient": "left", "tickMinStep": 1, "values": [58,62,66,68], "format": ".0f", "offset": 10 } },
+          "color": { "field": "Employment_Rate", "type": "quantitative", "scale": { "range": ["#d7eef4", "#7fb8d6", "#0b2545"], "domain": [58,68] }, "legend": { "title": "Employment Rate (%) — Low → High", "orient": "left", "tickMinStep": 1, "values": [58,62,66,68], "format": ".0f", "offset": 10 } },
           "stroke": { "condition": { "param": "hoverState", "value": "rgba(33,37,41,0.22)" }, "value": "rgba(255,255,255,0.9)" },
           "strokeWidth": { "condition": { "param": "hoverState", "value": 2 }, "value": 0.9 },
           "opacity": { "condition": { "param": "hoverState", "value": 1 }, "value": 0.95 },
@@ -1131,6 +1140,100 @@
           '<p>Error: ' + error.message + '</p>' +
           '</div>';
       });
+
+    })();
+
+    // Heatmap controls: populate selects and wire to Vega view
+    (function wireHeatmapControls() {
+      const periodSelect = document.getElementById('heatmap-period-select');
+      const stateSelect = document.getElementById('heatmap-state-select');
+      const heatmapId = 'heatmap-unemployment-vis';
+      let heatmapView = null;
+
+      // Populate selects by reading the CSV once and deriving unique values
+      const states = ['All','Australian Capital Territory','New South Wales','Northern Territory','Queensland','South Australia','Tasmania','Victoria','Western Australia'];
+      states.forEach(s => { const o = document.createElement('option'); o.value = s; o.text = s; stateSelect.appendChild(o); });
+
+      // Fetch CSV to derive period options (fast, client-side parse)
+      (function populatePeriods() {
+        fetch('data/merged_labour_data.csv').then(r => r.text()).then(text => {
+          try {
+            const rows = text.split(/\r?\n/).filter(Boolean);
+            const header = rows.shift().split(',').map(h=>h.trim());
+            const idx = header.indexOf('Year_Quarter');
+            if (idx < 0) {
+              // fallback
+              const o = document.createElement('option'); o.value = 'All'; o.text = 'All'; periodSelect.appendChild(o);
+              return;
+            }
+            const set = new Set();
+            rows.forEach(r => {
+              const cols = r.split(',');
+              if (cols.length > idx) set.add(cols[idx].trim());
+            });
+            const periods = ['All', ...Array.from(set).sort()];
+            periods.forEach(p => { const o = document.createElement('option'); o.value = p; o.text = p; periodSelect.appendChild(o); });
+          } catch (e) {
+            const o = document.createElement('option'); o.value = 'All'; o.text = 'All'; periodSelect.appendChild(o);
+          }
+        }).catch(err => {
+          const o = document.createElement('option'); o.value = 'All'; o.text = 'All'; periodSelect.appendChild(o);
+        });
+      })();
+
+      // Wait for the embedded spec to be available
+      function findHeatmapView() {
+        try {
+          if (!window.vegaEmbed) return;
+          // try to read vega view attached to the container
+          const container = document.getElementById(heatmapId);
+          if (!container) return null;
+          // vegaEmbed stores view on the container's _vega_view or inside the embed promise result; check both
+          if (container.__vega_view) return container.__vega_view;
+          // Scan global vegaEmbed results (not available reliably). As fallback, use setTimeout to retry
+          return null;
+        } catch (e) { return null; }
+      }
+
+      function applyFilters() {
+        if (!heatmapView) return;
+        const period = periodSelect.value;
+        const state = stateSelect.value;
+        const container = document.getElementById(heatmapId);
+        // fade-out, update signals, fade-in
+        container.style.pointerEvents = 'none';
+        container.style.opacity = '0.25';
+        // set signals then run
+        heatmapView.signal('periodFilter', period).signal('stateFilter', state).runAsync().then(() => {
+          // small delay for perceived smoothness
+          setTimeout(() => { container.style.opacity = '1'; container.style.pointerEvents = 'auto'; }, 220);
+        }).catch(err => {
+          // fallback: restore UI
+          container.style.opacity = '1'; container.style.pointerEvents = 'auto';
+          console.warn('Heatmap filter update failed:', err);
+        });
+      }
+
+      // Poll for the embedded view (vegaEmbed attaches view asynchronously)
+      const poll = setInterval(function() {
+        // vegaEmbed stores the view result on the DOM node in some builds as '__vega_view' or '__vegaembed'
+        const el = document.getElementById(heatmapId);
+        if (!el) return;
+        // check common places
+        if (el.__vega_view) { heatmapView = el.__vega_view; clearInterval(poll); }
+        else if (el.__vegaembed && el.__vegaembed.view) { heatmapView = el.__vegaembed.view; clearInterval(poll); }
+        else {
+          // try to inspect embed (vega-embed attaches a child with class 'vega-embed')
+          const embedDiv = el.querySelector('.vega-embed');
+          if (embedDiv && embedDiv.__vega_view) { heatmapView = embedDiv.__vega_view; clearInterval(poll); }
+        }
+
+        if (heatmapView) {
+          // attach listeners
+          periodSelect.addEventListener('change', applyFilters);
+          stateSelect.addEventListener('change', applyFilters);
+        }
+      }, 300);
 
     })();
 
