@@ -150,10 +150,12 @@
 
         .features-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      grid-template-columns: repeat(2, 1fr);
             gap: 20px;
             margin-top: 20px;
         }
+    /* allow specific cards to span full width (two columns) on desktop */
+    .chart-card.full-width { grid-column: 1 / -1; }
 
         .feature-card {
             background: white;
@@ -379,9 +381,9 @@
     .map-annot-swatches { display:flex; gap:10px; margin-top:6px; align-items:center; }
     .map-swatch { display:flex; gap:6px; align-items:center; font-size:12px; color:#102a43; }
     .swatch-box { width:14px; height:14px; display:inline-block; border-radius:2px; }
-  .swatch-box.high { background: #253494; } /* new palette end (deep blue) */
-  .swatch-box.medium { background: #41b6c4; } /* new palette mid (teal) */
-  .swatch-box.low { background: #ffffcc; } /* new palette start (light yellow) */
+  .swatch-box.high { background: #d94801; } /* high swatch (dark orange) */
+  .swatch-box.medium { background: #fd8d3c; } /* medium swatch (orange) */
+  .swatch-box.low { background: #fff5eb; } /* low swatch (pale orange) */
     @media (max-width: 900px) {
       .map-annotations { max-width: 60%; font-size: 12px; bottom: 12px; left: 12px; }
     }
@@ -545,23 +547,15 @@
               <div class="chart-annotation">Comparison of wage index vs employment rate by state.</div>
             </div>
 
-            <div class="chart-card">
-              <div class="chart-title">Bubble: Employment vs Wages</div>
-              <div id="bubble-vis" class="chart-figure"></div>
-              <div class="chart-annotation">Bubble chart (size = vacancies); added container so inline spec can embed without warnings.</div>
-            </div>
+            <!-- Bubble chart removed per request -->
 
-            <div class="chart-card">
+            <div class="chart-card full-width">
               <div class="chart-title">Unemployment Heatmap</div>
               <div id="heatmap-unemployment-vis" class="chart-figure"></div>
               <div class="chart-annotation">Summary: Unemployment rate by state and period.</div>
             </div>
 
-            <div class="chart-card">
-              <div class="chart-title">Stacked by Gender</div>
-              <div id="stacked-gender-vis" class="chart-figure"></div>
-              <div class="chart-annotation">If gender breakdown columns are present in <code>data/merged_labour_data.csv</code> they will be used; otherwise this card falls back to average employment rate by state.</div>
-            </div>
+            <!-- Stacked by Gender chart removed per request -->
 
     <!-- Inline specs to avoid fetch/path issues -->
     <script type="application/json" id="vacancies-spec">
@@ -581,23 +575,7 @@
     }
     </script>
 
-    <script type="application/json" id="bubble-spec">
-    {
-      "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-      "description": "Bubble chart: Employment Rate vs Wage Index, bubble size = Job Vacancies (inline)",
-      "data": { "url": "data/merged_labour_data.csv" },
-      "width": 420,
-      "height": 320,
-  "mark": { "type": "circle", "opacity": 0.85, "stroke": "#6b7280" },
-      "encoding": {
-        "x": { "field": "Employment_Rate", "type": "quantitative", "title": "Employment Rate (%)" },
-        "y": { "field": "WageIndex", "type": "quantitative", "title": "Wage Index" },
-        "size": { "field": "Job_Vacancies", "type": "quantitative", "title": "Job Vacancies", "scale": { "type": "sqrt", "range": [100, 1200] } },
-          "color": { "field": "Economic_Performance_Score", "type": "quantitative", "scale": { "range": ["#ffffe0", "#c7e9e4", "#7fb8d6"], "domain": [30,65] }, "legend": {"title":"Economic Score"} },
-        "tooltip": [ { "field": "State", "type": "nominal" }, { "field": "Job_Vacancies", "type": "quantitative", "format": "," }, { "field": "WageIndex", "type": "quantitative", "format": ".1f" } ]
-      }
-    }
-    </script>
+    <!-- Bubble inline spec removed per request -->
     
   <script>
     // Dynamically load and embed selected Vega(-Lite) JSON specs after DOM is ready.
@@ -610,9 +588,7 @@
         const chartsToLoad = [
           {id: 'wage-employment-vis', file: './assets/wage_vs_employment.json'},
           {id: 'vacancies-vis', specId: 'vacancies-spec'},
-          {id: 'heatmap-unemployment-vis', file: './assets/heatmap_unemployment.json'},
-          {id: 'stacked-gender-vis', file: './assets/stacked_by_gender.json'},
-          {id: 'bubble-vis', specId: 'bubble-spec'}
+          {id: 'heatmap-unemployment-vis', file: './assets/heatmap_unemployment.json'}
         ];
 
         chartsToLoad.forEach(function(chart) {
