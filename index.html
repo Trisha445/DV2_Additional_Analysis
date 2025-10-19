@@ -420,11 +420,10 @@
     <div class="container">
         <div class="header">
             <h1>🇦🇺 Australian Labour Market Analysis</h1>
-            <div class="subtitle">Comprehensive Spatial and Statistical Visualization</div>
-            <div class="description">
-                An integrated analysis combining geographic employment patterns (Week 9) with 
-                employment-wage relationships (Week 10) using Australian Bureau of Statistics data
-            </div>
+      <div class="subtitle">Comprehensive Spatial and Statistical Visualization</div>
+      <div class="description story-intro">
+        A concise visual exploration of Australia's labour market — where employment is thriving, where it's moderate, and where there's opportunity for growth. Navigate the maps and charts to discover regional patterns and key takeaways.
+      </div>
         </div>
 
     <!-- Global loading indicator used by some scripts (hidden by default) -->
@@ -473,13 +472,13 @@
                     <div class="section-title">
                         📈 Employment-Wage Relationship Analysis
                     </div>
-                    <div class="week-badge">Week 10 Analysis</div>
+                    <!-- week badge intentionally removed -->
                 </div>
 
                 <div class="chart-description">
                     <h3>Multi-Channel Scatter Plot</h3>
                     <p>This advanced visualization explores the relationship between employment rates and wage indices across Australian states. Using position, size, and color encoding, it reveals complex patterns in labour market dynamics and economic performance.</p>
-                    <p><strong>Data Sources:</strong> ABS Labour Force Survey (6291.0.55.001) + Wage Price Index (6345.0), Q3 2025</p>
+                    <!-- Data sources line removed for cleaner storytelling; file-level README contains provenance -->
                 </div>
 
                 <!-- Interactive Filter Controls -->
@@ -1033,7 +1032,7 @@
         { "name": "hoverState", "select": { "type": "point", "on": "mouseover", "clear": "mouseout" } }
       ],
         "encoding": {
-          "color": { "field": "Employment_Rate", "type": "quantitative", "scale": { "scheme": "viridis", "domain": [58,68] }, "legend": { "title": "Employment Rate (%) — Low → High", "orient": "right", "tickMinStep": 1, "values": [58,62,66,68], "format": ".0f", "offset": 20 } },
+          "color": { "field": "Employment_Rate", "type": "quantitative", "scale": { "scheme": "viridis", "domain": [58,68] }, "legend": { "title": "Employment Rate (%) — Low → High", "orient": "left", "tickMinStep": 1, "values": [58,62,66,68], "format": ".0f", "offset": 10 } },
           "stroke": { "condition": { "param": "hoverState", "value": "#041c6b" }, "value": "#ffffff" },
           "strokeWidth": { "condition": { "param": "hoverState", "value": 4 }, "value": 1 },
           "opacity": { "condition": { "param": "hoverState", "value": 1 }, "value": 0.95 },
@@ -1069,7 +1068,7 @@
                 compiled: false,
                 editor: false
             },
-      padding: {left: 8, right: 8, top: 8, bottom: 8}
+  padding: {left: 70, right: 8, top: 8, bottom: 8}
         }).then(function(result) {
             console.log('✅ Week 9 choropleth map loaded successfully');
             
