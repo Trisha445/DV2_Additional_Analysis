@@ -43,9 +43,9 @@
     {
       "mark": {
         "type": "circle",
-        "stroke": "#2c3e50",
-        "strokeWidth": 2,
-        "opacity": 0.8,
+        "stroke": "#6b7280",
+        "strokeWidth": 1,
+        "opacity": 0.85,
         "cursor": "pointer"
       },
       "encoding": {
@@ -104,7 +104,7 @@
           "title": "Economic Performance Score",
           "scale": {
             "type": "linear",
-            "range": ["#fee5d9", "#fcae91", "#fb6a4a", "#de2d26", "#a50f15"],
+            "range": ["#ffffe0", "#c7e9e4", "#7fb8d6"],
             "domain": [30, 65]
           },
           "legend": {

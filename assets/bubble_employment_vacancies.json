@@ -5,12 +5,12 @@
 	"data": { "url": "data/merged_labour_data.csv" },
 	"width": 420,
 	"height": 320,
-	"mark": { "type": "circle", "opacity": 0.85, "stroke": "#333" },
+	"mark": { "type": "circle", "opacity": 0.85, "stroke": "#6b7280" },
 	"encoding": {
 		"x": { "field": "Employment_Rate", "type": "quantitative", "title": "Employment Rate (%)" },
 		"y": { "field": "WageIndex", "type": "quantitative", "title": "Wage Index" },
 		"size": { "field": "Job_Vacancies", "type": "quantitative", "title": "Job Vacancies", "scale": { "type": "sqrt", "range": [100, 1200] } },
-		"color": { "field": "Economic_Performance_Score", "type": "quantitative", "scale": { "scheme": "reds" } },
+	"color": { "field": "Economic_Performance_Score", "type": "quantitative", "scale": { "range": ["#ffffe0", "#c7e9e4", "#7fb8d6"] } },
 		"tooltip": [
 			{ "field": "State", "type": "nominal" },
 			{ "field": "Job_Vacancies", "type": "quantitative", "format": "," },

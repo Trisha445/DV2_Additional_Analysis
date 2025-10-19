@@ -10,7 +10,7 @@
 	"encoding": {
 		"x": { "field": "State", "type": "nominal", "axis": { "labelAngle": -45 } },
 		"y": { "aggregate": "mean", "field": "Employment_Rate", "type": "quantitative", "title": "Avg Employment Rate (%)" },
-		"color": { "field": "State", "type": "nominal", "legend": null },
+	"color": { "field": "State", "type": "nominal", "legend": null, "scale": { "range": ["#7fb8d6","#ffd27f","#c7e9e4","#b8d6f2","#e7f4d6","#f7d6e0","#d7e4f7"] } },
 		"tooltip": [
 			{ "field": "State", "type": "nominal" },
 			{ "aggregate": "mean", "field": "Employment_Rate", "type": "quantitative", "format": ".1f", "title": "Avg Employment (%)" }

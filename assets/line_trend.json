@@ -5,11 +5,11 @@
 	"data": { "url": "data/merged_labour_data.csv" },
 	"width": 420,
 	"height": 320,
-	"mark": { "type": "line", "point": true },
-	"encoding": {
+	"mark": { "type": "line", "point": true, "strokeWidth": 2 },
+		"encoding": {
 		"x": { "field": "Year_Quarter", "type": "ordinal", "title": "Period" },
 		"y": { "field": "Employment_Rate", "type": "quantitative", "title": "Employment Rate (%)" },
-		"color": { "field": "State", "type": "nominal" },
+	"color": { "field": "State", "type": "nominal", "scale": { "range": ["#7fb8d6","#ffd27f","#c7e9e4","#b8d6f2","#e7f4d6"] } },
 		"tooltip": [
 			{ "field": "State", "type": "nominal" },
 			{ "field": "Employment_Rate", "type": "quantitative", "format": ".1f" }

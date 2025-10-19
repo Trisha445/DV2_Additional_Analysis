@@ -9,7 +9,7 @@
 	"encoding": {
 		"x": { "field": "State", "type": "nominal", "sort": "-y", "axis": { "labelAngle": -45 } },
 		"y": { "field": "Job_Vacancies", "type": "quantitative", "title": "Job Vacancies" },
-		"color": { "field": "Job_Vacancies", "type": "quantitative", "scale": { "scheme": "blues" }, "legend": null },
+	"color": { "field": "Job_Vacancies", "type": "quantitative", "scale": { "range": ["#ffffe0", "#c7e9e4", "#7fb8d6"] }, "legend": null },
 		"tooltip": [
 			{ "field": "State", "type": "nominal" },
 			{ "field": "Job_Vacancies", "type": "quantitative", "format": "," }

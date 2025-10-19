@@ -14,7 +14,7 @@
       "encoding": {
         "x": { "field": "State", "type": "nominal", "axis": { "labelAngle": -45 } },
         "y": { "field": "Value", "type": "quantitative" },
-        "color": { "field": "Measure", "type": "nominal", "scale": { "range": ["#1f77b4", "#ff7f0e"] } },
+  "color": { "field": "Measure", "type": "nominal", "scale": { "range": ["#7fb8d6", "#ffd27f"] } },
         "tooltip": [
           { "field": "State", "type": "nominal" },
           { "field": "Measure", "type": "nominal" },
