@@ -140,6 +140,13 @@
       margin-right: auto;
       line-height: 1.5;
     }
+    .lead-story {
+      font-size: 1rem;
+      color: #334155;
+      max-width: 58ch;
+      line-height: 1.5;
+      margin-top: 0.4rem;
+    }
 
         .features-grid {
             display: grid;
@@ -375,6 +382,14 @@
     .swatch-box.high { background: #440154; } /* viridis end */
     .swatch-box.medium { background: #21918c; } /* viridis mid */
     .swatch-box.low { background: #fde725; } /* viridis start */
+    @media (max-width: 900px) {
+      .map-annotations { max-width: 60%; font-size: 12px; bottom: 12px; left: 12px; }
+    }
+    @media (max-width: 560px) {
+      .map-annotations { position: relative; bottom: auto; left: auto; width: calc(100% - 24px); max-width: none; margin: 12px; }
+      .map-hero { padding: 6px; }
+      .map-annot-swatches { gap: 8px; }
+    }
     </style>
 </head>
 <body>
@@ -425,11 +440,10 @@
           <!-- removed week badge per request -->
                 </div>
 
-                <div class="chart-description">
-                    <h3>Interactive Choropleth Map</h3>
-                    <p>This spatial visualization displays employment rates across Australian states and territories using color-coded regions and proportional symbols. The choropleth encoding reveals geographic patterns in labour force participation, while circle sizes represent the absolute labour force size in each jurisdiction.</p>
-                    <p><strong>Data Source:</strong> Australian Bureau of Statistics Labour Force Survey (6291.0.55.001), Q3 2025</p>
-                </div>
+        <div class="chart-description">
+          <h3>Interactive Choropleth Map</h3>
+          <p class="lead-story">Across Australia's states and territories, employment rates reveal regional patterns — some places outperform while others lag. Use the map to explore where employment is strongest and where there's room to grow.</p>
+        </div>
 
                     <div class="chart-container">
                         <div class="responsive-container">
@@ -439,8 +453,9 @@
                             <!-- overlay annotation box inside map hero (uses whitespace) -->
                             <div class="map-annotations" aria-hidden="false">
                               <div class="map-annot-title">Employment insights</div>
-                              <div class="map-annot-line">High: ACT, VIC (above 66%).</div>
-                              <div class="map-annot-line">Medium: NSW, QLD, WA (62–64%).</div>
+                              <div class="map-annot-line">Highest: ACT — 67.2%</div>
+                              <div class="map-annot-line">Lowest: SA — 59.8%</div>
+                              <div class="map-annot-line">Median: ~63%</div>
                               <div class="map-annot-swatches" aria-hidden="true" role="presentation">
                                 <div class="map-swatch"><span class="swatch-box high"></span><span class="swatch-label">High</span></div>
                                 <div class="map-swatch"><span class="swatch-box medium"></span><span class="swatch-label">Medium</span></div>
@@ -1018,11 +1033,11 @@
         { "name": "hoverState", "select": { "type": "point", "on": "mouseover", "clear": "mouseout" } }
       ],
         "encoding": {
-          "color": { "field": "Employment_Rate", "type": "quantitative", "scale": { "scheme": "viridis", "domain": [58,68] }, "legend": { "title": "Employment Rate (%)", "orient": "right", "offset": 20 } },
-          "stroke": { "condition": { "param": "hoverState", "value": "#0b3d91" }, "value": "#ffffff" },
-          "strokeWidth": { "condition": { "param": "hoverState", "value": 3 }, "value": 1 },
+          "color": { "field": "Employment_Rate", "type": "quantitative", "scale": { "scheme": "viridis", "domain": [58,68] }, "legend": { "title": "Employment Rate (%) — Low → High", "orient": "right", "tickMinStep": 1, "values": [58,62,66,68], "format": ".0f", "offset": 20 } },
+          "stroke": { "condition": { "param": "hoverState", "value": "#041c6b" }, "value": "#ffffff" },
+          "strokeWidth": { "condition": { "param": "hoverState", "value": 4 }, "value": 1 },
           "opacity": { "condition": { "param": "hoverState", "value": 1 }, "value": 0.95 },
-          "tooltip": [ { "field": "properties.STATE_NAME", "type": "nominal", "title": "State" }, { "field": "Employment_Rate", "type": "quantitative", "title": "Rate", "format": ".1f" }, { "field": "Labour_Force", "type": "quantitative", "title": "Labour", "format": ",.0f" }, { "field": "Employment_Level", "type": "nominal", "title": "Level" } ]
+          "tooltip": [ { "field": "properties.STATE_NAME", "type": "nominal", "title": "State" }, { "field": "Employment_Rate", "type": "quantitative", "title": "Employment (%)", "format": ".1f" }, { "field": "Labour_Force", "type": "quantitative", "title": "Labour", "format": ",.0f" }, { "field": "Employment_Level", "type": "nominal", "title": "Level" } ]
         },
       "config": { "view": { "stroke": "transparent" }, "background": "#f8fafc" }
     }
