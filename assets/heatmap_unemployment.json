@@ -3,7 +3,7 @@
   "description": "Horizontal Heatmap of Unemployment Rate by State and Period",
   "data": { "url": "data/merged_labour_data.csv" },
   "width": "container",
-  "height": "container",
+  "height": 400,
   "mark": { 
     "type": "rect", 
     "stroke": "white", 
@@ -11,26 +11,26 @@
   },
   "encoding": {
     "x": { 
-      "field": "State", 
-      "type": "nominal", 
-      "title": "State", 
-      "axis": { 
-        "labelAngle": 0, 
-        "labelFontSize": 10, 
-        "labelAlign": "center",
-        "titleFontSize": 12
-      },
-      "sort": ["Australian Capital Territory", "New South Wales", "Northern Territory", "Queensland", "South Australia", "Tasmania", "Victoria", "Western Australia"]
-    },
-    "y": { 
       "field": "Year_Quarter", 
       "type": "ordinal", 
-      "title": "Period", 
+      "title": "Time Period", 
+      "axis": { 
+        "labelAngle": -45, 
+        "labelFontSize": 9, 
+        "labelAlign": "right",
+        "titleFontSize": 12
+      },
+      "sort": "ascending"
+    },
+    "y": { 
+      "field": "State", 
+      "type": "nominal", 
+      "title": "Australian States", 
       "axis": { 
         "labelFontSize": 10,
         "titleFontSize": 12
       },
-      "sort": "ascending"
+      "sort": ["Australian Capital Territory", "New South Wales", "Northern Territory", "Queensland", "South Australia", "Tasmania", "Victoria", "Western Australia"]
     },
     "color": {
       "field": "Unemployment_Rate",
