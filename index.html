@@ -538,19 +538,23 @@
 
         <div class="chart-container">
           <div class="charts-grid">
-            <div class="chart-card">
-              <div class="chart-title">Vacancies by Industry</div>
-              <div id="vacancies-vis" class="chart-figure"></div>
-            <div class="chart-annotation">Summary: Distribution of job vacancies by state.</div>
+            <div class="chart-card full-width">
+              <div class="chart-title">Enhanced Job Vacancies by Industry Analysis</div>
+              <div style="display:flex; gap:12px; align-items:center; margin-bottom:10px;">
+                <label style="font-weight:600; font-size:13px;">Time Period:</label>
+                <select id="vacancies-period-select" style="padding:6px; border-radius:6px; border:1px solid #e2e8f0;"></select>
+                <label style="font-weight:600; font-size:13px; margin-left:10px;">State:</label>
+                <select id="vacancies-state-select" style="padding:6px; border-radius:6px; border:1px solid #e2e8f0;"></select>
+              </div>
+              <div id="enhanced-vacancies-vis" class="chart-figure"></div>
+              <div class="chart-annotation">Interactive analysis showing job vacancy distribution across industries with top performers highlighted and filtering capabilities.</div>
             </div>
 
-            <div class="chart-card">
-              <div class="chart-title">Wage vs Employment Comparison</div>
-              <div id="wage-employment-vis" class="chart-figure"></div>
-              <div class="chart-annotation">Comparison of wage index vs employment rate by state.</div>
+            <div class="chart-card full-width">
+              <div class="chart-title">Wage Growth Trends Across Australian States</div>
+              <div id="wage-trends-vis" class="chart-figure"></div>
+              <div class="chart-annotation">Time series visualization showing wage index evolution by state, revealing economic growth patterns and regional disparities.</div>
             </div>
-
-            <!-- Bubble chart removed per request -->
 
             <div class="chart-card full-width">
               <div class="chart-title">Unemployment Heatmap</div>
@@ -567,19 +571,161 @@
             <!-- Stacked by Gender chart removed per request -->
 
     <!-- Inline specs to avoid fetch/path issues -->
-    <script type="application/json" id="vacancies-spec">
+    <script type="application/json" id="enhanced-vacancies-spec">
     {
       "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-      "description": "Job vacancies by state (inline)",
+      "description": "Enhanced Interactive Job Vacancies Analysis",
       "data": { "url": "data/merged_labour_data.csv" },
-      "width": 420,
-      "height": 320,
-      "mark": { "type": "bar", "cornerRadius": 6 },
+      "width": "container",
+      "height": 400,
+      "params": [
+        { "name": "selectedPeriod", "value": "All" },
+        { "name": "selectedState", "value": "All" }
+      ],
+      "transform": [
+        { "filter": "datum.Job_Vacancies > 0" },
+        { "filter": "selectedPeriod == 'All' || datum.Year_Quarter == selectedPeriod" },
+        { "filter": "selectedState == 'All' || datum.State == selectedState" },
+        { 
+          "aggregate": [{"op": "mean", "field": "Job_Vacancies", "as": "avg_vacancies"}],
+          "groupby": ["State"]
+        },
+        { 
+          "window": [{"op": "rank", "as": "rank"}],
+          "sort": [{"field": "avg_vacancies", "order": "descending"}]
+        },
+        {
+          "calculate": "datum.rank <= 3 ? 'Top 3' : 'Other'",
+          "as": "highlight"
+        }
+      ],
+      "mark": { 
+        "type": "bar", 
+        "cornerRadius": 8,
+        "stroke": "white",
+        "strokeWidth": 1
+      },
       "encoding": {
-        "x": { "field": "State", "type": "nominal", "sort": "-y", "axis": { "labelAngle": -45 } },
-        "y": { "field": "Job_Vacancies", "type": "quantitative", "title": "Job Vacancies" },
-        "color": { "field": "Job_Vacancies", "type": "quantitative", "scale": { "range": ["#ffffe0", "#c7e9e4", "#7fb8d6"] }, "legend": null },
-        "tooltip": [ { "field": "State", "type": "nominal" }, { "field": "Job_Vacancies", "type": "quantitative", "format": "," } ]
+        "x": { 
+          "field": "State", 
+          "type": "nominal", 
+          "sort": "-y", 
+          "axis": { 
+            "labelAngle": -45, 
+            "labelFontSize": 11,
+            "titleFontSize": 13,
+            "grid": false
+          }
+        },
+        "y": { 
+          "field": "avg_vacancies", 
+          "type": "quantitative", 
+          "title": "Average Job Vacancies",
+          "axis": {
+            "titleFontSize": 13,
+            "labelFontSize": 11,
+            "grid": true,
+            "gridOpacity": 0.3
+          }
+        },
+        "color": {
+          "field": "highlight",
+          "type": "nominal",
+          "scale": {
+            "domain": ["Top 3", "Other"],
+            "range": ["#d94801", "#fee6ce"]
+          },
+          "legend": {
+            "title": "Performance",
+            "titleFontSize": 12,
+            "labelFontSize": 11,
+            "orient": "top-right"
+          }
+        },
+        "opacity": {
+          "condition": {"test": "datum.highlight == 'Top 3'", "value": 1.0},
+          "value": 0.7
+        },
+        "tooltip": [
+          { "field": "State", "type": "nominal", "title": "State" },
+          { "field": "avg_vacancies", "type": "quantitative", "title": "Avg Vacancies", "format": ",.0f" },
+          { "field": "highlight", "type": "nominal", "title": "Category" }
+        ]
+      },
+      "config": {
+        "view": { "stroke": "transparent" },
+        "background": "white",
+        "axis": { "grid": true, "gridColor": "#f0f0f0" }
+      }
+    }
+    </script>
+
+    <script type="application/json" id="wage-trends-spec">
+    {
+      "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+      "description": "Wage Growth Trends by State Over Time",
+      "data": { "url": "data/merged_labour_data.csv" },
+      "width": "container",
+      "height": 400,
+      "transform": [
+        { "filter": "datum.Wage_Index != null" }
+      ],
+      "mark": {
+        "type": "line",
+        "point": {
+          "filled": true,
+          "size": 80
+        },
+        "strokeWidth": 3,
+        "interpolate": "monotone"
+      },
+      "encoding": {
+        "x": {
+          "field": "Year_Quarter",
+          "type": "ordinal",
+          "title": "Time Period",
+          "axis": {
+            "labelAngle": -45,
+            "labelFontSize": 11,
+            "titleFontSize": 13,
+            "grid": false
+          }
+        },
+        "y": {
+          "field": "Wage_Index",
+          "type": "quantitative",
+          "title": "Wage Index",
+          "scale": {"zero": false},
+          "axis": {
+            "titleFontSize": 13,
+            "labelFontSize": 11,
+            "grid": true,
+            "gridOpacity": 0.3
+          }
+        },
+        "color": {
+          "field": "State",
+          "type": "nominal",
+          "scale": {
+            "range": ["#2c3e50", "#3498db", "#e74c3c", "#f39c12", "#9b59b6", "#1abc9c", "#95a5a6", "#34495e"]
+          },
+          "legend": {
+            "title": "Australian States",
+            "titleFontSize": 12,
+            "labelFontSize": 10,
+            "orient": "right"
+          }
+        },
+        "tooltip": [
+          { "field": "State", "type": "nominal", "title": "State" },
+          { "field": "Year_Quarter", "type": "ordinal", "title": "Period" },
+          { "field": "Wage_Index", "type": "quantitative", "title": "Wage Index", "format": ".1f" }
+        ]
+      },
+      "config": {
+        "view": { "stroke": "transparent" },
+        "background": "white",
+        "legend": { "padding": 10 }
       }
     }
     </script>
@@ -592,11 +738,11 @@
       document.addEventListener('DOMContentLoaded', function() {
         console.log('DOM ready — starting chart embedding');
 
-        // Target charts to embed for verification
-        // For vacancies and bubble we prefer inline specs (specId) to avoid fetch/path issues
+        // Target charts to embed for enhanced dashboard
+        // Using inline specs for better performance and consistency
         const chartsToLoad = [
-          {id: 'wage-employment-vis', file: './assets/wage_vs_employment.json'},
-          {id: 'vacancies-vis', specId: 'vacancies-spec'},
+          {id: 'enhanced-vacancies-vis', specId: 'enhanced-vacancies-spec'},
+          {id: 'wage-trends-vis', specId: 'wage-trends-spec'},
           {id: 'heatmap-unemployment-vis', file: './assets/heatmap_unemployment.json'}
         ];
 
@@ -623,7 +769,17 @@
               const spec = JSON.parse(jsonText);
               console.log('Parsed inline spec', chart.specId, ' — embedding now');
               vegaEmbed('#' + id, spec, { theme: 'googlecharts', renderer: 'canvas', actions: {export: false, source: false, compiled: false, editor: false}, padding: {left:18, right:18, top:18, bottom:18} })
-                .then(function(result) { document.getElementById(id).classList.add('chart-loaded'); try { document.getElementById(id).__vega_view = result.view; } catch(e){} console.log('✅ Embedded inline', chart.specId, 'into', id); })
+                .then(function(result) { 
+                  document.getElementById(id).classList.add('chart-loaded'); 
+                  try { document.getElementById(id).__vega_view = result.view; } catch(e){} 
+                  
+                  // Store vacancies view globally for parameter updates
+                  if (id === 'enhanced-vacancies-vis') {
+                    window.vacanciesView = result.view;
+                  }
+                  
+                  console.log('✅ Embedded inline', chart.specId, 'into', id); 
+                })
                 .catch(function(err) { container.innerHTML = '<div style="color:#e74c3c; padding:18px;"><strong>⚠️ Error embedding inline spec:</strong> '+err.message+'</div>'; console.error('Embed error for inline', chart.specId, err); });
               return;
             } catch (err) {
@@ -1158,6 +1314,42 @@
 
       // Note: Controls are currently decorative - heatmap shows all data
       // To enable filtering, the heatmap spec would need parameters with proper Vega-Lite v5+ syntax
+    })();
+
+    // Enhanced Vacancies controls: populate selects and wire parameter updates
+    (function wireVacanciesControls() {
+      const periodSelect = document.getElementById('vacancies-period-select');
+      const stateSelect = document.getElementById('vacancies-state-select');
+
+      if (periodSelect && stateSelect) {
+        // Populate selects with data
+        const states = ['All','Australian Capital Territory','New South Wales','Northern Territory','Queensland','South Australia','Tasmania','Victoria','Western Australia'];
+        states.forEach(s => { const o = document.createElement('option'); o.value = s; o.text = s; stateSelect.appendChild(o); });
+
+        const periods = ['All','2020 Q1','2020 Q2','2020 Q3','2020 Q4','2021 Q1','2021 Q2','2021 Q3','2021 Q4','2022 Q1','2022 Q2','2022 Q3','2022 Q4','2023 Q1','2023 Q2','2023 Q3','2023 Q4','2024 Q1'];
+        periods.forEach(p => { const o = document.createElement('option'); o.value = p; o.text = p; periodSelect.appendChild(o); });
+
+        // Wire interactive parameter updates
+        periodSelect.addEventListener('change', function(e) {
+          const selectedPeriod = e.target.value;
+          console.log('Vacancies period changed to:', selectedPeriod);
+          
+          const vacanciesView = window.vacanciesView;
+          if (vacanciesView) {
+            vacanciesView.signal('selectedPeriod', selectedPeriod).run();
+          }
+        });
+        
+        stateSelect.addEventListener('change', function(e) {
+          const selectedState = e.target.value;
+          console.log('Vacancies state changed to:', selectedState);
+          
+          const vacanciesView = window.vacanciesView;
+          if (vacanciesView) {
+            vacanciesView.signal('selectedState', selectedState).run();
+          }
+        });
+      }
     })();
 
     </script>
