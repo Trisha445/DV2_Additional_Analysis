@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>State Performance Bubble Map - Interactive Analysis</title>
+    <script src="https://cdn.jsdelivr.net/npm/vega@5"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-lite@5"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            padding: 30px;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            border-bottom: 3px solid #e5e7eb;
+            padding-bottom: 20px;
+        }
+        
+        .header h1 {
+            color: #1f2937;
+            margin: 0 0 10px 0;
+            font-size: 2.2em;
+            font-weight: 600;
+        }
+        
+        .header p {
+            color: #6b7280;
+            font-size: 1.1em;
+            margin: 0;
+        }
+        
+        .controls {
+            margin-bottom: 25px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            padding: 15px;
+            background: #f8fafc;
+            border-radius: 8px;
+            border: 1px solid #e2e8f0;
+        }
+        
+        .controls label {
+            font-weight: 600;
+            color: #374151;
+            font-size: 14px;
+        }
+        
+        .controls select {
+            padding: 8px 12px;
+            border: 2px solid #d1d5db;
+            border-radius: 6px;
+            font-size: 14px;
+            background: white;
+            color: #374151;
+            cursor: pointer;
+            transition: border-color 0.2s;
+        }
+        
+        .controls select:hover {
+            border-color: #9ca3af;
+        }
+        
+        .controls select:focus {
+            outline: none;
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+        
+        #state-performance-bubblemap {
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            padding: 15px;
+            background: #fafbfc;
+        }
+        
+        .chart-info {
+            margin-top: 20px;
+            padding: 15px;
+            background: #f0f9ff;
+            border-left: 4px solid #0ea5e9;
+            border-radius: 0 6px 6px 0;
+        }
+        
+        .chart-info h3 {
+            margin: 0 0 10px 0;
+            color: #0c4a6e;
+            font-size: 1.1em;
+        }
+        
+        .chart-info p {
+            margin: 0;
+            color: #0369a1;
+            line-height: 1.6;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎯 State Performance Intersection Analysis</h1>
+            <p>Interactive bubble map showing employment performance vs wage growth across Australian states and territories</p>
+        </div>
+        
+        <div class="controls">
+            <label for="bubble-size-selector">🔍 Bubble Size Based On:</label>
+            <select id="bubble-size-selector">
+                <option value="Labour_Force">Labour Force Size</option>
+                <option value="Job_Vacancies">Job Vacancies</option>
+                <option value="Employment_Rate">Employment Rate (%)</option>
+            </select>
+        </div>
+        
+        <div id="state-performance-bubblemap"></div>
+        
+        <div class="chart-info">
+            <h3>📊 Chart Features</h3>
+            <p>
+                <strong>Interactive Elements:</strong> Hover over bubbles to see detailed state information • 
+                Use the dropdown to change bubble sizing metric • 
+                <strong>Visual Guide:</strong> Position shows employment-wage growth intersection • 
+                Bubble size represents selected economic metric • 
+                Color coding distinguishes all 8 Australian states and territories
+            </p>
+        </div>
+    </div>
+
+    <script>
+        // Load the chart specification from external JSON file
+        async function loadBubbleChart() {
+            try {
+                const response = await fetch('./state_performance_bubblemap.json');
+                const spec = await response.json();
+                
+                // Embed the chart
+                const result = await vegaEmbed('#state-performance-bubblemap', spec, {
+                    actions: {
+                        export: true,
+                        source: false,
+                        compiled: false,
+                        editor: false
+                    },
+                    theme: 'excel'
+                });
+                
+                // Setup interactive controls for bubble size
+                const sizeSelector = document.getElementById('bubble-size-selector');
+                sizeSelector.addEventListener('change', function() {
+                    const selectedSize = this.value;
+                    result.view.signal('bubbleSize', selectedSize).run();
+                });
+                
+                console.log('✅ State Performance Bubble Map loaded successfully!');
+                
+            } catch (error) {
+                console.error('❌ Error loading bubble chart:', error);
+                document.getElementById('state-performance-bubblemap').innerHTML = 
+                    `<div style="text-align: center; padding: 50px; color: #dc2626; background: #fef2f2; border-radius: 8px;">
+                        <h3>⚠️ Chart Loading Error</h3>
+                        <p>Unable to load the bubble chart. Please check the console for details.</p>
+                        <p><strong>Error:</strong> ${error.message}</p>
+                    </div>`;
+            }
+        }
+        
+        // Initialize chart when page loads
+        document.addEventListener('DOMContentLoaded', loadBubbleChart);
+    </script>
+</body>
+</html>

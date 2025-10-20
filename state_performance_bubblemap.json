@@ -1,0 +1,157 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "description": "State Performance Bubble Map - Employment vs Wage Growth Analysis",
+  "data": { "url": "data/merged_labour_data.csv" },
+  "width": 650,
+  "height": 450,
+  "padding": {
+    "left": 10,
+    "right": 180,
+    "top": 20,
+    "bottom": 60
+  },
+  "params": [
+    { "name": "bubbleSize", "value": "Labour_Force" },
+    {
+      "name": "hover",
+      "select": {"type": "point", "on": "mouseover"}
+    }
+  ],
+  "transform": [
+    {
+      "calculate": "bubbleSize == 'Labour_Force' ? datum.Labour_Force : bubbleSize == 'Job_Vacancies' ? datum.Job_Vacancies : datum.Employment_Rate",
+      "as": "size_value"
+    },
+    {
+      "calculate": "datum.Employment_Category == 'Average' && datum.Wage_Growth_Category == 'Moderate Growth' ? (datum.State == 'New South Wales' ? 0 : datum.State == 'Victoria' ? 0.3 : datum.State == 'Western Australia' ? -0.3 : 0.15) : 0",
+      "as": "x_jitter"
+    },
+    {
+      "calculate": "datum.Employment_Category == 'Average' && datum.Wage_Growth_Category == 'Moderate Growth' ? (datum.State == 'New South Wales' ? 0 : datum.State == 'Victoria' ? 0.15 : datum.State == 'Western Australia' ? -0.15 : -0.3) : datum.Employment_Category == 'Below Average' && datum.Wage_Growth_Category == 'High Growth' ? (datum.State == 'South Australia' ? 0.1 : -0.1) : 0",
+      "as": "y_jitter"
+    }
+  ],
+  "mark": {
+    "type": "circle",
+    "stroke": "white",
+    "strokeWidth": 3,
+    "cursor": "pointer",
+    "opacity": 0.85
+  },
+  "encoding": {
+    "x": {
+      "field": "Employment_Category",
+      "type": "nominal",
+      "scale": {"padding": 0.5},
+      "axis": {
+        "titleFontSize": 14,
+        "labelFontSize": 12,
+        "title": "Employment Performance Category",
+        "labelAngle": 0,
+        "labelPadding": 12,
+        "titlePadding": 18,
+        "grid": true,
+        "gridOpacity": 0.2
+      }
+    },
+    "xOffset": {
+      "field": "x_jitter",
+      "type": "quantitative",
+      "scale": {"range": [-30, 30]}
+    },
+    "y": {
+      "field": "Wage_Growth_Category", 
+      "type": "nominal",
+      "scale": {"padding": 0.5},
+      "axis": {
+        "titleFontSize": 14,
+        "labelFontSize": 12,
+        "title": "Wage Growth Category",
+        "labelPadding": 12,
+        "titlePadding": 18,
+        "grid": true,
+        "gridOpacity": 0.2
+      }
+    },
+    "yOffset": {
+      "field": "y_jitter",
+      "type": "quantitative",
+      "scale": {"range": [-20, 20]}
+    },
+    "size": {
+      "field": "size_value",
+      "type": "quantitative",
+      "scale": {"range": [200, 2500]},
+      "legend": {
+        "title": {"expr": "bubbleSize == 'Labour_Force' ? 'Labour Force Size' : bubbleSize == 'Job_Vacancies' ? 'Job Vacancies' : 'Employment Rate (%)'"},
+        "titleFontSize": 12,
+        "labelFontSize": 10,
+        "orient": "right",
+        "offset": 15,
+        "titleLimit": 150,
+        "labelLimit": 100
+      }
+    },
+    "color": {
+      "field": "State",
+      "type": "nominal",
+      "scale": {
+        "domain": ["New South Wales", "Victoria", "Queensland", "Western Australia", "South Australia", "Tasmania", "Australian Capital Territory", "Northern Territory"],
+        "range": ["#dc2626", "#ea580c", "#d97706", "#ca8a04", "#65a30d", "#16a34a", "#059669", "#0d9488"]
+      },
+      "legend": {
+        "title": "Australian States & Territories",
+        "titleFontSize": 12,
+        "labelFontSize": 10,
+        "orient": "right",
+        "columns": 1,
+        "offset": 15,
+        "titleLimit": 150,
+        "labelLimit": 120,
+        "symbolType": "circle",
+        "symbolSize": 100
+      }
+    },
+    "opacity": {
+      "condition": {"param": "hover", "value": 1.0},
+      "value": 0.8
+    },
+    "stroke": {
+      "condition": {"param": "hover", "value": "#1f2937"},
+      "value": "white"
+    },
+    "strokeWidth": {
+      "condition": {"param": "hover", "value": 4},
+      "value": 3
+    },
+    "tooltip": [
+      { "field": "State", "type": "nominal", "title": "State" },
+      { "field": "Employment_Category", "type": "nominal", "title": "Employment Category" },
+      { "field": "Wage_Growth_Category", "type": "nominal", "title": "Wage Growth Category" },
+      { "field": "Labour_Force", "type": "quantitative", "title": "Labour Force", "format": ",.0f" },
+      { "field": "Job_Vacancies", "type": "quantitative", "title": "Job Vacancies", "format": ",.0f" },
+      { "field": "Economic_Performance_Score", "type": "quantitative", "title": "Performance Score", "format": ".1f" },
+      { "field": "Employment_Rate", "type": "quantitative", "title": "Employment Rate (%)", "format": ".1f" },
+      { "field": "WageIndex", "type": "quantitative", "title": "Wage Index", "format": ".1f" }
+    ]
+  },
+  "resolve": {
+    "scale": {
+      "x": "independent",
+      "y": "independent"
+    }
+  },
+  "config": {
+    "view": { "stroke": "transparent" },
+    "background": "white",
+    "axis": {
+      "labelColor": "#374151",
+      "titleColor": "#1f2937",
+      "gridColor": "#f3f4f6"
+    },
+    "legend": {
+      "labelLimit": 0,
+      "titleLimit": 0
+    }
+  }
+}

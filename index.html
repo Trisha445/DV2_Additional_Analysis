@@ -478,9 +478,9 @@
     .map-annot-swatches { display:flex; gap:10px; margin-top:6px; align-items:center; }
     .map-swatch { display:flex; gap:6px; align-items:center; font-size:12px; color:#102a43; }
     .swatch-box { width:14px; height:14px; display:inline-block; border-radius:2px; }
-  .swatch-box.high { background: #0b2545; } /* high swatch (deep blue) */
-  .swatch-box.medium { background: #41b6c4; } /* medium swatch (teal) */
-  .swatch-box.low { background: #d7eef4; } /* low swatch (light blue) */
+  .swatch-box.high { background: #1d4ed8; } /* high swatch (blue) */
+  .swatch-box.medium { background: #60a5fa; } /* medium swatch (light blue) */
+  .swatch-box.low { background: #fde68a; } /* low swatch (light yellow) */
     @media (max-width: 900px) {
       .map-annotations { max-width: 60%; font-size: 12px; bottom: 12px; left: 12px; }
     }
@@ -521,7 +521,9 @@
             <h1>🇦🇺 Australian Labour Market Analysis</h1>
       <div class="subtitle">Comprehensive Spatial and Statistical Visualization</div>
       <div class="description story-intro">
-        A concise visual exploration of Australia's labour market — where employment is thriving, where it's moderate, and where there's opportunity for growth. Navigate the maps and charts to discover regional patterns and key takeaways.
+        Visual exploration of Australia's labour market dynamics.<br>
+        Employment patterns across states and territories revealed.<br>
+        Navigate charts to discover regional economic insights.
       </div>
         </div>
 
@@ -529,189 +531,230 @@
     <div id="global-loading" style="display:none; position: fixed; right: 18px; top: 18px; background: rgba(0,0,0,0.8); color: #fff; padding: 10px 14px; border-radius: 8px; font-size: 0.95rem; z-index: 9999;">Loading…</div>
 
         <div class="content">
-            <!-- Week 9: Choropleth Map Section -->
-            <div class="visualization-section">
-                <div class="section-header">
-                    <div class="section-title">
-                        🗺️ Geographic Employment Analysis
-                    </div>
-          <!-- removed week badge per request -->
-                </div>
-
-        <div class="chart-description">
-          <h3>Interactive Choropleth Map</h3>
-          <p class="lead-story">Across Australia's states and territories, employment rates reveal regional patterns — some places outperform while others lag. Use the map to explore where employment is strongest and where there's room to grow.</p>
-        </div>
-
-                    <div class="chart-container">
-                        <div class="responsive-container">
-                          <div class="map-hero">
-                            <div id="map-vis" style="width:100%; height:100%; min-height:430px;"></div>
-                          
-                            <!-- overlay annotation box inside map hero (uses whitespace) -->
-                            <div class="map-annotations" aria-hidden="false">
-                              <div class="map-annot-title">Employment insights</div>
-                              <div class="map-annot-line">Highest: ACT — 67.2%</div>
-                              <div class="map-annot-line">Lowest: SA — 59.8%</div>
-                              <div class="map-annot-line">Median: ~63%</div>
-                              <div class="map-annot-swatches" aria-hidden="true" role="presentation">
-                                <div class="map-swatch"><span class="swatch-box high"></span><span class="swatch-label">High</span></div>
-                                <div class="map-swatch"><span class="swatch-box medium"></span><span class="swatch-label">Medium</span></div>
-                                <div class="map-swatch"><span class="swatch-box low"></span><span class="swatch-label">Low</span></div>
-                              </div>
-                            </div>
-                          </div>
-                          </div>
-                    </div>
-            </div>
-
-            <!-- Week 10: Scatter Plot Section -->
-            <div class="visualization-section">
-                <div class="section-header">
-                    <div class="section-title">
-                        📈 Employment-Wage Relationship Analysis
-                    </div>
-                    <!-- week badge intentionally removed -->
-                </div>
-
-                <div class="chart-description">
-                    <h3>Multi-Channel Scatter Plot</h3>
-                    <p>This advanced visualization explores the relationship between employment rates and wage indices across Australian states. Using position, size, and color encoding, it reveals complex patterns in labour market dynamics and economic performance.</p>
-                    <!-- Data sources line removed for cleaner storytelling; file-level README contains provenance -->
-                </div>
-
-                <!-- Interactive Filter Controls -->
-                <div style="background: #f8fafc; padding: 20px; border-radius: 8px; margin: 20px 0; border: 1px solid #e2e8f0;">
-                    <h4 style="margin: 0 0 15px 0; color: #2d3748;">🔧 Interactive Filters (Week 10 Requirement)</h4>
-                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px;">
-                        <div>
-                            <label for="employment-filter" style="display: block; margin-bottom: 5px; font-weight: 600; color: #4a5568;">Employment Category:</label>
-                            <select id="employment-filter" style="width: 100%; padding: 8px; border: 1px solid #cbd5e0; border-radius: 4px;">
-                                <option value="All">All Categories</option>
-                                <option value="Above Average">Above Average</option>
-                                <option value="Average">Average</option>
-                                <option value="Below Average">Below Average</option>
-                            </select>
-                        </div>
-                        <div>
-                            <label for="wage-growth-filter" style="display: block; margin-bottom: 5px; font-weight: 600; color: #4a5568;">Wage Growth Category:</label>
-                            <select id="wage-growth-filter" style="width: 100%; padding: 8px; border: 1px solid #cbd5e0; border-radius: 4px;">
-                                <option value="All">All Categories</option>
-                                <option value="High Growth">High Growth</option>
-                                <option value="Moderate Growth">Moderate Growth</option>
-                            </select>
-                        </div>
-                        <div>
-                            <label for="economic-score-slider" style="display: block; margin-bottom: 5px; font-weight: 600; color: #4a5568;">Min Economic Score: <span id="score-value">30</span></label>
-                            <input type="range" id="economic-score-slider" min="30" max="65" step="5" value="30" style="width: 100%;">
-                        </div>
-                    </div>
-                    <div style="margin-top: 10px; font-size: 12px; color: #718096;">
-                        💡 Use the controls above to filter the scatter plot data in real-time
-                    </div>
-                </div>
-
+            <!-- Story 1: Geographic Overview (Map First) -->
+            <div class="visualization-section" style="margin-bottom: 25px;">
                 <div class="chart-container">
-                    <div class="responsive-container">
-                        <div id="scatter-vis" style="width: 100%; min-height: 500px;"></div>
+                  <div class="chart-card full-width">
+                    <div class="chart-title">🗺️ Geographic Employment Distribution</div>
+                    <div class="chart-description-text">
+                      <p>Employment rates across Australian states show regional patterns.<br>
+                      Geographic concentrations reveal workforce distribution nationwide.</p>
                     </div>
-        </div>
-      </div>
-
-      <!-- Additional Charts Section -->
-      <div class="visualization-section">
-        <div class="section-header">
-          <div class="section-title">� Advanced Analytics Dashboard</div>
-          <div class="week-badge">Enhanced</div>
-        </div>
-
-        <div class="chart-description">
-          <h3>Interactive Data Insights</h3>
-          <p>Discover patterns and relationships in Australian labour market data through sophisticated visualizations. Each chart reveals unique perspectives on employment trends, economic performance, and workforce dynamics.</p>
-        </div>
-
-        <div class="chart-container">
-          <div class="charts-grid">
-            
-            <!-- Chart 1: Job Vacancies Analysis -->
-            <div class="chart-card full-width">
-              <div class="chart-title">Job Vacancies by State Analysis</div>
-              <div class="chart-description-text">
-                <p>This visualization shows the distribution of job vacancies across Australian states, highlighting regional employment opportunities and market demand. States are ranked by their average job vacancy numbers to identify key employment hubs.</p>
-              </div>
-              <div style="display:flex; gap:12px; align-items:center; margin-bottom:10px;">
-                <label style="font-weight:600; font-size:13px;">Wage Growth:</label>
-                <select id="vacancies-wage-select" style="padding:6px; border-radius:6px; border:1px solid #e2e8f0;">
-                  <option value="All">All Growth Rates</option>
-                  <option value="High Growth">High Growth</option>
-                  <option value="Moderate Growth">Moderate Growth</option>
-                </select>
-              </div>
-              <div id="vacancies-vis" class="chart-figure"></div>
-              <div class="chart-caption" style="text-align: center; font-size: 14px; color: #64748b; font-weight: 500; margin-top: 15px; padding: 10px; background: #f8fafc; border-radius: 8px; border-left: 4px solid #1d4ed8;">
-                📊 National job vacancy distribution by state - Top 3 states lead with highest opportunity levels.
-              </div>
+                    <div class="responsive-container">
+                      <div class="map-hero">
+                        <div id="map-vis" style="width:100%; height:100%; min-height:430px;"></div>
+                        <div class="map-annotations" aria-hidden="false">
+                          <div class="map-annot-title">Employment insights</div>
+                          <div class="map-annot-line">Highest: ACT — 67.2%</div>
+                          <div class="map-annot-line">Lowest: SA — 59.8%</div>
+                          <div class="map-annot-line">Median: ~63%</div>
+                          <div class="map-annot-swatches" aria-hidden="true" role="presentation">
+                            <div class="map-swatch"><span class="swatch-box high"></span><span class="swatch-label">High</span></div>
+                            <div class="map-swatch"><span class="swatch-box medium"></span><span class="swatch-label">Medium</span></div>
+                            <div class="map-swatch"><span class="swatch-box low"></span><span class="swatch-label">Low</span></div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="chart-caption" style="text-align: center; font-size: 14px; color: #64748b; font-weight: 500; margin-top: 15px; padding: 10px; background: #f8fafc; border-radius: 8px; border-left: 4px solid #059669;">
+                      🗺️ Employment rates vary significantly across Australia states.
+                    </div>
+                    
+                    <!-- Key Insights to Fill Whitespace -->
+                    <div style="margin-top: 15px; padding: 12px; background: linear-gradient(135deg, #ecfdf5 0%, #f0fdf4 100%); border-radius: 8px; border-left: 3px solid #10b981;">
+                      <p style="margin: 0; font-size: 13px; color: #065f46; font-weight: 500;">💡 <strong>Geographic Insight:</strong> ACT leads at 67.2% employment rate.<br>Eastern states show concentrated economic activity patterns.</p>
+                    </div>
+                  </div>
+                </div>
             </div>
 
-            <!-- Chart 2: Economic Trends Analysis -->
-            <div class="chart-card full-width">
-              <div class="chart-title">Economic Performance Trends Across Key Metrics</div>
-              <div class="chart-description-text">
-                <p>Line chart showing how each Australian state performs across multiple economic indicators. Each line represents a state, revealing performance patterns and identifying consistent high/low performers across different labour market dimensions.</p>
-              </div>
-              <div style="display:flex; gap:15px; align-items:center; margin-bottom:15px; flex-wrap: wrap;">
-                <label style="font-weight:600; font-size:13px; color:#334155;">Highlight State:</label>
-                <select id="performance-state-select" style="padding:8px 12px; border-radius:8px; border:2px solid #e2e8f0; background:white; font-size:13px; min-width:180px;">
-                  <option value="All">All States</option>
-                  <option value="New South Wales">New South Wales</option>
-                  <option value="Victoria">Victoria</option>
-                  <option value="Queensland">Queensland</option>
-                  <option value="Western Australia">Western Australia</option>
-                  <option value="South Australia">South Australia</option>
-                  <option value="Tasmania">Tasmania</option>
-                  <option value="Australian Capital Territory">Australian Capital Territory</option>
-                  <option value="Northern Territory">Northern Territory</option>
-                </select>
-                <div style="font-size:12px; color:#64748b; font-style:italic;">Focus on individual state trends</div>
-              </div>
-              <div id="radar-performance-vis" class="chart-figure"></div>
-              <div class="chart-caption" style="text-align: center; font-size: 14px; color: #64748b; font-weight: 500; margin-top: 15px; padding: 10px; background: #f8fafc; border-radius: 8px; border-left: 4px solid #059669;">
-                📈 Multi-dimensional economic performance trends reveal state-by-state strengths and patterns.
-              </div>
+            <!-- Story 2: Employment-Wage Correlation (Scatter Plot Second) -->
+            <div class="visualization-section" style="margin-bottom: 25px;">
+                <div class="chart-container">
+                  <div class="chart-card full-width">
+                    <div class="chart-title">📈 Employment vs Wage Index Relationship</div>
+                    <div class="chart-description-text">
+                      <p>Employment rates versus wage indices correlation analysis.<br>
+                      Economic performance patterns across Australian states revealed.</p>
+                    </div>
+                    
+                    <div style="padding: 15px; background: #f8f9fa; border-radius: 8px; margin-bottom: 15px;">
+                      <h4 style="margin: 0 0 10px 0; color: #2d3748; font-size: 14px;">🔧 Interactive Filters</h4>
+                      <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 15px; max-width: 600px;">
+                        <div>
+                          <label for="employment-filter" style="display: block; margin-bottom: 5px; font-weight: 600; color: #4a5568; font-size: 12px;">Employment Category:</label>
+                          <select id="employment-filter" style="width: 100%; padding: 6px; border: 1px solid #cbd5e0; border-radius: 4px; font-size: 12px;">
+                            <option value="All">All Categories</option>
+                            <option value="Above Average">Above Average</option>
+                            <option value="Average">Average</option>
+                            <option value="Below Average">Below Average</option>
+                          </select>
+                        </div>
+                        <div>
+                          <label for="wage-growth-filter" style="display: block; margin-bottom: 5px; font-weight: 600; color: #4a5568; font-size: 12px;">Wage Growth Category:</label>
+                          <select id="wage-growth-filter" style="width: 100%; padding: 6px; border: 1px solid #cbd5e0; border-radius: 4px; font-size: 12px;">
+                            <option value="All">All Categories</option>
+                            <option value="High Growth">High Growth</option>
+                            <option value="Moderate Growth">Moderate Growth</option>
+                          </select>
+                        </div>
+                        <div>
+                          <label for="economic-score-slider" style="display: block; margin-bottom: 5px; font-weight: 600; color: #4a5568; font-size: 12px;">Min Economic Score: <span id="score-value">30</span></label>
+                          <input type="range" id="economic-score-slider" min="30" max="65" step="5" value="30" style="width: 100%;">
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="responsive-container">
+                      <div id="scatter-vis" style="width: 100%; min-height: 650px; overflow: visible;"></div>
+                    </div>
+                    <div class="chart-caption" style="text-align: center; font-size: 14px; color: #64748b; font-weight: 500; margin-top: 15px; padding: 10px; background: #f8fafc; border-radius: 8px; border-left: 4px solid #dc2626;">
+                      📈 Strong positive correlation between employment rates and wage growth across most states.
+                    </div>
+                    
+                    <!-- Economic Insights -->
+                    <div style="margin-top: 15px; padding: 12px; background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%); border-radius: 8px; border-left: 3px solid #0ea5e9;">
+                      <p style="margin: 0; font-size: 13px; color: #0c4a6e; font-weight: 500;">📊 <strong>Economic Pattern:</strong> Resource states achieve high wages.<br>Government centers show strong employment correlation.</p>
+                    </div>
+                  </div>
+                </div>
             </div>
 
-            <!-- Chart 3: State Performance Bubble Map -->
-            <div class="chart-card full-width">
-              <div class="chart-title">State Performance Bubble Map</div>
-              <div class="chart-description-text">
-                <p>Each bubble represents an Australian state positioned by Employment and Wage Growth categories. Bubble size shows labour force magnitude, while distinct colors identify each state for easy comparison across performance dimensions.</p>
-              </div>
-              <div style="display:flex; gap:15px; align-items:center; margin-bottom:15px; flex-wrap: wrap;">
-                <label style="font-weight:600; font-size:13px; color:#334155;">Bubble Size Based On:</label>
-                <select id="bubble-size-select" style="padding:8px 12px; border-radius:8px; border:2px solid #e2e8f0; background:white; font-size:13px; min-width:160px;">
-                  <option value="Labour_Force">Labour Force</option>
-                  <option value="Job_Vacancies">Job Vacancies</option>
-                  <option value="Employment_Rate">Employment Rate</option>
-                </select>
-                <div style="font-size:12px; color:#64748b; font-style:italic;">Adjust bubble sizing metric</div>
-              </div>
-              <div id="efficiency-matrix-vis" class="chart-figure"></div>
-              <div class="chart-caption" style="text-align: center; font-size: 14px; color: #64748b; font-weight: 500; margin-top: 15px; padding: 10px; background: #f8fafc; border-radius: 8px; border-left: 4px solid #8b5cf6;">
-                💡 Each bubble = one state. Size shows magnitude, color identifies the state.
-              </div>
+            <!-- Story 3: Market Opportunities -->
+            <div class="visualization-section" style="margin-bottom: 25px;">
+                <div class="chart-container">
+                  <div class="chart-card full-width">
+                    <div class="chart-title">💼 Job Market Opportunities by State</div>
+                    <div class="chart-description-text">
+                      <p>Job vacancy rankings reveal employment opportunity concentration.<br>
+                      Regional career prospects across Australian states shown.</p>
+                    </div>
+                    
+                    <div style="display:flex; gap:12px; align-items:center; margin-bottom:10px;">
+                      <label style="font-weight:600; font-size:13px;">Wage Growth:</label>
+                      <select id="vacancies-wage-select" style="padding:6px; border-radius:6px; border:1px solid #e2e8f0;">
+                        <option value="All">All Growth Rates</option>
+                        <option value="High Growth">High Growth</option>
+                        <option value="Moderate Growth">Moderate Growth</option>
+                      </select>
+                    </div>
+                    <div id="vacancies-vis" class="chart-figure"></div>
+
+                    <div class="chart-caption" style="text-align: center; font-size: 14px; color: #64748b; font-weight: 500; margin-top: 15px; padding: 10px; background: #f8fafc; border-radius: 8px; border-left: 4px solid #1d4ed8;">
+                      💼 Eastern states dominate opportunities. NSW leads with 1.14M vacancies.
+                    </div>
+                    
+                    <!-- Market Insights -->
+                    <div style="margin-top: 15px; padding: 12px; background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%); border-radius: 8px; border-left: 3px solid #0284c7;">
+                      <p style="margin: 0; font-size: 13px; color: #0369a1; font-weight: 500;">💡 <strong>Market Dynamics:</strong> Top three states control 78% of vacancies.<br>Population density drives economic diversification advantages.</p>
+                    </div>
+                  </div>
+                </div>
             </div>
 
-            <!-- Chart 4: Wage vs Employment Donut Chart -->
-            <div class="chart-card full-width">
-              <div class="chart-title">Labour Force Distribution by Employment Category</div>
-              <div class="chart-description-text">
-                <p>A donut chart showing the distribution of labour force across different employment categories. The inner ring shows count of states, while outer ring shows total labour force within each category.</p>
-              </div>
-              <div id="donut-distribution-vis" class="chart-figure"></div>
-              <div class="chart-annotation">Visual breakdown of how Australia's labour force is distributed across performance categories, revealing the proportion of workers in different economic conditions.</div>
+            <!-- Story 4: Performance Analysis -->
+            <div class="visualization-section" style="margin-bottom: 25px;">
+                <div class="chart-container">
+                  <div class="chart-card full-width">
+                    <div class="chart-title">🎯 State Performance Intersection Analysis</div>
+                    <div class="chart-description-text">
+                      <p>State clusters by employment and wage patterns.<br>
+                      Bubble size indicates economic magnitude per state.</p>
+                    </div>
+                    
+                    <div style="display:flex; gap:15px; align-items:center; margin-bottom:15px; flex-wrap: wrap;">
+                      <label style="font-weight:600; font-size:13px; color:#334155;">Bubble Size Based On:</label>
+                      <select id="bubble-size-select" style="padding:8px 12px; border-radius:8px; border:2px solid #e2e8f0; background:white; font-size:13px; min-width:160px;">
+                        <option value="Labour_Force">Labour Force</option>
+                        <option value="Job_Vacancies">Job Vacancies</option>
+                        <option value="Employment_Rate">Employment Rate</option>
+                      </select>
+                    </div>
+                    <div style="position: relative;">
+                      <!-- State Performance Bubble Map -->
+                      <div id="state-performance-bubblemap" class="chart-figure"></div>
+                      
+                      <!-- Performance Annotation in Bottom Right -->
+                      <div style="position: absolute; bottom: 20px; right: 20px; width: 280px; padding: 12px; background: rgba(248, 250, 252, 0.95); border-radius: 8px; border-left: 4px solid #8b5cf6; backdrop-filter: blur(4px); box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
+                        <p style="margin: 0; font-size: 11px; color: #6d28d9; font-weight: 600; line-height: 1.3;">
+                          🎯 <strong>Performance Tiers:</strong><br>
+                          Elite: ACT, WA, NT (high employment + wages)<br>  
+                          Balanced: NSW, VIC, QLD (steady performance)<br>
+                          Developing: SA, TAS (growth opportunities)
+                        </p>
+                      </div>
+                    </div>
+
+                    <div class="chart-caption" style="text-align: center; font-size: 14px; color: #64748b; font-weight: 500; margin-top: 15px; padding: 10px; background: #f8fafc; border-radius: 8px; border-left: 4px solid #8b5cf6;">
+                      🎯 Three performance clusters: Elite, Balanced, and Developing states.
+                    </div>
+                    
+                    <!-- Clustering Insights -->
+                    <div style="margin-top: 15px; padding: 12px; background: linear-gradient(135deg, #fef7ff 0%, #fae8ff 100%); border-radius: 8px; border-left: 3px solid #a855f7;">
+                      <p style="margin: 0; font-size: 13px; color: #9333ea; font-weight: 500;">🔬 <strong>Performance Clustering:</strong> Resource states form elite performance cluster.<br>Manufacturing transition creates distinct regional disparities.</p>
+                    </div>
+                  </div>
+                </div>
             </div>
 
-            <!-- Stacked by Gender chart removed per request -->
+            <!-- Story 5: Workforce Composition (Donut + Complementary Chart) -->
+            <div class="visualization-section" style="margin-bottom: 25px;">
+                <div class="chart-container">
+                  <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 25px; align-items: start;">
+                    
+                    <!-- Donut Chart -->
+                    <div class="chart-card" style="margin: 0;">
+                      <div class="chart-title" style="font-size: 1.3rem;">📊 Workforce Distribution</div>
+                      <div class="chart-description-text">
+                        <p>Labour force by employment performance categories.<br>
+                        Worker proportions across different economic conditions.</p>
+                      </div>
+                      <div id="donut-distribution-vis" class="chart-figure" style="min-height: 350px;"></div>
+                      
+
+
+                      <div class="chart-caption" style="text-align: center; font-size: 12px; color: #64748b; font-weight: 500; margin-top: 10px; padding: 8px; background: #f8fafc; border-radius: 6px; border-left: 3px solid #059669;">
+                        📊 85.9% of workers in average-performing states - significant opportunity for improvement.
+                      </div>
+                    </div>
+
+                    <!-- Complementary Chart: Economic Performance Ranking -->
+                    <div class="chart-card" style="margin: 0;">
+                      <div class="chart-title" style="font-size: 1.3rem;">💰 Wage Performance Leaders</div>
+                      <div class="chart-description-text">
+                        <p>States ranked by wage index performance levels.<br>
+                        Regions with strongest compensation growth highlighted.</p>
+                      </div>
+                      <div id="wage-performance-vis" class="chart-figure" style="min-height: 350px;"></div>
+                      
+                      <div class="chart-caption" style="text-align: center; font-size: 12px; color: #64748b; font-weight: 500; margin-top: 10px; padding: 8px; background: #f8fafc; border-radius: 6px; border-left: 3px solid #f59e0b;">
+                        💰 WA leads at 153.7, followed by ACT (152.9) and NT (152.4).
+                      </div>
+                    </div>
+
+                  </div>
+
+                  <!-- Dashboard Summary Insights -->
+                  <div style="margin-top: 25px; padding: 20px; background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%); border-radius: 12px; border: 1px solid #e2e8f0;">
+                    <h3 style="margin: 0 0 15px 0; color: #1e293b; font-size: 18px; font-weight: 700; text-align: center;">📊 Key Dashboard Insights</h3>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                      <div style="padding: 12px; background: white; border-radius: 8px; border-left: 4px solid #059669;">
+                        <strong style="color: #065f46;">Regional Leadership:</strong> ACT leads employment. WA dominates wages.
+                      </div>
+                      <div style="padding: 12px; background: white; border-radius: 8px; border-left: 4px solid #dc2626;">
+                        <strong style="color: #991b1b;">Economic Correlation:</strong> Employment and wage growth show positive correlation.
+                      </div>
+                      <div style="padding: 12px; background: white; border-radius: 8px; border-left: 4px solid #0284c7;">
+                        <strong style="color: #0369a1;">Market Concentration:</strong> Eastern states control 78% of opportunities.
+                      </div>
+                      <div style="padding: 12px; background: white; border-radius: 8px; border-left: 4px solid #7c3aed;">
+                        <strong style="color: #6d28d9;">Performance Tiers:</strong> Three clusters: Elite, Balanced, and Developing.
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+            </div>
 
     <!-- Chart 1: Job Vacancies Analysis -->
     <script type="application/json" id="vacancies-spec">
@@ -1081,6 +1124,183 @@
     }
     </script>
 
+    <!-- State Performance Bubble Map - Inline Specification -->
+    <script type="application/json" id="state-performance-bubblemap-spec">
+    {
+      "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+      "description": "State Performance Bubble Map - Employment vs Wage Growth Analysis",
+      "data": { "url": "data/merged_labour_data.csv" },
+      "width": 650,
+      "height": 480,
+      "padding": {
+        "left": 80,
+        "right": 200,
+        "top": 30,
+        "bottom": 80
+      },
+      "params": [
+        { "name": "bubbleSize", "value": "Labour_Force" },
+        {
+          "name": "hover",
+          "select": {"type": "point", "on": "mouseover"}
+        }
+      ],
+      "transform": [
+        {
+          "calculate": "bubbleSize == 'Labour_Force' ? datum.Labour_Force : bubbleSize == 'Job_Vacancies' ? datum.Job_Vacancies : datum.Employment_Rate",
+          "as": "size_value"
+        },
+        {
+          "calculate": "datum.Employment_Category == 'Average' && datum.Wage_Growth_Category == 'Moderate Growth' ? (datum.State == 'New South Wales' ? 0 : datum.State == 'Victoria' ? 0.3 : datum.State == 'Western Australia' ? -0.3 : 0.15) : 0",
+          "as": "x_jitter"
+        },
+        {
+          "calculate": "datum.Employment_Category == 'Average' && datum.Wage_Growth_Category == 'Moderate Growth' ? (datum.State == 'New South Wales' ? 0 : datum.State == 'Victoria' ? 0.15 : datum.State == 'Western Australia' ? -0.15 : -0.3) : datum.Employment_Category == 'Below Average' && datum.Wage_Growth_Category == 'High Growth' ? (datum.State == 'South Australia' ? 0.1 : -0.1) : 0",
+          "as": "y_jitter"
+        }
+      ],
+      "mark": {
+        "type": "circle",
+        "stroke": "white",
+        "strokeWidth": 3,
+        "cursor": "pointer",
+        "opacity": 0.85
+      },
+      "encoding": {
+        "x": {
+          "field": "Employment_Category",
+          "type": "nominal",
+          "scale": {"padding": 0.5},
+          "axis": {
+            "titleFontSize": 14,
+            "labelFontSize": 12,
+            "title": "Employment Performance Category",
+            "labelAngle": 0,
+            "labelPadding": 15,
+            "titlePadding": 25,
+            "grid": true,
+            "gridOpacity": 0.4,
+            "gridColor": "#e2e8f0",
+            "gridWidth": 1,
+            "gridDash": [3, 3],
+            "domain": true,
+            "domainColor": "#374151",
+            "domainWidth": 2,
+            "tickColor": "#6b7280",
+            "tickSize": 8
+          }
+        },
+        "xOffset": {
+          "field": "x_jitter",
+          "type": "quantitative",
+          "scale": {"range": [-30, 30]}
+        },
+        "y": {
+          "field": "Wage_Growth_Category", 
+          "type": "nominal",
+          "scale": {"padding": 0.5},
+          "axis": {
+            "titleFontSize": 14,
+            "labelFontSize": 12,
+            "title": "Wage Growth Category",
+            "labelPadding": 15,
+            "titlePadding": 25,
+            "grid": true,
+            "gridOpacity": 0.4,
+            "gridColor": "#e2e8f0",
+            "gridWidth": 1,
+            "gridDash": [3, 3],
+            "domain": true,
+            "domainColor": "#374151",
+            "domainWidth": 2,
+            "tickColor": "#6b7280",
+            "tickSize": 8
+          }
+        },
+        "yOffset": {
+          "field": "y_jitter",
+          "type": "quantitative",
+          "scale": {"range": [-20, 20]}
+        },
+        "size": {
+          "field": "size_value",
+          "type": "quantitative",
+          "scale": {"range": [200, 2500]},
+          "legend": {
+            "title": {"expr": "bubbleSize == 'Labour_Force' ? 'Labour Force Size' : bubbleSize == 'Job_Vacancies' ? 'Job Vacancies' : 'Employment Rate (%)'"},
+            "titleFontSize": 12,
+            "labelFontSize": 10,
+            "orient": "right",
+            "offset": 15,
+            "titleLimit": 150,
+            "labelLimit": 100
+          }
+        },
+        "color": {
+          "field": "State",
+          "type": "nominal",
+          "scale": {
+            "domain": ["New South Wales", "Victoria", "Queensland", "Western Australia", "South Australia", "Tasmania", "Australian Capital Territory", "Northern Territory"],
+            "range": ["#dc2626", "#ea580c", "#d97706", "#ca8a04", "#65a30d", "#16a34a", "#059669", "#0d9488"]
+          },
+          "legend": {
+            "title": "Australian States & Territories",
+            "titleFontSize": 12,
+            "labelFontSize": 10,
+            "orient": "right",
+            "columns": 1,
+            "offset": 15,
+            "titleLimit": 150,
+            "labelLimit": 120,
+            "symbolType": "circle",
+            "symbolSize": 100
+          }
+        },
+        "opacity": {
+          "condition": {"param": "hover", "value": 1.0},
+          "value": 0.8
+        },
+        "stroke": {
+          "condition": {"param": "hover", "value": "#1f2937"},
+          "value": "white"
+        },
+        "strokeWidth": {
+          "condition": {"param": "hover", "value": 4},
+          "value": 3
+        },
+        "tooltip": [
+          { "field": "State", "type": "nominal", "title": "State" },
+          { "field": "Employment_Category", "type": "nominal", "title": "Employment Category" },
+          { "field": "Wage_Growth_Category", "type": "nominal", "title": "Wage Growth Category" },
+          { "field": "Labour_Force", "type": "quantitative", "title": "Labour Force", "format": ",.0f" },
+          { "field": "Job_Vacancies", "type": "quantitative", "title": "Job Vacancies", "format": ",.0f" },
+          { "field": "Economic_Performance_Score", "type": "quantitative", "title": "Performance Score", "format": ".1f" },
+          { "field": "Employment_Rate", "type": "quantitative", "title": "Employment Rate (%)", "format": ".1f" },
+          { "field": "WageIndex", "type": "quantitative", "title": "Wage Index", "format": ".1f" }
+        ]
+      },
+      "resolve": {
+        "scale": {
+          "x": "independent",
+          "y": "independent"
+        }
+      },
+      "config": {
+        "view": { "stroke": "transparent" },
+        "background": "white",
+        "axis": {
+          "labelColor": "#374151",
+          "titleColor": "#1f2937",
+          "gridColor": "#f3f4f6"
+        },
+        "legend": {
+          "labelLimit": 0,
+          "titleLimit": 0
+        }
+      }
+    }
+    </script>
+
     <!-- Chart 4: Labour Force Distribution Donut Chart -->
     <script type="application/json" id="donut-distribution-spec">
     {
@@ -1088,7 +1308,7 @@
       "description": "Labour Force Distribution by Employment Category",
       "data": { "url": "data/merged_labour_data.csv" },
       "width": "container",
-      "height": 400,
+      "height": 320,
       "transform": [
         {
           "aggregate": [
@@ -1163,9 +1383,175 @@
         "view": { "stroke": "transparent" },
         "background": "white",
         "legend": {
+          "orient": "top-right",
+          "direction": "vertical", 
           "titleLimit": 200,
-          "labelLimit": 150
+          "labelLimit": 150,
+          "titleColor": "#111827",
+          "labelColor": "#374151",
+          "titleFontWeight": 600,
+          "offset": 10,
+          "padding": 8
         }
+      }
+    }
+    </script>
+
+    <!-- Chart 5: Wage Performance Leaders - Horizontal Lollipop Chart -->
+    <script type="application/json" id="wage-performance-spec">
+    {
+      "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+      "description": "States ranked by Wage Index - Horizontal Lollipop Chart",
+      "data": { "url": "data/merged_labour_data.csv" },
+      "width": "container",
+      "height": 320,
+      "transform": [
+        { "filter": "datum.WageIndex > 0" },
+        {
+          "aggregate": [
+            {"op": "mean", "field": "WageIndex", "as": "avg_wage_index"}
+          ],
+          "groupby": ["State"]
+        },
+        {
+          "window": [{"op": "rank", "as": "rank"}],
+          "sort": [{"field": "avg_wage_index", "order": "descending"}]
+        },
+        {
+          "calculate": "150.8",
+          "as": "national_avg"
+        }
+      ],
+      "layer": [
+        {
+          "description": "National average reference line",
+          "mark": {
+            "type": "rule",
+            "color": "#94a3b8",
+            "strokeWidth": 1.5,
+            "strokeDash": [4, 4],
+            "opacity": 0.8
+          },
+          "encoding": {
+            "x": {
+              "field": "national_avg",
+              "type": "quantitative"
+            }
+          }
+        },
+        {
+          "description": "Lollipop sticks",
+          "mark": {
+            "type": "rule",
+            "color": "#cbd5e1",
+            "strokeWidth": 2,
+            "opacity": 0.7
+          },
+          "encoding": {
+            "y": {
+              "field": "State",
+              "type": "nominal",
+              "sort": {"field": "avg_wage_index", "order": "descending"},
+              "axis": {
+                "labelColor": "#374151",
+                "titleColor": "#1f2937",
+                "labelFontWeight": 500,
+                "title": null,
+                "labelLimit": 120
+              }
+            },
+            "x": {
+              "field": "avg_wage_index",
+              "type": "quantitative",
+              "scale": {"zero": false, "nice": true},
+              "axis": {
+                "labelColor": "#374151",
+                "titleColor": "#1f2937",
+                "grid": true,
+                "gridColor": "#f1f5f9",
+                "gridOpacity": 0.8,
+                "title": "Wage Index Level"
+              }
+            },
+            "x2": {"value": 0}
+          }
+        },
+        {
+          "description": "Lollipop circles",
+          "mark": {
+            "type": "circle",
+            "size": 120,
+            "stroke": "white",
+            "strokeWidth": 2,
+            "cursor": "pointer"
+          },
+          "encoding": {
+            "y": {
+              "field": "State",
+              "type": "nominal",
+              "sort": {"field": "avg_wage_index", "order": "descending"}
+            },
+            "x": {
+              "field": "avg_wage_index",
+              "type": "quantitative",
+              "scale": {"zero": false, "nice": true}
+            },
+            "color": {
+              "field": "rank",
+              "type": "ordinal",
+              "scale": {
+                "range": ["#dc2626", "#f97316", "#eab308", "#84cc16", "#22c55e", "#06b6d4", "#3b82f6", "#8b5cf6"]
+              },
+              "legend": {
+                "title": "Performance Rank",
+                "orient": "bottom",
+                "direction": "horizontal",
+                "titleColor": "#111827",
+                "labelColor": "#374151",
+                "titleFontWeight": 600,
+                "labelFontWeight": 500,
+                "symbolSize": 80,
+                "offset": 10,
+                "padding": 8
+              }
+            },
+            "tooltip": [
+              { "field": "State", "type": "nominal", "title": "State" },
+              { "field": "avg_wage_index", "type": "quantitative", "title": "Wage Index", "format": ".1f" },
+              { "field": "rank", "type": "ordinal", "title": "National Rank" }
+            ]
+          }
+        },
+        {
+          "description": "National average label",
+          "mark": {
+            "type": "text",
+            "align": "left",
+            "baseline": "bottom",
+            "dx": 5,
+            "dy": -5,
+            "fontSize": 10,
+            "color": "#64748b",
+            "fontWeight": 500
+          },
+          "encoding": {
+            "x": {
+              "field": "national_avg",
+              "type": "quantitative"
+            },
+            "y": {"value": 15},
+            "text": {"value": "Avg: 150.8"}
+          }
+        }
+      ],
+      "resolve": {
+        "scale": {
+          "color": "independent"
+        }
+      },
+      "config": {
+        "view": { "stroke": "transparent" },
+        "background": "white"
       }
     }
     </script>
@@ -1176,13 +1562,14 @@
       document.addEventListener('DOMContentLoaded', function() {
         console.log('DOM ready — starting chart embedding');
 
-        // Target charts to embed for enhanced dashboard
+        // Target charts to embed for storytelling dashboard
         // Using inline specs for better performance and consistency
         const chartsToLoad = [
+          {id: 'scatter-vis', specId: 'week10-scatter-spec'},
           {id: 'vacancies-vis', specId: 'vacancies-spec'},
-          {id: 'radar-performance-vis', specId: 'radar-performance-spec'},
           {id: 'efficiency-matrix-vis', specId: 'efficiency-matrix-spec'},
-          {id: 'donut-distribution-vis', specId: 'donut-distribution-spec'}
+          {id: 'donut-distribution-vis', specId: 'donut-distribution-spec'},
+          {id: 'wage-performance-vis', specId: 'wage-performance-spec'}
         ];
 
         chartsToLoad.forEach(function(chart) {
@@ -1207,23 +1594,79 @@
               if (!jsonText) throw new Error('Inline spec is empty: ' + chart.specId);
               const spec = JSON.parse(jsonText);
               console.log('Parsed inline spec', chart.specId, ' — embedding now');
-              vegaEmbed('#' + id, spec, { theme: 'googlecharts', renderer: 'canvas', actions: {export: false, source: false, compiled: false, editor: false}, padding: {left:18, right:18, top:18, bottom:18} })
+              
+              // Use appropriate padding for each chart type to ensure full axis visibility
+              let padding;
+              if (chart.specId === 'week10-scatter-spec') {
+                padding = {left: 80, right: 180, top: 50, bottom: 80}; // Enhanced scatter plot padding
+              } else if (chart.specId === 'state-performance-bubblemap-spec') {
+                padding = {left: 80, right: 220, top: 40, bottom: 80}; // Enhanced bubble chart padding
+              } else {
+                padding = {left: 25, right: 25, top: 25, bottom: 25}; // Standard padding for other charts
+              }
+              
+              vegaEmbed('#' + id, spec, { theme: 'googlecharts', renderer: 'canvas', actions: {export: false, source: false, compiled: false, editor: false}, padding: padding })
                 .then(function(result) { 
                   document.getElementById(id).classList.add('chart-loaded'); 
                   try { document.getElementById(id).__vega_view = result.view; } catch(e){} 
                   
                   // Store views globally for parameter updates
-                  if (id === 'vacancies-vis') {
+                  if (id === 'scatter-vis') {
+                    window.scatterView = result.view;
+                    // Setup scatter plot filter controls
+                    setTimeout(function() {
+                      const updateFilters = function() {
+                        const employmentFilter = document.getElementById('employment-filter')?.value || 'All';
+                        const wageGrowthFilter = document.getElementById('wage-growth-filter')?.value || 'All';
+                        const economicScore = parseInt(document.getElementById('economic-score-slider')?.value || 30);
+                        
+                        // Update score display
+                        const scoreValue = document.getElementById('score-value');
+                        if (scoreValue) scoreValue.textContent = economicScore;
+                        
+                        // Update Vega-Lite parameters
+                        if (window.scatterView) {
+                          window.scatterView.signal('employmentCategoryFilter', employmentFilter);
+                          window.scatterView.signal('wageGrowthFilter', wageGrowthFilter);
+                          window.scatterView.signal('economicScoreSlider', economicScore);
+                          window.scatterView.run();
+                        }
+                      };
+                      
+                      // Attach event listeners to manual controls
+                      const empFilter = document.getElementById('employment-filter');
+                      const wageFilter = document.getElementById('wage-growth-filter');
+                      const scoreSlider = document.getElementById('economic-score-slider');
+                      
+                      if (empFilter) empFilter.addEventListener('change', updateFilters);
+                      if (wageFilter) wageFilter.addEventListener('change', updateFilters);
+                      if (scoreSlider) scoreSlider.addEventListener('input', updateFilters);
+                    }, 500);
+                  } else if (id === 'vacancies-vis') {
                     window.vacanciesView = result.view;
                   } else if (id === 'radar-performance-vis') {
                     window.radarPerformanceView = result.view;
                   } else if (id === 'efficiency-matrix-vis') {
                     window.matrixView = result.view;
+                    console.log('🎯 Bubble chart (efficiency-matrix-vis) loaded successfully and view stored');
                   }
                   
                   console.log('✅ Embedded inline', chart.specId, 'into', id); 
                 })
-                .catch(function(err) { container.innerHTML = '<div style="color:#e74c3c; padding:18px;"><strong>⚠️ Error embedding inline spec:</strong> '+err.message+'</div>'; console.error('Embed error for inline', chart.specId, err); });
+                .catch(function(err) { 
+                  if (chart.specId === 'efficiency-matrix-spec') {
+                    console.error('🔥 BUBBLE CHART EMBED FAILED:', err.message);
+                    console.error('🔥 Full error:', err);
+                    container.innerHTML = '<div style="color:#dc2626; padding:20px; text-align:center; border:2px solid #fca5a5; border-radius:8px; background:#fef2f2;"><strong>🚨 Bubble Chart Loading Error</strong><br><small>' + err.message + '</small><br><button onclick="window.location.reload()" style="margin-top:10px; padding:5px 15px; background:#dc2626; color:white; border:none; border-radius:4px; cursor:pointer;">Reload</button></div>';
+                  } else {
+                    let errorMsg = 'Error embedding chart: ' + err.message;
+                    if (chart.specId === 'week10-scatter-spec') {
+                      errorMsg = 'Scatter plot temporarily unavailable. Check data connection.';
+                    }
+                    container.innerHTML = '<div style="color:#e74c3c; padding:18px; text-align:center; border:1px solid #fca5a5; border-radius:8px; background:#fef2f2;"><strong>⚠️ ' + errorMsg + '</strong><br><small>Spec ID: ' + chart.specId + '</small></div>';
+                  }
+                  console.error('Embed error for inline', chart.specId, err); 
+                });
               return;
             } catch (err) {
               container.innerHTML = '<div style="color:#e74c3c; padding:18px;"><strong>⚠️ Inline spec error:</strong> '+err.message+'</div>';
@@ -1289,6 +1732,26 @@
             console.warn('Could not load', file, fetchErr);
           });
         }
+        
+        // Add state-performance-bubblemap to the charts loading array
+        const bubbleChart = {id: 'state-performance-bubblemap', specId: 'state-performance-bubblemap-spec'};
+        chartsToLoad.push(bubbleChart);
+        
+        // Load the bubble chart using the same embedChart function
+        embedChart(bubbleChart);
+        
+        // Setup bubble size selector integration for the inline bubble chart
+        setTimeout(function() {
+          const sizeSelector = document.getElementById('bubble-size-select');
+          const container = document.getElementById('state-performance-bubblemap');
+          if (sizeSelector && container && container.__vega_view) {
+            sizeSelector.addEventListener('change', function() {
+              const selectedSize = this.value;
+              container.__vega_view.signal('bubbleSize', selectedSize).run();
+              console.log('🎯 Bubble size updated to:', selectedSize);
+            });
+          }
+        }, 1000); // Wait for chart to load
       });
     })();
   </script>
@@ -1336,8 +1799,14 @@
           "value": "All"
         }
       ],
-      "width": 800,
-      "height": 500,
+      "width": 750,
+      "height": 550,
+      "padding": {
+        "left": 80,
+        "right": 140,
+        "top": 60,
+        "bottom": 120
+      },
       "data": {
         "values": [
           {"State": "Queensland", "State_Code": "QLD", "Employment_Rate": 61.9, "Unemployment_Rate": 4.1, "Participation_Rate": 64.5, "Labour_Force": 2618000, "Population": 5156000, "WageIndex": 149.5, "WageGrowthRate": 2.48, "Employment_to_Wage_Ratio": 41.405, "Job_Vacancies": 63356, "Job_Vacancy_Rate": 24.2, "Economic_Performance_Score": 62.6, "Employment_Category": "Average", "Wage_Growth_Category": "High Growth", "Year_Quarter": "2025-Q3"},
@@ -1380,9 +1849,19 @@
               },
               "axis": {
                 "grid": true,
-                "gridOpacity": 0.3,
+                "gridOpacity": 0.5,
+                "gridColor": "#e2e8f0",
+                "gridWidth": 1,
+                "gridDash": [3, 3],
                 "titleFontSize": 14,
-                "labelFontSize": 12
+                "labelFontSize": 12,
+                "labelPadding": 8,
+                "titlePadding": 15,
+                "domain": true,
+                "domainColor": "#374151",
+                "domainWidth": 2,
+                "tickColor": "#6b7280",
+                "tickSize": 8
               }
             },
             "y": {
@@ -1395,9 +1874,19 @@
               },
               "axis": {
                 "grid": true,
-                "gridOpacity": 0.3,
+                "gridOpacity": 0.5,
+                "gridColor": "#e2e8f0",
+                "gridWidth": 1,
+                "gridDash": [3, 3],
                 "titleFontSize": 14,
-                "labelFontSize": 12
+                "labelFontSize": 12,
+                "labelPadding": 8,
+                "titlePadding": 15,
+                "domain": true,
+                "domainColor": "#374151",
+                "domainWidth": 2,
+                "tickColor": "#6b7280",
+                "tickSize": 8
               }
             },
             "size": {
@@ -1616,7 +2105,7 @@
         { "name": "hoverState", "select": { "type": "point", "on": "mouseover", "clear": "mouseout" } }
       ],
         "encoding": {
-          "color": { "field": "Employment_Rate", "type": "quantitative", "scale": { "range": ["#f0f9ff","#e0f2fe","#bae6fd","#7dd3fc","#38bdf8","#0ea5e9","#0284c7","#0369a1"], "domain": [58,68] }, "legend": { "title": "Employment Rate (%)", "orient": "left", "tickMinStep": 1, "values": [58,62,66,68], "format": ".0f", "offset": 10 } },
+          "color": { "field": "Employment_Rate", "type": "quantitative", "scale": { "range": ["#fef3c7", "#fde68a", "#bfdbfe", "#93c5fd", "#60a5fa", "#3b82f6", "#1d4ed8"], "domain": [58,68] }, "legend": { "title": "Employment Rate (%)", "orient": "left", "tickMinStep": 1, "values": [58,62,66,68], "format": ".0f", "offset": 10 } },
           "stroke": { "condition": { "param": "hoverState", "value": "rgba(33,37,41,0.22)" }, "value": "rgba(255,255,255,0.9)" },
           "strokeWidth": { "condition": { "param": "hoverState", "value": 2 }, "value": 0.9 },
           "opacity": { "condition": { "param": "hoverState", "value": 1 }, "value": 0.95 },
@@ -1671,76 +2160,7 @@
         });
 })();
 
-  // Load Week 10 Scatter Plot with optimized settings and manual filter controls
-    (function loadScatterSafely() {
-      const scatterScriptEl = document.getElementById('week10-scatter-spec');
-      if (!scatterScriptEl) {
-        console.warn('week10-scatter-spec element not found — skipping scatter embed (check that the inline spec exists and has id="week10-scatter-spec")');
-        return;
-      }
-      let scatterSpec = null;
-      try {
-        scatterSpec = JSON.parse(scatterScriptEl.textContent);
-      } catch (jsonError) {
-        console.error('❌ JSON parsing error for week10-scatter-spec:', jsonError);
-        document.getElementById('scatter-vis').innerHTML = '<div style="text-align:center;padding:30px;color:#e74c3c;"><strong>⚠️ JSON Configuration Error:</strong> '+jsonError.message+'</div>';
-        return;
-      }
-      let scatterView = null;
 
-      vegaEmbed('#scatter-vis', scatterSpec, {
-                theme: 'googlecharts',
-                renderer: 'canvas',  // Faster rendering
-                actions: {
-                    export: false,  // Disable to reduce loading time
-                    source: false,
-                    compiled: false,
-                    editor: false
-                },
-                padding: {left: 60, right: 40, top: 40, bottom: 60}
-            }).then(function(result) {
-                console.log('✅ Week 10 scatter plot loaded successfully');
-                scatterView = result.view;
-                
-                // Add manual filter control handlers for GitHub Pages compatibility
-                function updateFilters() {
-                    const employmentFilter = document.getElementById('employment-filter').value;
-                    const wageGrowthFilter = document.getElementById('wage-growth-filter').value;
-                    const economicScore = parseInt(document.getElementById('economic-score-slider').value);
-                    
-                    // Update score display
-                    document.getElementById('score-value').textContent = economicScore;
-                    
-                    // Update Vega-Lite parameters
-                    scatterView.signal('employmentCategoryFilter', employmentFilter);
-                    scatterView.signal('wageGrowthFilter', wageGrowthFilter);
-                    scatterView.signal('economicScoreSlider', economicScore);
-                    scatterView.run();
-                    
-                    console.log('🔧 Filters updated:', {employmentFilter, wageGrowthFilter, economicScore});
-                }
-                
-                // Attach event listeners to manual controls
-                document.getElementById('employment-filter').addEventListener('change', updateFilters);
-                document.getElementById('wage-growth-filter').addEventListener('change', updateFilters);
-                document.getElementById('economic-score-slider').addEventListener('input', updateFilters);
-                
-                // Optimize view for faster interactions
-                result.view.runAfter(function() {
-                    result.view.hover();  // Enable fast hover
-                });
-                
-      }).catch(function(error) {
-        console.error('❌ Error loading Week 10 scatter plot:', error);
-        document.getElementById('scatter-vis').innerHTML = 
-          '<div style="text-align: center; padding: 50px; color: #e74c3c;">' +
-          '<h3>⚠️ Scatter Plot Loading Error</h3>' +
-          '<p>Please ensure merged_labour_data.csv is available in the data folder.</p>' +
-          '<p>Error: ' + error.message + '</p>' +
-          '</div>';
-      });
-
-    })();
 
     // Wire up controls for the new charts
     (function setupChartControls() {

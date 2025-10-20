@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Chart Test</title>
+    <script src="https://cdn.jsdelivr.net/npm/vega@5"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-lite@5.20.0"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .chart-container { border: 1px solid #ccc; margin: 20px 0; padding: 10px; }
+        .error { color: red; background: #ffe6e6; padding: 10px; }
+        .success { color: green; background: #e6ffe6; padding: 10px; }
+    </style>
+</head>
+<body>
+    <h1>Dashboard Chart Loading Test</h1>
+    
+    <div class="chart-container">
+        <h2>Scatter Plot Test</h2>
+        <div id="scatter-test" style="width: 800px; height: 500px;"></div>
+        <div id="scatter-status"></div>
+    </div>
+    
+    <div class="chart-container">
+        <h2>Bubble Chart Test</h2>
+        <div id="bubble-test" style="width: 800px; height: 450px;"></div>
+        <div id="bubble-status"></div>
+    </div>
+
+    <script>
+        // Simple scatter plot spec
+        const scatterSpec = {
+            "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+            "width": 700,
+            "height": 400,
+            "data": {
+                "values": [
+                    {"State": "NSW", "Employment_Rate": 62.8, "WageIndex": 150.8, "Job_Vacancies": 116992},
+                    {"State": "VIC", "Employment_Rate": 63.1, "WageIndex": 150.3, "Job_Vacancies": 90772},
+                    {"State": "QLD", "Employment_Rate": 61.9, "WageIndex": 149.5, "Job_Vacancies": 63356},
+                    {"State": "WA", "Employment_Rate": 63.4, "WageIndex": 153.7, "Job_Vacancies": 44651}
+                ]
+            },
+            "mark": "circle",
+            "encoding": {
+                "x": {"field": "Employment_Rate", "type": "quantitative", "title": "Employment Rate (%)"},
+                "y": {"field": "WageIndex", "type": "quantitative", "title": "Wage Index"},
+                "size": {"field": "Job_Vacancies", "type": "quantitative", "title": "Job Vacancies"},
+                "tooltip": [
+                    {"field": "State", "type": "nominal"},
+                    {"field": "Employment_Rate", "type": "quantitative"},
+                    {"field": "WageIndex", "type": "quantitative"}
+                ]
+            }
+        };
+
+        // Simple bubble chart spec
+        const bubbleSpec = {
+            "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+            "width": 700,
+            "height": 400,
+            "data": {
+                "values": [
+                    {"State": "NSW", "Employment_Category": "Average", "Wage_Growth_Category": "Moderate Growth", "Labour_Force": 4105000},
+                    {"State": "VIC", "Employment_Category": "Average", "Wage_Growth_Category": "Moderate Growth", "Labour_Force": 3387000},
+                    {"State": "QLD", "Employment_Category": "Average", "Wage_Growth_Category": "High Growth", "Labour_Force": 2618000},
+                    {"State": "WA", "Employment_Category": "Average", "Wage_Growth_Category": "Moderate Growth", "Labour_Force": 1391000}
+                ]
+            },
+            "mark": {"type": "circle", "size": 200},
+            "encoding": {
+                "x": {"field": "Employment_Category", "type": "nominal"},
+                "y": {"field": "Wage_Growth_Category", "type": "nominal"},
+                "size": {"field": "Labour_Force", "type": "quantitative"},
+                "color": {"field": "State", "type": "nominal"}
+            }
+        };
+
+        // Test loading charts
+        function testScatter() {
+            vegaEmbed('#scatter-test', scatterSpec)
+                .then(() => {
+                    document.getElementById('scatter-status').innerHTML = '<div class="success">✅ Scatter plot loaded successfully</div>';
+                })
+                .catch(err => {
+                    document.getElementById('scatter-status').innerHTML = '<div class="error">❌ Scatter plot failed: ' + err.message + '</div>';
+                    console.error('Scatter error:', err);
+                });
+        }
+
+        function testBubble() {
+            vegaEmbed('#bubble-test', bubbleSpec)
+                .then(() => {
+                    document.getElementById('bubble-status').innerHTML = '<div class="success">✅ Bubble chart loaded successfully</div>';
+                })
+                .catch(err => {
+                    document.getElementById('bubble-status').innerHTML = '<div class="error">❌ Bubble chart failed: ' + err.message + '</div>';
+                    console.error('Bubble error:', err);
+                });
+        }
+
+        // Load when page is ready
+        document.addEventListener('DOMContentLoaded', () => {
+            console.log('Testing chart loading...');
+            testScatter();
+            testBubble();
+        });
+    </script>
+</body>
+</html>
