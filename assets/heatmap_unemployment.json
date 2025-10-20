@@ -11,26 +11,26 @@
   },
   "encoding": {
     "x": { 
-      "field": "Year_Quarter", 
-      "type": "ordinal", 
-      "title": "Time Period", 
+      "field": "State", 
+      "type": "nominal", 
+      "title": "Australian States", 
       "axis": { 
         "labelAngle": -45, 
         "labelFontSize": 9, 
         "labelAlign": "right",
         "titleFontSize": 12
       },
-      "sort": "ascending"
+      "sort": ["Australian Capital Territory", "New South Wales", "Northern Territory", "Queensland", "South Australia", "Tasmania", "Victoria", "Western Australia"]
     },
     "y": { 
-      "field": "State", 
-      "type": "nominal", 
-      "title": "Australian States", 
+      "field": "Year_Quarter", 
+      "type": "ordinal", 
+      "title": "Time Period", 
       "axis": { 
         "labelFontSize": 10,
         "titleFontSize": 12
       },
-      "sort": ["Australian Capital Territory", "New South Wales", "Northern Territory", "Queensland", "South Australia", "Tasmania", "Victoria", "Western Australia"]
+      "sort": "ascending"
     },
     "color": {
       "field": "Unemployment_Rate",
