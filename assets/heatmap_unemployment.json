@@ -1,13 +1,9 @@
 ﻿{
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-  "description": "Interactive Heatmap of Unemployment Rate by State",
+  "description": "Heatmap of Unemployment Rate by State",
   "data": { "url": "data/merged_labour_data.csv" },
   "width": "container",
   "height": 480,
-  "params": [
-    { "name": "periodFilter", "value": "All" },
-    { "name": "stateFilter", "value": "All" }
-  ],
   "mark": "rect",
   "encoding": {
     "x": { 
@@ -38,9 +34,5 @@
       { "field": "Unemployment_Rate", "type": "quantitative", "title": "Unemp %", "format": ".1f" } 
     ]
   },
-  "transform": [
-    { "filter": "datum.Year_Quarter == periodFilter || periodFilter == 'All'" },
-    { "filter": "datum.State == stateFilter || stateFilter == 'All'" }
-  ],
   "config": { "view": { "stroke": "transparent" } }
 }
