@@ -45,13 +45,13 @@
       "data": {
         "url": "assets/australia-states.geojson"
       },
-        "mark": {
-        "type": "geoshape",
-        "fill": "#fbfdff",
+    "mark": {
+    "type": "geoshape",
+    "fill": "#fbfdff",
   "stroke": "#e6eef6",
-        "strokeWidth": 1,
-        "opacity": 0.9
-      }
+    "strokeWidth": 1,
+    "opacity": 0.9
+  }
     },
     {
       "data": {"url": "../data/labour_force_cleaned.csv"},
@@ -89,7 +89,7 @@
         "color": {
           "field": "Employment_Rate",
           "type": "quantitative",
-          "scale": { "range": ["#ffffe0", "#c7e9e4", "#7fb8d6"] },
+          "scale": { "range": ["#f7fcfd","#e5f5f9","#ccece6","#99d8c9","#66c2a4","#2ca25f","#006d2c"] },
           "legend": {
             "title": "Employment Rate (%)",
             "orient": "right",

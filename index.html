@@ -597,7 +597,7 @@
         const chartsToLoad = [
           {id: 'wage-employment-vis', file: './assets/wage_vs_employment.json'},
           {id: 'vacancies-vis', specId: 'vacancies-spec'},
-          {id: 'heatmap-unemployment-vis', file: './assets/heatmap_unemployment_v2.json'}
+          {id: 'heatmap-unemployment-vis', file: './assets/heatmap_unemployment.json'}
         ];
 
         chartsToLoad.forEach(function(chart) {
@@ -1017,7 +1017,7 @@
         { "name": "hoverState", "select": { "type": "point", "on": "mouseover", "clear": "mouseout" } }
       ],
         "encoding": {
-          "color": { "field": "Employment_Rate", "type": "quantitative", "scale": { "range": ["#d7eef4", "#7fb8d6", "#0b2545"], "domain": [58,68] }, "legend": { "title": "Employment Rate (%) — Low → High", "orient": "left", "tickMinStep": 1, "values": [58,62,66,68], "format": ".0f", "offset": 10 } },
+          "color": { "field": "Employment_Rate", "type": "quantitative", "scale": { "range": ["#f0f9ff","#e0f2fe","#bae6fd","#7dd3fc","#38bdf8","#0ea5e9","#0284c7","#0369a1"], "domain": [58,68] }, "legend": { "title": "Employment Rate (%)", "orient": "left", "tickMinStep": 1, "values": [58,62,66,68], "format": ".0f", "offset": 10 } },
           "stroke": { "condition": { "param": "hoverState", "value": "rgba(33,37,41,0.22)" }, "value": "rgba(255,255,255,0.9)" },
           "strokeWidth": { "condition": { "param": "hoverState", "value": 2 }, "value": 0.9 },
           "opacity": { "condition": { "param": "hoverState", "value": 1 }, "value": 0.95 },
