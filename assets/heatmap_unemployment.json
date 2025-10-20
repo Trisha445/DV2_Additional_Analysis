@@ -39,8 +39,8 @@
     ]
   },
   "transform": [
-    { "filter": "signal('periodFilter') == 'All' || datum.Year_Quarter == signal('periodFilter')" },
-    { "filter": "signal('stateFilter') == 'All' || datum.State == signal('stateFilter')" }
+    { "filter": "datum.Year_Quarter == periodFilter || periodFilter == 'All'" },
+    { "filter": "datum.State == stateFilter || stateFilter == 'All'" }
   ],
   "config": { "view": { "stroke": "transparent" } }
 }
