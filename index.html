@@ -316,7 +316,8 @@
 
         .responsive-container {
             width: 100%;
-            overflow-x: auto;
+            overflow-x: hidden;
+            overflow-y: visible;
         }
 
         @media (max-width: 768px) {
@@ -578,33 +579,6 @@
                       Economic performance patterns across Australian states revealed.</p>
                     </div>
                     
-                    <div style="padding: 15px; background: #f8f9fa; border-radius: 8px; margin-bottom: 15px;">
-                      <h4 style="margin: 0 0 10px 0; color: #2d3748; font-size: 14px;">🔧 Interactive Filters</h4>
-                      <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 15px; max-width: 600px;">
-                        <div>
-                          <label for="employment-filter" style="display: block; margin-bottom: 5px; font-weight: 600; color: #4a5568; font-size: 12px;">Employment Category:</label>
-                          <select id="employment-filter" style="width: 100%; padding: 6px; border: 1px solid #cbd5e0; border-radius: 4px; font-size: 12px;">
-                            <option value="All">All Categories</option>
-                            <option value="Above Average">Above Average</option>
-                            <option value="Average">Average</option>
-                            <option value="Below Average">Below Average</option>
-                          </select>
-                        </div>
-                        <div>
-                          <label for="wage-growth-filter" style="display: block; margin-bottom: 5px; font-weight: 600; color: #4a5568; font-size: 12px;">Wage Growth Category:</label>
-                          <select id="wage-growth-filter" style="width: 100%; padding: 6px; border: 1px solid #cbd5e0; border-radius: 4px; font-size: 12px;">
-                            <option value="All">All Categories</option>
-                            <option value="High Growth">High Growth</option>
-                            <option value="Moderate Growth">Moderate Growth</option>
-                          </select>
-                        </div>
-                        <div>
-                          <label for="economic-score-slider" style="display: block; margin-bottom: 5px; font-weight: 600; color: #4a5568; font-size: 12px;">Min Economic Score: <span id="score-value">30</span></label>
-                          <input type="range" id="economic-score-slider" min="30" max="65" step="5" value="30" style="width: 100%;">
-                        </div>
-                      </div>
-                    </div>
-
                     <div class="responsive-container">
                       <div id="scatter-vis" style="width: 100%; min-height: 650px; overflow: visible;"></div>
                     </div>
@@ -2045,6 +2019,42 @@
             "fontWeight": "bold",
             "color": "#2e8b57",
             "text": "ACT - Highest Employment"
+          },
+          "encoding": {
+            "x": {"field": "Employment_Rate", "type": "quantitative"},
+            "y": {"field": "WageIndex", "type": "quantitative"}
+          }
+        },
+        {
+          "transform": [{"filter": "datum.State == 'South Australia'"}],
+          "mark": {
+            "type": "text",
+            "align": "center",
+            "baseline": "top",
+            "dx": 0,
+            "dy": 25,
+            "fontSize": 10,
+            "fontWeight": "bold",
+            "color": "#8b0000",
+            "text": ["SA - Lowest", "Employment Rate"]
+          },
+          "encoding": {
+            "x": {"field": "Employment_Rate", "type": "quantitative"},
+            "y": {"field": "WageIndex", "type": "quantitative"}
+          }
+        },
+        {
+          "transform": [{"filter": "datum.State == 'Tasmania'"}],
+          "mark": {
+            "type": "text",
+            "align": "center",
+            "baseline": "top",
+            "dx": 0,
+            "dy": 20,
+            "fontSize": 11,
+            "fontWeight": "bold",
+            "color": "#4b0082",
+            "text": "TAS - Lowest Wages"
           },
           "encoding": {
             "x": {"field": "Employment_Rate", "type": "quantitative"},
