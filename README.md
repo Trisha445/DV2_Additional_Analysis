@@ -3,6 +3,7 @@
 **FIT3179 Data Visualisation 2 - Advanced Analytics Project**
 
 [![Live Dashboard](https://img.shields.io/badge/Live%20Dashboard-GitHub%20Pages-brightgreen?style=for-the-badge&logo=github)](https://trisha445.github.io/DV2_Additional_Analysis/)
+[![Five Design Sheet](https://img.shields.io/badge/📋%20Five%20Design%20Sheet-View%20PDF-red?style=for-the-badge&logo=adobe)](https://github.com/Trisha445/DV2_Additional_Analysis/blob/gh-pages/five%20design%20sheet-DV2.pdf)
 [![Data Source](https://img.shields.io/badge/Data%20Source-Australian%20Bureau%20of%20Statistics-blue?style=flat-square)](https://www.abs.gov.au/)
 [![Vega-Lite](https://img.shields.io/badge/Built%20with-Vega--Lite%205.20.0-orange?style=flat-square)](https://vega.github.io/vega-lite/)
 
@@ -13,6 +14,24 @@
 A comprehensive, interactive dashboard analyzing Australia's labour market dynamics through advanced data visualization techniques. This project demonstrates the relationship between employment rates, wage indices, and job market opportunities across Australian states and territories.
 
 ### **🌐 [View Live Dashboard](https://trisha445.github.io/DV2_Additional_Analysis/)**
+
+### **📋 [View Five Design Sheet](https://github.com/Trisha445/DV2_Additional_Analysis/blob/gh-pages/five%20design%20sheet-DV2.pdf)**
+
+---
+
+## 📋 Design Documentation
+
+### **Five Design Sheet Methodology**
+The complete design process for this dashboard follows the structured Five Design Sheet methodology, documenting ideation, planning, and iterative development phases.
+
+**📄 [Download Five Design Sheet PDF](https://github.com/Trisha445/DV2_Additional_Analysis/blob/gh-pages/five%20design%20sheet-DV2.pdf)**
+
+This comprehensive design document includes:
+- **Sheet 1**: Initial brainstorming and concept exploration
+- **Sheet 2**: Data structure analysis and visualization planning
+- **Sheet 3**: Detailed wireframes and layout specifications
+- **Sheet 4**: Interaction design and user experience flow
+- **Sheet 5**: Final implementation strategy and technical decisions
 
 ---
 
